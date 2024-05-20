@@ -1,0 +1,1288 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="default">
+		<meta name="format-detection" content="telephone=no">
+		<title>报名</title>
+		<link href="../css/weui.min.css" rel="stylesheet" type="text/css">
+		<link rel="stylesheet" href="../css/swiper-3.3.1.min.css" />
+		<link rel="stylesheet" type="text/css" href="../css/comman.css" />
+		<!-- JS -->
+		<script src="../js/jquery-1.12.0.min.js"></script>
+		<script src="../js/jquery-form.js"></script>
+		<script src="../js/jqmd5.js"></script>
+		<script src="../js/sha1.js"></script>
+		<script src="../js/weui.js"></script>
+		<script src="../js/vue.min.js"></script>
+		<script src="../js/swiper-3.3.1.jquery.min.js"></script>
+		<script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+		<script src="../js/wxconfig.js"></script>
+		<script src="../js/jq-signature.js"></script>
+		<script src="../js/comman.js"></script>
+		<script type="text/javascript">
+			noloadxn=true;
+			var n=0;
+			$(function() {
+				vm=new Vue({
+					el:"#body",
+					data:{
+						topTitle:["报名","编辑团队信息","编辑队员信息","等待审核","预览"],
+						imgSrc:["img/apply-top-app-num1.png?v=1","img/apply-top-app-num2.png?v=1","","img/apply-top-app-num3.png?v=1"],
+						groupName: '', //团队名称
+						agreeBookurl: "", //同意书文件路径
+						teamDes: "", //团队简介
+						teamPhoto: [], //团队照片
+						teamPartner: [
+						{
+							userNameZh:'',
+							userNameEn:'',
+							school:'',
+							gender:"",
+							age:'',
+							tel:'',
+							email:'',
+							parentName:'',
+							parentTel:'',
+						}],
+						userNameZh:'',
+						userNameEn:'',
+						school:'',
+						gender:'',
+						age:'',
+						tel: '',
+						email:'',
+						parentName:'',
+						parentTel:'',
+						nextNum:1,
+						writeNum:1,
+						perNum:0,
+						yesNo:true,
+						currentNum:-1,
+						slideOne:1,
+					},
+					methods:{
+						//查询是否已报过名
+						getMyTeamInfo: function() {
+							request("CFVote","getMyTeamInfo",{userId:userID},function(data) {
+								if(data.code==0){
+									if(data.status==1 || data.status==3){
+										$(".noGift").show();
+									}else{
+										$(".noGift").hide();
+									}
+								}
+							})
+						},
+						toWrite:function(num){
+							vm.writeNum=num;
+						},
+						toNext:function(num){
+							vm.nextNum=num;
+							$("html,body").animate({
+								scrollTop: 0
+							}, 10);
+							if(num==5){
+								swiper.init();
+							}
+						},
+						toBack:function(){
+							if(vm.nextNum>1){
+								vm.nextNum-=1;
+							}else{
+								history.back();
+							}
+						},
+						//提交申请资料
+						addApplyfor: function() {
+							var info = {
+								agreeBookurl: vm.agreeBookurl, //同意书路径
+								teamDes: vm.teamDes.trim(), //团队介绍
+								teamPhoto: vm.teamPhoto, //团队照片
+								teamPartner: vm.teamPartner //报名人信息
+							}
+							//长度大于3的时候,停止循环
+							var lengths = parseInt(vm.teamPartner.length);
+							if(lengths<3){
+								hideLoad();
+								showAlert("参加团队最少3个人");
+								return;
+							}
+							groupNumber = true;
+							for(var i = 0; i < lengths; i++) {
+								var nameNumber = vm.teamPartner[i];
+
+								if(!groupNumber) {
+									break;
+								}
+								for(var key in nameNumber) {
+									if(nameNumber[key] == '') {
+										groupNumber = false;
+										break;
+									} else {
+										groupNumber = true;
+									}
+								}
+							}
+							if(groupNumber && vm.groupName != '' && vm.teamDes != '' && vm.teamPhoto.length>0 && vm.agreeBookurl != '') {
+								info=JSON.stringify(info);
+								request("CFVote", "iWantToJoin", {
+//									info:info,
+									name: vm.groupName,
+									userId:userID
+								}, function(data) {
+									hideLoad();
+									if(data.code == 0) {
+										var voteId = data.voteId;
+										var voteIdname = voteId;
+										showAlert("报名成功", "恭喜你报名成功", "确定", "", function(index) {
+											if(index == 1) {
+												$("html,body").animate({
+													scrollTop: 0
+												}, 10);
+												vm.nextNum=4;
+											}
+										});
+									} else {
+										showAlert("报名失败  " + data.msg);
+									}
+								},"post",2,{info:info});
+							} else {
+								hideLoad();
+								showAlert("请填写完整的报名信息");
+							}
+						},
+						applayYes:function(){
+							showLoad("报名中");
+						    request("CFVote", "checkJoinAndEditEndTime", {chekType:0}, function(data) {
+								if(data.code == 0) {
+									vm.yesNo=true;
+									vm.addApplyfor();
+								} else {
+									hideLoad();
+									vm.yesNo=false;
+									showAlert(data.msg);
+								}
+							});
+						},
+						//点击添加人员
+						toAdd:function(index){
+							vm.perNum=index;
+							vm.clearPer();
+							vm.nextNum=3;
+							vm.currentNum=-1;
+						},
+						//点击更新人员信息
+						updateNew:function(index){
+							vm.currentNum=index;
+							vm.userNameZh=vm.teamPartner[index].userNameZh;
+							vm.userNameEn=vm.teamPartner[index].userNameEn;
+							vm.school=vm.teamPartner[index].school;
+							vm.gender=vm.teamPartner[index].gender;
+							vm.age=vm.teamPartner[index].age;
+							vm.tel=vm.teamPartner[index].tel;
+							vm.email=vm.teamPartner[index].email;
+							vm.parentName=vm.teamPartner[index].parentName;
+							vm.parentTel=vm.teamPartner[index].parentTel;
+							vm.nextNum=3;
+						},
+						//增加报名人数
+						addApplaynum: function() {
+							var groupNumber=true;
+							var onePer={
+								userNameZh:vm.userNameZh.trim(),
+								userNameEn:vm.userNameEn.trim(),
+								school:vm.school.trim(),
+								gender:vm.gender,
+								age:vm.age,
+								tel:vm.tel,
+								email:vm.email.trim(),
+								parentName:vm.parentName.trim(),
+								parentTel:vm.parentTel,
+							};
+							for(var key in onePer) {
+								if(onePer[key] == '') {
+									groupNumber = false;
+									break;
+								} else {
+									groupNumber = true;
+								}
+							}
+							if(groupNumber){
+								if(vm.currentNum!=-1){
+									vm.teamPartner[vm.currentNum].userNameZh=vm.userNameZh;
+									vm.teamPartner[vm.currentNum].userNameEn=vm.userNameEn;
+									vm.teamPartner[vm.currentNum].school=vm.school;
+									vm.teamPartner[vm.currentNum].gender=vm.gender;
+									vm.teamPartner[vm.currentNum].age=vm.age;
+									vm.teamPartner[vm.currentNum].tel=vm.tel;
+									vm.teamPartner[vm.currentNum].email=vm.email;
+									vm.teamPartner[vm.currentNum].parentName=vm.parentName;
+									vm.teamPartner[vm.currentNum].parentTel=vm.parentTel;
+								}else{
+									if(vm.perNum==0){
+										vm.teamPartner[0].userNameZh=vm.userNameZh;
+										vm.teamPartner[0].userNameEn=vm.userNameEn;
+										vm.teamPartner[0].school=vm.school;
+										vm.teamPartner[0].gender=vm.gender;
+										vm.teamPartner[0].age=vm.age;
+										vm.teamPartner[0].tel=vm.tel;
+										vm.teamPartner[0].email=vm.email;
+										vm.teamPartner[0].parentName=vm.parentName;
+										vm.teamPartner[0].parentTel=vm.parentTel;
+									}else{
+										vm.teamPartner.push(onePer);
+									}
+								}
+								vm.toNext(2);
+							}else{
+								showAlert("填写信息不完整");
+							}
+						},
+						clearPer:function(){
+							vm.userNameZh='';
+							vm.userNameEn='';
+							vm.school='';
+							vm.gender='';
+							vm.age='';
+							vm.tel= '';
+							vm.email='';
+							vm.parentName='';
+							vm.parentTel='';
+						},
+						clearFirst:function(){
+							vm.teamPartner[0].userNameZh='';
+							vm.teamPartner[0].userNameEn='';
+							vm.teamPartner[0].school='';
+							vm.teamPartner[0].gender='';
+							vm.teamPartner[0].age='';
+							vm.teamPartner[0].tel= '';
+							vm.teamPartner[0].email='';
+							vm.teamPartner[0].parentName='';
+							vm.teamPartner[0].parentTel='';
+						},
+						removeTxt:function(){
+							vm.groupName='';
+						},
+						removePhoto:function(index){
+						    vm.teamPhoto.splice(index,1);
+						},
+						//删除最后一个报名人
+						deleteApply:function(index){
+							vm.teamPartner.splice(index,1);
+						},
+						//性别
+						addGender:function(numStr){
+							vm.gender=numStr;
+						},
+						clearTxts:function(n){
+							if(n==1){
+								vm.userNameZh='';
+							}else if(n==2){
+								vm.userNameEn='';
+							}else if(n==3){
+								vm.school='';
+							}else if(n==4){
+								vm.email='';
+							}else if(n==5){
+								vm.tel='';
+							}else if(n==6){
+								vm.parentName='';
+							}else if(n==7){
+								vm.parentTel='';
+							}
+						},
+						iconAge:function(){
+							if(vm.age>1){
+								vm.age=Number(vm.age)-1;
+							}
+						},
+						showPhotoBg:function(info){
+							return "url("+info+")no-repeat center center,#F2F2F2";
+						},
+					}
+				});
+				if(userID==null){
+					login(function(){
+						vm.getMyTeamInfo();
+					});
+				}else{
+					vm.getMyTeamInfo();
+				}
+				$(".addPhoto02").click(function() {
+					var nums=vm.teamPhoto.length;
+					if(nums>9 || nums==9){
+						showAlert("图片最多上传9张");
+						return;
+					}
+					if(!$(this).attr("disabled")) {
+						uploadFile(3, function(url, path) {
+							$(this).removeAttr("disabled");
+							var url = url.toLowerCase();
+							if(/\.(jpg|png|jpeg)$/.test(url)) {
+								vm.teamPhoto.push(path);
+								$("html,body").animate({
+									scrollTop: 300
+								}, 10);
+							} else {
+								showAlert('抱歉,上传文件只支持jpg,png,jpeg格式');
+							}
+						}.bind(this), function() {
+							$(this).attr("disabled", true);
+						}.bind(this))
+					}
+				});
+				//预览轮播
+				var swiper = new Swiper('.myItem', {
+					autoplay: 5000,
+					speed: 1000,
+					loop: true,
+					autoplayDisableOnInteraction: false,
+					pagination : '.swiper-pagination',
+				  	paginationType : 'bullets',
+				  	paginationClickable: true,
+			        observer:true,//修改swiper自己或子元素时，自动初始化swiper
+					onClick: function(swiper){
+			      		vm.slideOne=swiper.activeIndex;
+						swiper1.init();
+						$(".bigSwiper").show();
+				    }
+				});
+				$(".bigSwiper").click(function(){
+					$(this).hide();
+				});
+				var swiper1 = new Swiper('.ids3_1', {
+					autoplay: 5000,
+					speed: 1000,
+					loop: true,
+					autoplayDisableOnInteraction: true,
+					pagination : '.swiper-pagination',
+				  	paginationType : 'bullets',
+				  	paginationClickable: true,
+			        observer:true,//修改swiper自己或子元素时，自动初始化swiper
+			        onInit:function(swiper){
+						swiper.slideTo(vm.slideOne);
+					}
+				});
+			});
+		</script>
+		<style>
+			html,body{
+				display: block;
+				width: 100%;
+				min-height: 100%;
+			}
+			input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+			    color: #888888; 
+			} 
+			input::-moz-placeholder { /* Mozilla Firefox 19+ */
+			    color: #888888; 
+			}
+			input:-ms-input-placeholder{
+			    color: #888888;
+			}
+			
+			input::-webkit-input-placeholder{
+			    color: #888888;
+			}
+			textarea:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+			    color: #888888; 
+			} 
+			textarea::-moz-placeholder { /* Mozilla Firefox 19+ */
+			    color: #888888; 
+			}
+			textarea:-ms-input-placeholder{
+			    color: #888888;
+			}
+			
+			textarea::-webkit-input-placeholder{
+			    color: #888888;
+			}
+			.bodyDiv{
+				/*padding-top: 144px;*/
+				padding-top: 100px;
+				box-sizing: border-box;
+			}
+			.bodyDiv01{
+				padding-top: 110px;
+				box-sizing: border-box;
+			}
+			.bodyDiv02{
+				/*padding-top: 44px;*/
+				box-sizing: border-box;
+			}
+			.applay_top{
+				width: 100%;
+				height: 44px;
+				line-height: 44px;
+				font-size: 18px;
+				background: #FFFFFF;
+				padding: 0px 40px;
+				text-align: center;
+				box-sizing: border-box;
+				position: relative;
+				border-bottom: 1px solid #e5e5e5;
+				position: fixed;
+				top: 0;
+				left: 0;
+				z-index: 20;
+			}
+			.back_index{
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 43px;
+				height: 43px;
+				background: url(../img/imack_01.png) no-repeat center center;
+				background-size: 11px;
+			}
+			.applay_num{
+				width: 100%;
+				position: absolute;
+				/*top: 64px;*/
+				top: 20px;
+				left: 0;
+			}
+			.applay_num .num01{
+				width: 155px;
+				display: block;
+				margin: 0 auto;
+			}
+			.applay01{
+				box-sizing: border-box;
+				width: 100%;
+				height: 100%;
+				padding-bottom: 60px;
+			}
+			.applay_title{
+				font-size: 18px;
+				font-weight: bold;
+				text-align: center;
+				padding: 0px 12px;
+				box-sizing: border-box;
+			}
+			.applay_con{
+				font-size: 14px;
+				line-height: 20px;
+				padding: 0px 12px;
+				margin-top: 35px;
+				min-height: 35%;
+				box-sizing: border-box;
+				text-indent: 25px;
+			}
+			.applay_con1{
+				font-size: 14px;
+				line-height: 22px;
+				padding: 0px 12px;
+				margin-top: 5px;
+				min-height: 35%;
+				box-sizing: border-box;
+			}
+			.applay_write{
+				text-align: center;
+				position: relative;
+				width: 100%;
+				margin-top: 20px;
+			}
+			.write_btn{
+				width: 150px;
+				height: 40px;
+				border-radius: 4px;
+				background: #e5233e;
+				border: none;
+				outline: none;
+				color: #FFFFFF;
+				font-size: 16px;
+			}
+			.drop_time{
+		        bottom: 49px;
+		        position: fixed;
+			    z-index: 21;
+			    width: 100%;
+			    height: 100%;
+			    top: 0;
+			    left: 0;
+			    background: rgba(0,0,0,.6);
+		    }
+		    .drop_div{
+		        width: 100%;
+		        height: 230px;
+		        position: fixed;
+		        bottom: 49px;
+		        left: 0;
+		        color: #000000;
+		        z-index: 21;
+		        box-sizing: border-box;
+		    }
+		    .drop_sumit{
+		    	position: fixed;
+		        bottom: 0;
+		        left: 0;
+		    	width: 100%;
+		    	height: 49px;
+		    	line-height: 49px;
+		    	text-align: center;
+		    	font-size: 16px;
+		    	font-weight: bold;
+		    	color: #FFFFFF;
+		    	background: #333333;
+		    	border: none;
+		    	outline: none;
+		    	z-index: 21;
+		    }
+		    .drop_sumit2{
+		    	background: #e5233e;
+		    	color: #FFFFFF;
+		    }
+		    .wordC{
+		    	width: 100%;
+		    	height: 230px;
+		    	bottom: 49px;
+		    	left: 0px;
+		    	position: fixed;
+		    }
+		    .sub_clear{
+		    	position: absolute;
+		    	right: 0;
+		    	top: 1px;
+		    	width: 40px;
+		    	height: 40px;
+		    	line-height: 40px;
+		    	text-align: center;
+		    	z-index: 22;
+		    }
+		    .sub_clear img{
+		    	width: 16px;
+		    }
+		    .sub_qy{
+		    	text-align: center;
+		    	position: absolute;
+		    	top: 105px;
+		    	left: 50%;
+		    	transform: translateX(-50%);
+		    	z-index: 22;
+		    }
+		    .sub_qy img{
+		    	width: 50px;
+		    }
+		    #signature{
+		    	height: 160px;;
+		    }
+		    #signature img{
+		    	width: auto;
+			    margin: 0 auto;
+			    max-height: 160px;
+			    display: block;
+		    }
+		    .p_01{
+		    	width: 100%;
+		    	font-size: 18px;
+		    	font-weight: bold;
+		    	text-align: center;
+		    }
+		    .p_02{
+		    	width: 100%;
+		    	text-align: center;
+		    }
+		    .resetCan{
+		    	font-size: 16px;
+		    	border-bottom: 1px solid #333333;
+		    }
+		    .applay02{
+		    	padding: 0px 12px 60px 12px;
+		    	box-sizing: border-box;
+		    }
+		    .teamName{
+		    	height: 35px;
+		    	font-size: 16px;
+		    	padding-right: 30px;
+		    	box-sizing: border-box;
+		    	border-bottom: 1px solid #e5e5e5;
+		    	position: relative;
+		    }
+		    .removeTxt{
+		    	position: absolute;
+		    	right: 0;
+		    	width: 30px;
+		    	height: 100%;
+		    	text-align: center;
+		    	line-height: 35px;
+		    }
+		    .removeTxt img{
+		    	width: 15px;
+		    }
+		    .removeOne{
+		    	position: absolute;
+		    	right: -7px;
+		    	top:-7px;
+		    	width: 15px;
+		    	height: 15px;
+		    }
+		    .removeOne img{
+		    	width: 15px;
+		    	display: block;
+		    }
+		    .noBorder{
+		    	border: none;
+		    	outline: none;
+		    	width: 100%;
+		    	height: 33px;
+		    	font-size: 16px;
+		    }
+		    .noBorder02{
+		    	outline: none;
+		    	border: none;
+		    	height: 27px;
+		    	width: 45px;
+		    	display: block;
+		    	text-align: center;
+		    }
+		    .ageInput{
+		    	float: left;
+		    	margin-top: 3px;
+		    	width: 68px;
+		    	height: 29px;
+		    	padding: 0px 1px;
+		    	border-bottom:1px solid #E5E5E5;
+		    	box-sizing: border-box;
+		    	position: relative;
+		    }
+		    .teamLi{
+		    	margin-top: 20px;
+		    	width: 100%;
+		    	height: 40px;
+		    	line-height: 40px;
+		    	font-size: 15px;
+		    	color: #000000;
+		    	padding-left: 32px;
+		    	box-sizing: border-box;
+		    	position: relative;
+		    }
+		    .leftTitle{
+		    	font-size: 18px;
+		    	font-weight: bold;
+		    	position: absolute;
+		    	left: 0;
+		    	top: 0;
+		    }
+		    .leftTitle02{
+		    	font-size: 18px;
+		    	font-weight: bold;
+		    }
+		    .con_txt{
+		    	float: left;
+		    	height: 40px;
+		    	line-height: 40px;
+		    	min-width: 80px;
+		    	text-align: center;
+		    	margin-left:15px;
+		    	margin-bottom: 10px;
+		    	padding: 0px 3px;
+		    	box-sizing: border-box;
+		    	border: 1px solid #888888;
+		    	border-radius: 4px;
+		    	position: relative;
+		    }
+		    .addPer{
+		    	float: left;
+		    	height: 40px;
+		    	width: 80px;
+		    	margin-left:15px;
+		    	margin-bottom: 10px;
+		    	box-sizing: border-box;
+		    	border: 1px dashed #888888;
+		    	border-radius: 4px;
+		    	background: url(../img/add.png) no-repeat center center;
+		    	background-size: 12px;
+		    }
+		    .teamIntro{
+		    	margin-top: 22px;
+		    	border-bottom: 1px solid #e5e5e5;
+		    	box-sizing: border-box;
+		    	position: relative;
+		    }
+		    .teamIntro02{
+		    	border:none;
+		    	overflow: hidden;
+		    }
+		    .upTxt{
+		    	font-size: 16px;
+		    	position: absolute;
+		    	top: 65px;
+		    	left: 100px;
+		    	display: none;
+		    }
+		    .addIntro{
+		    	position: relative;
+		    	padding: 15px 0px 35px 0px;
+		    	box-sizing: border-box;
+		    }
+		    .txtnoBorder{
+		    	width: 100%;
+		    	height: 120px;
+		    	font-size: 15px;
+		    	line-height: 20px;
+		    	border: none;
+		    	outline: none;
+		    	resize:none;
+		    }
+		    .txtNum{
+		    	position: absolute;
+		    	right: 0;
+		    	bottom: 0;
+		    	width: 90px;
+		    	text-align: right;
+		    	font-size: 16px;
+		    	line-height: 35px;
+		    	color: #888888;
+		    	z-index: 11;
+		    }
+		    .redNum{
+		    	color: #E5233E;
+		    }
+		    .inImgList{
+				float: left;
+				width: 90px;
+				height: 90px;
+				margin-right: 15px;
+		    	margin-top: 13px;
+				position: relative;
+			}
+			.inImg{
+				width: 90px;
+				height: 90px;
+				overflow: hidden;
+				display: flex;
+				justify-content: center;
+				background: #F9F9F9;
+			}
+			.inImg img{
+				width: auto;
+				height: 100%;
+			}
+		    .addPhoto{
+		    	width: 90px;
+		    	min-height: 90px;
+		    	float: left;
+		    	margin-right: 15px;
+		    	margin-top: 13px;
+		    	position: relative;
+		    }
+		    .addPhoto02{
+		    	margin-right: 0px;
+		    	border: 1px dashed #888888;
+		    	box-sizing: border-box;
+		    	background: url(../img/add.png) no-repeat center center;
+		    	background-size: 12px;
+		    }
+		    .addPhoto img{
+		    	display: block;
+		    	width: 90px;
+		    }
+		    .inImgList .removePhoto{
+		    	position: absolute;
+		    	width: 15px;
+		    	top: -7px;
+		    	right: -7px;
+		    }
+		    .applay03{
+		    	padding: 0px 12px 60px 12px;
+		    	box-sizing: border-box;
+		    }
+		    .liName{
+		    	height: 35px;
+		    	line-height: 34px;
+		    	width: 100%;
+		    	margin-top: 10px;
+		    	border-bottom: 1px solid #e5e5e5;
+		    	box-sizing: border-box;
+		    	position: relative;
+		    }
+		    .liName01{
+		    	line-height: 35px;
+		    	border: none;
+		    }
+		    .setTitle{
+		    	float: left;
+		    	width: 45px;
+		    	height: 100%;
+		    	font-size: 16px;
+		    }
+		    .perThree{
+				float: left;
+				height: 100%;
+			}
+			.perFour{
+				float: right;
+				height: 100%;
+				width: 128px;
+			}
+			.perSex{
+				display: block;
+				position: relative;
+				float: left;
+				height: 100%;
+				margin-right:30px;
+				line-height: 35px;
+				padding-left: 22px;
+			}
+			.perSex01{
+				margin-right:0px;
+			}
+			.sexs{
+				display: block;
+				position: absolute;
+				height: 100%;
+				width: 20px;
+				left: 0;
+				top: 0;
+				background: url(../img/apply-icon-false.png) no-repeat left center;
+				background-size: 15px;
+			}
+			.onsel{
+				background: url(../img/apply-icon-true.png) no-repeat left center;
+				background-size: 15px;
+			}
+			.pa_01 img{
+				display: block;
+				width: 65px;
+				margin: 0 auto 20px auto;
+			}
+			.pa_02{
+				font-size: 18px;
+				color: #010101;
+				text-align: center;
+			}
+			.pa_03{
+				font-size: 12px;
+				color: #e5233e;
+				text-align: center;
+				margin-top: 15px;
+			}
+			.pa_04{
+				position: fixed;
+				bottom: 0;
+				left: 0;
+				width: 100%;
+				height: 49px;
+				z-index: 11px;
+			}
+			.pa_04 div{
+				width: 50%;
+				height: 100%;
+				float: left;
+				position: relative;
+			}
+			.pa_04 div button{
+				position: absolute;
+			}
+			.applay05{
+				padding: 0px 12px;
+				box-sizing: border-box;
+			}
+			.teamTitle{
+				font-size: 16px;
+				line-height: 46px;
+				text-align: center;
+				color: #e5233e;
+			}
+			.titleItem{
+				font-size: 16px;
+				font-weight: bold;
+				margin-top: 10px;
+				margin-bottom: 8px;
+			}
+			.captain{
+				font-size: 12px;
+			}
+			.contItem{
+				font-size: 16px;
+				margin-top: 10px;
+			}
+		    .hideDive{
+		    	display: none;
+		    }
+			.swiper-container .swiper-wrapper .swiper-slide  {
+				width:100%;
+				height: 160px;
+				overflow: hidden;
+				text-align: center;
+				display: flex;
+				justify-content: center;
+			}
+			.swiper-slide img{
+				width: auto;
+				height: 100%;
+				flex-shrink: 0;
+			}
+			.swiper-pagination-bullet{
+				width: 6px;
+				height: 6px;
+				background: #aabfda;
+				border: 1px solid #aabfda;
+			}
+			.swiper-pagination-bullet-active{
+				background: rgba(0,0,0,0);
+				border: 1px solid #e22640;
+			}
+			.swiper-container-horizontal>.swiper-pagination-bullets, .swiper-pagination-custom, .swiper-pagination-fraction{
+				bottom: 4px;
+			}
+		    /*已报名的弹框和图片放大*/
+		    .noGift,.bigSwiper{
+		    	display: none;
+		    }
+		    .back_gift{
+		    	position: fixed;
+			    z-index: 1000000;
+			    width: 100%;
+			    height: 100%;
+			    top: 0;
+			    left: 0;
+			    background: rgba(0,0,0,.6);
+		    }
+		    .no_div{
+			    position: fixed;
+			    z-index: 1000001;
+			    width:85%;
+			    height: 120px;
+			    top: 50%;
+			    left: 50%;
+			    -webkit-transform: translate(-50%,-50%);
+			    transform: translate(-50%,-50%);
+			    background-color: #fafafc;
+			    text-align: center;
+			    border-radius: 3px;
+			    max-width: 450px;
+			    text-align: center;
+			}
+			.no_img{
+				position: absolute;
+				width: 32px;
+				left: 50%;
+				top: -16px;
+				transform: translateX(-50%);
+			}
+			.no_p3{
+				font-size: 16px;
+				margin-top: 30px;
+			}
+			.no_a{
+				display: block;
+				position: absolute;
+				bottom: -1px;
+				left: 0;
+				width: 100%;
+				height: 42px;
+				line-height: 42px;
+				font-size: 16px;
+				color: #FFFFFF;
+				background: #333333;
+			}
+			.no_div2{
+			    position: absolute;
+			    z-index: 101;
+			    width:100%;
+			    height: 100%;
+			    top: 50%;
+			    left: 50%;
+			    -webkit-transform: translate(-50%,-50%);
+			    transform: translate(-50%,-50%);
+			}
+			.no_div2 .swiper-container{
+				width: 100%;
+				height: 100%;
+			}
+			.no_div2 .swiper-container .swiper-wrapper .swiper-slide{
+				width: 100%;
+				height: 100%;
+				overflow-y: auto;
+				display: flex;
+				align-items:center;
+			}
+			.no_div2 img{
+				width: 100%;
+				height: auto;
+			}
+			.hideHead{
+				display: none;
+			}
+		</style>
+	</head>
+	<body id="body" :class="{'bodyDiv':(nextNum==1) || (nextNum==4),'bodyDiv01':nextNum==2,'bodyDiv02':(nextNum==3) || (nextNum==5)}">
+		<div class="applay_top hideHead"><span class="back_index" @click="toBack"></span><p>{{topTitle[nextNum-1]}}</p></div>
+		<div class="applay_num" v-show="nextNum!=3"><img class="num01" :src="imgSrc[nextNum-1]" /></div>
+		<div class="applay01" v-show="nextNum==1">
+			<p class="applay_title">家长同意书</p>
+			<p class="applay_con">兹同意本人未成年子女参加PBIC 2019第三届青少年公益挑战赛</p>
+			<p class="applay_con1">A. 同意将参赛人的个人身份资料公布在PBIC国内及国际比赛相关网站；</p>
+			<p class="applay_con1">B. 同意将参赛人遵守国家相关网络及著作权法律，维护并遵守网络活动秩序，不散布任何反动或任何不健康的言论及内容；</p>
+			<p class="applay_con1">C. 同意将参赛人完成的作品（BP／PPT）在相关网站上进行展示；</p>
+			<p class="applay_con1">D. 参赛人拥有其所有内容作品著作权，参赛作品版权归大赛组委会所有。法定代理人（未成年参赛人家长或监护人）</p>
+			<p class="applay_write" v-show="writeNum==1"><button class="write_btn" @click="toWrite(2)">家长签字</button></p>
+			<div class="wordQy" v-show="writeNum==2">
+				<div class="wordC">
+					<div class="drop_time" @click="toWrite(1)"></div>
+					<p class="sub_clear"><img src="img/apply-top-messageBox-icon-clear.png" onclick="clearCanvas()"/></p>
+					<p id="sub_qys" class="sub_qy"><img src="img/apply-app-messageBox-icon-txt.png" /></p>
+					<div id="sina" class="drop_div js-signature" data-width="" data-height="230" data-line-color="#000000" data-border="0px solid black" data-auto-fit="true"></div>
+				</div>
+				<button class="drop_sumit" onclick="saveSignature()">确定</button>
+			</div>
+			<div class="myWord" v-show="writeNum==3">
+				<p class="p_01">家长签字</p>
+				<div id="signature"></div>
+				<p class="p_02"><a class="resetCan" onclick="resetCanvas()">重签</a></p>
+				<button class="drop_sumit drop_sumit2" @click="toNext(2)">下一步</button>
+			</div>
+			<div class="noGift">
+				<div class="back_gift"></div>
+				<div class="no_div">
+					<img class="no_img" src="img/pop2.png">
+					<p class="no_p3">您已经报过名了~</p>
+					<a class="no_a" href="my_team.html?ids=3">去查看</a>
+				</div>
+			</div>
+		</div>
+		<div class="applay02" v-show="nextNum==2">
+			<ul>
+				<li class="teamName">
+					<div class="removeTxt" v-show="groupName!=''" @click="removeTxt"><img src="../img/login_no.png"/></div>
+					<input class="noBorder" placeholder="团队名称" maxlength="20" v-model="groupName"/>
+				</li>
+				<li class="teamLi">
+					<div class="leftTitle">队长</div>
+					<div class="li_con clear">
+						<div class="con_txt" v-show="teamPartner[0].userNameZh!=''" @click="updateNew(0)">
+							<div class="removeOne" @click.stop="clearFirst"><img src="../img/apply-no.png"/></div>
+							<p>{{teamPartner[0].userNameZh}}</p>
+						</div>
+						<div class="addPer" @click="toAdd(0)" v-show="teamPartner[0].userNameZh==''"></div>
+					</div>
+				</li>
+				<li class="teamLi">
+					<div class="leftTitle">成员</div>
+					<div class="li_con clear">
+						<div class="con_txt" v-for="applys in teamPartner" v-if="$index>0" @click="updateNew($index)">
+							<div class="removeOne" @click.stop="deleteApply($index)"><img src="../img/apply-no.png"/></div>
+							<p>{{applys.userNameZh}}</p>
+						</div>
+						<div class="addPer" @click="toAdd(1)"></div>
+					</div>
+				</li>
+				<li class="teamIntro clear">
+					<div class="leftTitle02">团队简介</div>
+					<div class="addIntro">
+						<textarea class="txtnoBorder" placeholder="输入团队介绍" maxlength="300" v-model="teamDes"></textarea>
+						<p class="txtNum" :class="{'redNum':teamDes.length==300}">{{teamDes.length}}/300</p>
+					</div>
+				</li>
+				<li class="teamIntro teamIntro02 clear">
+					<div class="leftTitle02">团队照片</div>
+					<div class="inImgList" v-for="photo in teamPhoto">
+						<div class="inImg">
+							<img :src="photo"/>
+						</div>
+						<img class="removePhoto" src="../img/shut1.png" v-if="teamPhoto!=''" @click="removePhoto($index)"/>
+					</div>
+					<div class="addPhoto addPhoto02"></div>
+				</li>
+			</ul>
+			<button class="drop_sumit drop_sumit2" @click='applayYes'>提交</button>
+		</div>
+		<div class="applay03" v-show="nextNum==3">
+			<ul>
+				<li class="liName">
+					<div class="removeTxt" v-show="userNameZh!=''"><img src="../img/login_no.png" @click="clearTxts(1)"/></div>
+					<input class="noBorder" placeholder="中文名" v-model="userNameZh"/>
+				</li>
+				<li class="liName">
+					<div class="removeTxt" v-show="userNameEn!=''"><img src="../img/login_no.png" @click="clearTxts(2)"/></div>
+					<input class="noBorder" placeholder="英文名" v-model="userNameEn"/>
+				</li>
+				<li class="liName liName01">
+					<div class="setTitle">性别</div>
+					<div class="perThree">
+						<span class="perSex"><b class="sexs" :class="{'onsel':gender=='1'}" @click="addGender('1')"></b>男</span><span class="perSex perSex01"><b class="sexs" :class="{'onsel':gender=='0'}" @click="addGender('0')"></b>女</span>
+					</div>
+					<div class="perFour">
+						<div class="setTitle">年龄</div>
+						<div class="li_div05">
+							<div class="ageInput">
+								<input class="noBorder02" type="number" v-model="age" maxlength="3" oninput="if(value<1){value='';} if(value.indexOf('.')!=-1){value=value.replace('.', '');} if(value>20){showAlert('年龄最大是20岁');value=20;} if(value.length>3){value=value.slice(0,3)}"/>
+							</div>
+						</div>
+					</div>
+				</li>
+				<li class="liName">
+					<div class="removeTxt" v-show="school!=''"><img src="../img/login_no.png" @click="clearTxts(3)"/></div>
+					<input class="noBorder" placeholder="学校" v-model="school"/>
+				</li>
+				<li class="liName">
+					<div class="removeTxt" v-show="email!=''"><img src="../img/login_no.png" @click="clearTxts(4)"/></div>
+					<input class="noBorder" placeholder="邮箱" v-model="email"/>
+				</li>
+				<li class="liName">
+					<div class="removeTxt" v-show="tel!=''"><img src="../img/login_no.png" @click="clearTxts(5)"/></div>
+					<input class="noBorder keyInput01"  type="number" placeholder="手机号" maxlength="11" v-model="tel" oninput="if(value.length>11)value=value.slice(0,11)"/>
+				</li>
+				<li class="liName">
+					<div class="removeTxt" v-show="parentName!=''"><img src="../img/login_no.png" @click="clearTxts(6)"/></div>
+					<input class="noBorder" placeholder="家长" v-model="parentName"/>
+				</li>
+				<li class="liName">
+					<div class="removeTxt" v-show="parentTel!=''"><img src="../img/login_no.png" @click="clearTxts(7)"/></div>
+					<input class="noBorder keyInput01" placeholder="家长手机号" type="number" maxlength="11" v-model="parentTel" oninput="if(value.length>11)value=value.slice(0,11)"/>
+				</li>
+			</ul>
+			<button class="drop_sumit" @click="addApplaynum">保存</button>
+		</div>
+		<div class="applay04" v-show="nextNum==4">
+			<p class="pa_01"><img src="../img/applay-icon-success.png" /></p>
+			<p class="pa_02">您已提交报名</p> 
+			<p class="pa_02">请等待审核结果</p>
+			<p class="pa_03">*工作人员会在三天内审核完毕</p>
+			<div class="pa_04">
+				<div><button class="drop_sumit" @click="toNext(5)">预览</button></div>
+				<div><a href="index.html"><button class="drop_sumit drop_sumit2">返回首页</button></a></div>
+			</div>
+		</div>
+		<div class="applay05" v-show="nextNum==5">
+			<div class="teamTitle">
+				<p>团队信息</p>
+			</div>
+			<div class="contentItem">
+				<div class="swiper-container myItem">
+					<div class="swiper-wrapper">
+						<div class="swiper-slide" v-for="pohto in teamPhoto" >
+							<img :src="pohto" />
+						</div>
+					</div>
+					<div class="swiper-pagination"></div>
+				</div>
+			</div>
+			<div class="txtItem clear">
+				<p class="titleItem">{{groupName}}</p>
+				<p class="captain">队长:{{teamPartner[0].userNameZh}}</p>
+				<p class="captain">队员:<span>{{teamPartner[1].userNameZh}}</span><span v-for="team in teamPartner" v-if="$index>1">，{{team.userNameZh}}</span></p>
+				<div class="contItem">{{teamDes}}</div>
+			</div>
+			<div class="bigSwiper">
+				<div class="back_gift"></div>
+				<div class="no_div2">
+					<div class="swiper-container ids3_1">
+						<div class="swiper-wrapper">
+							<div class="swiper-slide" v-for="pohto in teamPhoto"><img :src="pohto" /></div>
+						</div>
+						<div class="swiper-pagination"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script>
+			if ($('.js-signature').length) {
+				$('.js-signature').jqSignature();
+			}
+			$('.js-signature').eq(0).on('jq.signature.changed', function() {
+				n+=1;
+			});
+			var sn=document.getElementById("sina");
+			sn.addEventListener("touchstart", function(e) {  
+	            $(".sub_qy").hide();
+	        }); 
+	        var qn=document.getElementById("sub_qys");
+			qn.addEventListener("touchstart", function(e) {  
+	            $(".sub_qy").hide();
+	        }); 
+			function clearCanvas() {
+				n=0;
+				$(".sub_qy").show();
+				$('.js-signature').eq(0).jqSignature('clearCanvas');
+			}
+			function resetCanvas(){
+				clearCanvas();
+				vm.writeNum=2;
+				$('#signature').html("");
+			}
+			function saveSignature() {
+				$('#signature').empty();
+				var dataUrl = $('.js-signature').eq(0).jqSignature('getDataURL');
+				if(n>0){
+					uploloadRecord(convertBase64UrlToBlob(dataUrl),function(url){
+						vm.agreeBookurl=url;
+						var img = $('<img class="mysign">').attr('src', url);
+						$('#signature').append(img);
+						var a=$(window).height();
+						$("html,body").animate({
+							scrollTop: a
+						}, 50);
+						vm.writeNum=3;
+					});
+				}else{
+					showAlert("签名不能为空");
+				}
+			}
+			//canvas图片上传
+			var xhr;
+			function uploloadRecord(blob, funcsuccess, funcerror){
+				showLoad("上传签名");
+				var fd = new FormData();
+			    var imgName = encodeURIComponent('canvas_' + new Date().getTime() + '.png');  
+			    fd.append('mp3Name', imgName);  //只能是mp3Name
+			    fd.append('file', blob);
+			    xhr = new XMLHttpRequest();
+			    xhr.onreadystatechange = function () {
+			        hideLoad();
+			        if (xhr.readyState == 4 && xhr.status == 200) {
+			            var json = JSON.parse(xhr.responseText);
+			            if(json.code==0){
+			            	var recordurl = json.path+json.fileName;
+			            	// console.log("====== RECORDER: UPLOAD SUCCESS ======");
+			            	// console.log(recordurl);
+			            	if(funcsuccess!=undefined){
+			            		funcsuccess(recordurl);
+			            	}
+			            }else{
+			            	// console.log("====== RECORDER: UPLOAD ERROR ======");
+			            	if(funcerror!=undefined){
+			        			funcerror();
+			        		}
+			            }
+			        }else{
+			        	if(xhr.readyState == 4){
+			        		// console.log("====== RECORDER: UPLOAD ERROR ======");
+			        		if(funcerror!=undefined){
+			        			funcerror();
+			        		}
+			        	}
+			        }
+			    };
+			    var obj = {md5:"true", mp3Name:imgName, fileType:"png",fileExt:"png"};
+				var server_url = createURLStr("File", "upload", obj,1);
+			    xhr.open('POST', server_url);  
+			    xhr.send(fd);
+			    // console.log("====== RECORDER: UPLOAD START ======");
+			}
+			/**  
+			 * 将以base64的图片url数据转换为Blob  
+			 * @param urlData  
+			     用url方式表示的base64图片数据  
+			 */  
+			function convertBase64UrlToBlob(urlData){  
+			      
+			    var bytes=window.atob(urlData.split(',')[1]);        //去掉url的头，并转换为byte  
+			      
+			    //处理异常,将ascii码小于0的转换为大于0  
+			    var ab = new ArrayBuffer(bytes.length);  
+			    var ia = new Uint8Array(ab);  
+			    for (var i = 0; i < bytes.length; i++) {  
+			        ia[i] = bytes.charCodeAt(i);  
+			    }  
+			  
+			    return new Blob( [ab] , {type : 'image/png'});  
+			} 
+		</script>
+	</body>
+</html>

@@ -1,0 +1,1395 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="default">
+		<meta name="format-detection" content="telephone=no">
+		<link rel="stylesheet" type="text/css" href="../css/comman.css" />
+		<link rel="stylesheet" type="text/css" href="../css/weui.min.css" />
+		<!-- JS -->
+		<script src="../js/jquery-1.12.0.min.js"></script>
+		<script src="../js/jquery-form.js"></script>
+		<script src="../js/jqmd5.js"></script>
+		<script src="../js/sha1.js"></script>
+		<script src="../js/weui.js"></script>
+		<script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+		<script src="../js/wxconfig.js"></script>
+		<script src="../js/comman.js?v=5"></script>
+		
+		<title>大赛介绍</title>
+		
+		<script>
+			$(function() {
+				var strs=getQuery("step");
+				if(strs==1){
+					$("#strs").text("关于大赛");
+				}else if(strs==3){
+					$("#strs").text("赛制说明");
+				}
+				$("footer").load("footer.html");
+				$(".back_index").click(function(){
+					history.back();
+				});
+				//选项卡01
+				$(".menuTab span:nth-child(1)").on("touchstart click", function() {
+					tab(this, "gameC01");
+				});
+
+				$(".menuTab span:nth-child(2)").on("touchstart click", function() {
+					tab(this, "gameC02");
+				});
+
+				$(".menuTab span:nth-child(3)").on("touchstart click", function() {
+					tab(this, "gameC03");
+				});
+
+				//选项卡02
+				$(".iconUl li:nth-child(1)").on("touchstart click", function() {
+					tab02(this, "iconC01");
+				});
+				$(".iconUl li:nth-child(2)").on("touchstart click", function() {
+					tab02(this, "iconC02");
+				});
+				$(".iconUl li:nth-child(3)").on("touchstart click", function() {
+					tab02(this, "iconC03");
+				});
+				$(".iconUl li:nth-child(4)").on("touchstart click", function() {
+					tab02(this, "iconC04");
+				});
+				$(".iconUl li:nth-child(5)").on("touchstart click", function() {
+					tab02(this, "iconC05");
+				});
+
+				var step = parseInt(getQuery("step"));
+				switch(step) {
+					case 1:
+						tab($(".menuTab span:nth-child(1)")[0], "gameC01");
+						break;
+					case 2:
+						tab($(".menuTab span:nth-child(2)")[0], "gameC02");
+						break;
+					case 3:
+						tab($(".menuTab span:nth-child(3)")[0], "gameC03");
+						break;
+					default:
+						tab($(".menuTab span:nth-child(1)")[0], "gameC01");
+				}
+
+			});
+
+			function tab(spanBtn, gameCont) {
+				$(spanBtn).siblings().removeClass("game_on");
+				$(spanBtn).addClass("game_on");
+				$(".gameCont").children().not("." + gameCont).hide();
+				$("." + gameCont).show();
+
+				$(window).scrollTop(0); //滚动到顶部
+			}
+
+			function tab02(liBtn, textCon) {
+				$(liBtn).siblings().find("span:nth-child(3)").removeClass("on_icon");
+				$(liBtn).find("span:nth-child(3)").addClass("on_icon");
+				$(".iconCont").children().not("." + textCon).hide();
+				$("." + textCon).show();
+			}
+		</script>
+		<style>
+			.applay_top{
+				width: 100%;
+				height: 44px;
+				line-height: 44px;
+				font-size: 18px;
+				background: #FFFFFF;
+				padding: 0px 40px;
+				text-align: center;
+				box-sizing: border-box;
+				position: relative;
+				border-bottom: 1px solid #e5e5e5;
+				position: fixed;
+				top: 0;
+				left: 0;
+				z-index: 20;
+			}
+			.back_index{
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 43px;
+				height: 43px;
+				background: url(../img/imack_01.png) no-repeat center center;
+				background-size: 11px;
+			}
+			.menuTab {
+				max-width: 750px;
+				min-width: 320px;
+				height: 35px;
+				margin: 0 auto;
+				background: #1d1d1d;
+				text-align: center;
+				position: fixed;
+				top: 44px;
+				left: 0;
+				right: 0;
+				z-index: 2;
+			}
+			
+			.menuTab p {
+				display: inline-block;
+				width: 80%;
+				overflow: hidden;
+			}
+			
+			.menuTab span {
+				display: inline-block;
+				width: 33.3333%;
+				height: 35px;
+				line-height: 36px;
+				float: left;
+				text-align: center;
+				color: #636363;
+				font-size: 14px;
+				background: url("img/match02.png") no-repeat right center;
+				background-size: 1px 12px;
+				cursor: pointer;
+			}
+			
+			.menuTab span:last-child {
+				background: none;
+			}
+			
+			.gameCont {
+				/*padding-top: 79px;*/
+				padding-top: 20px;
+			}
+			
+			.gameBox {
+				display: none;
+			}
+			
+			.gameC01 {
+				/*display: block;*/
+			}
+			
+			.menuTab .game_on {
+				color: #e5233e;
+				font-weight: bold;
+			}
+			
+			.boxTitle {
+				padding: 25px 0 38px;
+			}
+			
+			.boxTitle span {
+				display: block;
+				text-align: center;
+			}
+			
+			.boxTitle span:nth-child(1) {
+				font-size: 11px;
+				color: #e5233e;
+				font-family: "Helvetica";
+			}
+			
+			.boxTitle span:nth-child(2) {
+				font-size: 18px;
+				color: #333;
+				font-weight: bold;
+				margin: 6px 0 8px;
+			}
+			
+			.boxTitle span:nth-child(3) {
+				height: 1px;
+				/*background: url("img/match03.png") no-repeat center;*/
+				background-size: 35px 1px;
+			}
+			
+			.boxIcon {
+				padding: 0 12px;
+			}
+			
+			.iconUl {
+				overflow: hidden;
+			}
+			
+			.iconUl li {
+				width: 20%;
+				float: left;
+			}
+			
+			.iconUl li span {
+				width: 100%;
+				display: block;
+				text-align: center;
+				font-weight: bold;
+				font-size: 12px;
+			}
+			
+			.iconUl li span:first-child {
+				height: 34px;
+			}
+			
+			.iconUl li span:nth-child(2) {
+				margin: 10px 0;
+			}
+			
+			.iconUl li span:nth-child(3) {
+				height: 19px;
+				background: url("img/match04-6.png") no-repeat center;
+				background-size: 19px;
+			}
+			
+			.iconUl li span.on_icon {
+				background: url("img/match04-7.png") no-repeat center;
+				background-size: 19px;
+			}
+			
+			.iconUl li img {
+				display: block;
+				margin: 0 auto;
+			}
+			
+			.iconCont {}
+			
+			.contLi {
+				display: none;
+				margin: 19px 0 0;
+				padding: 15px;
+				background: #fff;
+				border-radius: 5px;
+				box-shadow: 0 -2px 30px rgba(114, 99, 101, 0.1);
+				position: relative;
+			}
+			
+			.iconC01 {
+				display: block;
+			}
+			
+			.contLi span:nth-child(2) {
+				display: block;
+				width: 100%;
+				line-height: 20px;
+				font-size: 12px;
+				color: #333;
+			}
+			
+			.arrow_icon {
+				display: block;
+				width: 20%;
+				height: 11px;
+				background: url("img/match04-8.png") no-repeat center;
+				background-size: 18px 11px;
+				position: absolute;
+				top: -10px;
+				left: 0;
+			}
+			
+			.iconC02 .arrow_icon {
+				left: 20%;
+			}
+			
+			.iconC03 .arrow_icon {
+				left: 40%;
+			}
+			
+			.iconC04 .arrow_icon {
+				left: 60%;
+			}
+			
+			.iconC05 .arrow_icon {
+				left: 80%;
+			}
+			
+			.boxTitle02 {
+				padding: 40px 0 30px;
+			}
+			
+			.explain {
+				padding-bottom: 40px;
+				overflow: hidden;
+				border-bottom: 1px solid #ffc9d1;
+			}
+			
+			.explain ul li {
+				line-height: 20px;
+				font-size: 12px;
+				text-align: center;
+			}
+			
+			.explain ul li:nth-child(1) {
+				color: #e5233e;
+				font-size: 14px;
+				font-weight: bold;
+				margin-bottom: 6px;
+			}
+			
+			.ex_ul01 {
+				width: 50%;
+				min-height: 70px;
+				padding-top: 25px;
+				float: left;
+				/*background: url("img/match05.png") no-repeat right center;*/
+				background-size: 1px 95px;
+			}
+			
+			.ex_ul02 {
+				width: 50%;
+				min-height: 70px;
+				padding-top: 25px;
+				float: right;
+			}
+			
+			.introBox {
+				margin-top: 27px;
+				padding: 0 12px;
+			}
+			
+			.intro_h1 {
+				color: #e5233e;
+				text-align: center;
+				font-size: 14px;
+				font-weight: bold;
+				margin-bottom: 15px;
+			}
+			
+			.intro_p1 {
+				text-indent: 26px;
+				font-size: 12px;
+				line-height: 18px;
+			}
+			
+			.intro_h2 {
+				text-align: center;
+				font-size: 14px;
+				font-weight: bold;
+				margin: 28px 0 19px;
+			}
+			
+			.intro_div {
+				border: 1px dashed #bebebe;
+				font-size: 12px;
+				padding: 10px 8px;
+			}
+			
+			.intro_div p {
+				/*background: url("img/match06.png") no-repeat 0 7px;*/
+				background-size: 5px 5px;
+				margin: 5px 0;
+			}
+			
+			.intro_div p span {
+				display: inline-block;
+				margin-left: 12px;
+				line-height: 18px;
+			}
+			
+			.intro_div2 {
+				border: 1px dashed #bebebe;
+				font-size: 12px;
+				padding: 4px 12px 4px 8px;
+				margin-top: 14px;
+				width: 100%;
+				margin-left: -11px;
+			}
+			
+			.intro_div2 p {
+				position: relative;
+				width: 100%;
+				/*background: url("img/match06.png") no-repeat 0 7px;*/
+				background-size: 5px 5px;
+				margin: 5px 0;
+			}
+			
+			.intro_div2 p span {
+				display: inline-block;
+				margin-left: 12px;
+				line-height: 18px;
+				width: 100%;
+			}
+			
+			.intro_p2 {
+				text-indent: 26px;
+				font-size: 12px;
+				line-height: 18px;
+			}
+			
+			.intro_h3 {
+				margin-top: 78px;
+				margin-bottom: 20px;
+			}
+			
+			.parentBox01 {
+				margin-bottom: 30px;
+				border: 1px solid #ebebeb;
+			}
+			
+			.intro_p3 {
+				height: 40px;
+				line-height: 40px;
+				border-bottom: 1px solid #ebebeb;
+				background: #f8f8f8;
+				text-align: center;
+				font-size: 12px;
+				font-weight: bold;
+			}
+			
+			.intro_p3 span {
+				padding: 0 2px;
+			}
+			
+			.intro_p4 {
+				font-size: 12px;
+				line-height: 18px;
+				padding: 15px 10px;
+			}
+			
+			.intro_p4 span {
+				font-weight: bold;
+			}
+			
+			.intro_h4 {
+				margin-top: 50px;
+				margin-bottom: 25px;
+			}
+			
+			.pieceBox {
+				text-align: center;
+				margin-top: 15px;
+				padding-bottom: 20px;
+			}
+			
+			.pieceBox p {
+				width: 175px;
+				display: inline-block;
+				overflow: hidden;
+			}
+			
+			.pieceBox p span {
+				display: block;
+				width: 74px;
+				height: 74px;
+				line-height: 74px;
+				float: left;
+				border-radius: 5px;
+				background: #f8f8f8;
+				font-size: 12px;
+				font-weight: bold;
+			}
+			
+			.intro_p5 {
+				margin-top: 38px;
+				margin-bottom: 18px;
+			}
+			
+			.intro_p5 img {
+				display: block;
+				width: 150px;
+				height: 96px;
+				margin: 0 auto;
+			}
+			
+			.intro_p6 {
+				text-align: center;
+				font-size: 12px;
+				line-height: 18px;
+			}
+			
+			.intro_p6 span {
+				font-weight: bold;
+			}
+			
+			.intro_p7 {
+				margin-top: 26px;
+			}
+			
+			.intro_p7 p {
+				margin-top: 25px;
+			}
+			
+			.intro_p7 p:first-child {
+				margin-top: 8px;
+			}
+			
+			.intro_h5 {
+				margin: 41px 0 28px;
+			}
+			
+			.intro_p8 {
+				text-align: center;
+				font-size: 12px;
+				line-height: 18px;
+			}
+			
+			.intro_h6 {
+				margin: 35px 0 10px;
+			}
+			
+			.intro_h9 {
+				margin: 80px 0 28px;
+			}
+			
+			.intro_h10 {
+				margin: 35px 0 8px;
+			}
+			
+			.intro_h11 {
+				margin: 35px 0 8px;
+			}
+			
+			.applyBox {
+				max-width: 750px;
+				min-width: 320px;
+				height: 49px;
+				margin: 0 auto;
+				background: #e5233e;
+				position: fixed;
+				bottom: 0;
+				left: 0;
+				right: 0;
+				z-index: 2;
+			}
+			
+			.applyBox a {
+				width: 100%;
+				height: 49px;
+				line-height: 49px;
+				display: block;
+				color: #fff;
+				text-align: center;
+				font-size: 18px;
+			}
+			
+			.gameC02 {}
+			
+			.gameC02 ul {
+				padding-top: 25px;
+				overflow: hidden;
+			}
+			
+			.gameC02 ul li {
+				width: 50%;
+				float: left;
+				text-align: center;
+				padding-bottom: 22px;
+			}
+			
+			.personBox {
+				display: inline-block;
+				height: 151px;
+			}
+			
+			.personBox span {
+				display: block;
+				text-align: center;
+				padding:0px 10px;
+			}
+			
+			.personBox span:nth-child(1) {
+				width: 85px;
+				height: 85px;
+				margin: 0 auto;
+				border-radius: 50%;
+				overflow: hidden;
+			}
+			
+			.personBox span:nth-child(1) img {
+				display: block;
+				width: 100%;
+				border-radius: 50%;
+			}
+			
+			.personBox span:nth-child(2) {
+				line-height: 18px;
+				font-size: 14px;
+				font-weight: bold;
+				margin: 10px 0 2px;
+			}
+			
+			.personBox span:nth-child(3) {
+				font-size: 12px;
+				line-height: 18px;
+			}
+			
+			.matchTime {
+				/* background: url("img/match10.png") repeat-y left top; */
+				background-size: 1px 400px;
+				margin: 42px 0 0;
+				background-position-x: 30px;
+				padding: 0 20px;
+				box-sizing: border-box;
+			}
+			
+			.timeCenter {
+				min-height: 330px;
+				margin: 0 auto;
+				/* overflow: hidden; */
+				/* padding-left: 50px; */
+			}
+			
+			.timeLeft,
+			.timeRight {
+				height: 300px;
+				display: flex;
+				/*background:teal;*/
+			}
+			
+			.timeLeft p,
+			.timeRight p {
+				display: block;
+				min-height: 145px;
+			}
+			
+			.timeLeft span,
+			.timeRight span {
+				display: block;
+			}
+
+			.line_process_top {
+				width: 2px;
+				height: 300px;
+				background: #ebebeb;
+				position: relative;
+				margin-right: 30px;
+			}
+
+			.line_process_top span {
+				display: block;
+				position: absolute;
+			}
+
+			.line_span {
+				width: 6px;
+				height: 6px;
+				border: 2px solid #ebebeb;
+				border-radius: 50%;
+				left: -4px;
+				background: #ffffff;
+				z-index: 1;
+			}
+
+			.line_top_02 {
+				top: 0px;
+			}
+
+			.line_top_03 {
+				top: 60px;
+			}
+			.line_top_04 {
+				top: 120px;
+			}
+			.line_top_05 {
+				top: 180px;
+			}
+
+			.line_top_06 {
+				top: 240px;
+			}
+			.line_top_07 {
+				top: 300px;
+			}
+			.line_span_red_01 {
+				border: 2px solid #e5233e;
+			}
+
+			.line_span_red_02 {
+				border: 2px solid #e5233e;
+				background: #e5233e;
+			}
+
+			.position_line_red {
+				width: 2px;
+				height: 0;
+				background: #e5233e;
+			}
+
+
+			
+			.time_sp1 {
+				height: 20px;
+				line-height: 18px;
+				color: #e5233e;
+				font-size: 18px;
+				font-weight: bold;
+				margin-bottom: 6px;
+			}
+			
+			.time_sp2 {
+				height: 18px;
+				line-height: 16px;
+				font-size: 16px;
+				font-weight: bold;
+			}
+			
+			.time_sp3 {
+				width: 100%;
+				height: 1px;
+				/*background: url("img/match11.png") no-repeat right top;*/
+				background-size: 8px 1px;
+				margin: 10px 0;
+			}
+			
+			.time_sp4 {
+				font-size: 16px;
+				font-weight: bold;
+				margin-bottom: 32px;
+			}
+			
+			.timeLeft span.time_sp5 {
+				margin-bottom: 5px;
+				font-size: 12px;
+				display: inline-block;
+				margin-left: 20px;
+			}
+			
+			.timeLeft {
+				text-align: left;
+			}
+			
+			.timeLeft p:nth-child(2) {
+				/* margin-top: 260px; */
+			}
+			
+			.timeRight p {
+				margin-top: 260px;
+			}
+			
+			.timeRight .time_sp3 {
+				background-position: left top;
+			}
+			
+			.timeIcon {
+				width: 10%;
+				min-height: 480px;
+				float: left;
+				position: relative;
+			}
+			
+			.timeIcon span {
+				width: 100%;
+				height: 15px;
+				display: block;
+				margin: 0 auto;
+				background: url("img/match08.png") no-repeat center top;
+				background-size: 15px 15px;
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+			}
+			
+			.timeIcon span:nth-child(2) {
+				top: 262px;
+			}
+			
+			.timeIcon span:nth-child(3) {
+				top: 508px;
+			}
+			
+			.timeIcon span:nth-child(4) {
+				top: 475px;
+			}
+			
+			.statement {
+				text-align: center;
+				color: #808080;
+				font-size: 10px;
+				padding: 0 0 13px;
+			}
+			
+			.specification_paragraph_table {
+				position: relative;
+				width: 100%;
+				font-size: 12px;
+			}
+			
+			.specification_paragraph_table tr {
+				line-height: 18px;
+			}
+			
+			.specification_paragraph_table .row1 {
+				width: 49%;
+			}
+			
+			.specification_paragraph_table .row2 {
+				width: 15%;
+			}
+			
+			.specification_paragraph_table .row3 {
+				width: 36%;
+			}
+			
+			.line {
+				position: absolute;
+				width: 100%;
+				height: 1px;
+				background-color: #FFC9D1;
+				left: 0;
+				margin-top: 39px;
+			}
+			
+			.tutorText {
+				position: relative;
+				width: 100%;
+				color: #333333;
+				font-size: 12px;
+				padding-left: 12px;
+				margin-bottom: 22px;
+			}
+			
+			.tutorTextp1 {
+				position: relative;
+				width: 100%;
+			}
+			
+			.tutorTextp1 span {
+				position: relative;
+				color: #E5233E;
+				font-size: 16px;
+				top: 4px;
+				margin-right: 10px;
+			}
+			
+			.tutorTextp2 {
+				position: relative;
+				width: 90%;
+				margin-left: 17px;
+			}
+			
+			header {
+				max-width: 750px;
+				min-width: 320px;
+				margin: 0 auto;
+				position: fixed;
+				top: 0;
+				left: 0;
+				right: 0;
+				z-index: 2;
+			}
+			
+			footer {
+				padding-bottom: 50px;
+				background: #333;
+			}
+			.hideHead{
+				display: none;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="applay_top hideHead"><span class="back_index"></span><p id="strs"></p></div>
+
+		<section>
+			<!--<div class="menuTab">
+				<p>
+					<span class="game_on">大赛介绍</span>
+					<span>导师团队</span>
+					<span>赛事流程</span>
+				</p>
+			</div>-->
+
+			<div class="gameCont">
+				<div class="gameBox gameC01">
+					<div class="boxTitle">
+						<span>ADVANTAGES</span>
+						<span>五大优势</span>
+						<span><!--横线--></span>
+					</div>
+					<div class="boxIcon">
+						<ul class="iconUl">
+							<li>
+								<span><img src="img/match04-1.png" style="width:30px; height:31px;"></span>
+								<span>名师评审</span>
+								<span class="on_icon"></span>
+							</li>
+							<li>
+								<span><img src="img/match04-2.png" style="width:27px; height:32px;"></span>
+								<span>权威认证</span>
+								<span></span>
+							</li>
+							<li>
+								<span><img src="img/match04-3.png" style="width:32px; height:29px;"></span>
+								<span>媒体传播</span>
+								<span></span>
+							</li>
+							<li>
+								<span><img src="img/match04-4.png" style="width:32px; height:31px;"></span>
+								<span>明星助力</span>
+								<span></span>
+							</li>
+							<li>
+								<span><img src="img/match04-5.png" style="width:26px; height:32px;"></span>
+								<span>特优勉励</span>
+								<span></span>
+							</li>
+						</ul>
+
+						<div class="iconCont">
+							<div class="contLi iconC01">
+								<span class="arrow_icon"></span>
+								<span>邀请哈佛大学、宾夕法尼亚大学、哥伦比亚大学、纽约大学、莱斯大学、达特茅斯学院等美国常春藤名校教授担任评审和导师，对参赛队伍予以指导；邀请联合国机构、国际组织、500强企业、投资基金、公益机构等专业人士、公共关系传播专家等加入评审团，在不同比赛阶段对参赛选手进行针对性指导。</span>
+							</div>
+
+							<div class="contLi iconC02">
+								<span class="arrow_icon"></span>
+								<span>组委会将为获奖队伍和选手颁发国际公益荣誉奖项以及志愿服务证书。同时，对在比赛过程中表现突出并做出优异贡献的选手，授予“优秀倡导者”、“校园先行者”、“积极贡献者”等各种荣誉奖项。证书和相关奖项由组委会和国际组织机构人士签发，记录青少年成长和公益足迹。</span>
+							</div>
+							<div class="contLi iconC03">
+								<span class="arrow_icon"></span>
+								<span>为保证赛事的公开、透明，本次比赛将通过微信、微博、官方网站进行全方位报道，相关门户网站公益频道将报道比赛，记录参赛队伍和选手；组委会将推荐获奖和优秀方案入选北京大学、清华大学等研究机构传播案例库；本次赛事将有来自北京、上海、广州、深圳、沈阳、成都、香港以及美国、英国、德国、澳大利亚、非洲等国家地区的选手参赛，增强对外传播、扩大国际影响。</span>
+							</div>
+							<div class="contLi iconC04">
+								<span class="arrow_icon"></span>
+								<span>黄晓明、Angelababy、黄渤、TFBoys等中国明星助力“携手中非，爱加艾减”国际公益。本次赛事，组委会将邀请相关文体明星为进入决赛阶段的队伍加油助力，带动更多爱心人士关注非洲发展、关心非洲公益。</span>
+							</div>
+							<div class="contLi iconC05">
+								<span class="arrow_icon"></span>
+								<span>青少年是推动实现联合国可持续发展目标的决定力量。组委会将组织获奖队伍参访驻京联合国机构、非洲驻华使馆等，与联合国和非洲官员进行面对面交流；同时，获奖选手有机会随组织方公益访问团出访非洲，实地考察项目，拜访公益机构以及赴联合国总部参加相关国际会议。</span>
+							</div>
+						</div>
+					</div>
+
+					<div class="boxTitle boxTitle02">
+						<span>COMPETITION SPECIFICATION</span>
+						<span>赛制说明</span>
+						<span><!--横线--></span>
+					</div>
+
+					<div class="explain">
+						<ul class="ex_ul01">
+							<li>参赛对象</li>
+							<li>7-12年级的中学生</li>
+							<li>（初中生、高中生）</li>
+						</ul>
+						<ul class="ex_ul02">
+							<li>参赛形式</li>
+							<li>以团队进行</li>
+							<li>每个团队3~6人</li>
+						</ul>
+					</div>
+
+					<div class="introBox">
+						<h2 class="intro_h1">背景信息</h2>
+						<p class="intro_p1">请多花一些时间了解以下信息，适当进行信息拓展和调研，将有助于参赛队伍和选手们选择好具体参赛项目、制定方案。</p>
+
+						<h2 class="intro_h2">(1) 根据联合国儿基会2016报告</h2>
+						<div class="intro_div">
+							<p>
+								<span>撒哈拉以南非洲，约160万15岁以下儿童感染艾滋病，其中只有半数能接受到治疗；</span>
+							</p>
+							<p>
+								<span>撒哈拉以南非洲，约1420万15岁以上女性感染艾滋病；</span>
+							</p>
+							<p>
+								<span>撒哈拉以南非洲，约130万怀孕女性不幸感染了艾滋病；</span>
+							</p>
+							<p>
+								<span>全球有1340万儿童青少年（0-17岁）因艾滋失去父母或其中一位亲人；</span>
+							</p>
+							<p>
+								<span>全球范围内，自2000年以来，0-4岁艾滋病相关死亡已下降70%；通过母婴阻断（PMTCT）的努力，有160万新的婴幼儿感染被预防阻断。</span>
+							</p>
+						</div>
+
+						<h2 class="intro_h2">(2) 根据联合国可持续发展目标</h2>
+						<div class="intro_div" style="padding:12px 10px;">
+							<div class="intro_p2">
+								2015年9月，世界各国领导人在一次具有历史意义的联合国峰会上上通过了2030年可持续发展议程，该议程涵盖17个“可持续发展目标”，聚焦经济发展、社会发展和环境可持续三大领域，反映了全球各国人民期望创建一个没有贫困、没有饥饿、安全、充满活力和可持续世界的美好愿望。
+							</div>
+							<div class="intro_p2">
+								因此，在接下来的15年内，各国将致力于消除一切形式的贫穷、实现平等、促进繁荣、保护地球，同时确保“没有一个人掉队”。中国政府已制定《中国落实2030年可持续发展议程国别方案》。
+							</div>
+						</div>
+
+						<h2 class="intro_h1 intro_h3">参赛要求</h2>
+						<p class="intro_p1">比赛围绕联合国“可持续发展目标”进行，聚焦“目标1：消除饥饿”、“目标2：良好健康与福祉”、“目标3：优质教育”、“目标4：性别平等”等4项，旨在帮助“非洲受艾滋病影响妇女和儿童”，参赛队伍请选择上述某一目标，发挥创意、设计项目，为改善非洲受艾滋和贫困影响妇女儿童的营养、医疗和教育条件提出针对性方案或者能够解决他们生活中面对的困难和实际问题。</p>
+
+						<h2 class="intro_h1 intro_h3">项目类别</h2>
+						<p class="intro_p1">为使参赛队伍进一步理解参赛要求，特对上述4个目标主要相关内容作进一步说明，以引导参赛队伍更加精准的设计具有一定水准的可行性项目：</p>
+
+						<div class="parentBox01" style="margin-top:20px;">
+							<div class="intro_p3">
+								<span>目标1</span>
+								<span>消除饥饿</span>
+								<span>改善营养</span>
+							</div>
+							<div class="intro_p4"><span>事实：</span>撒哈拉以南的非洲是饥饿现象最普遍的地区，有四分之一的人营养不足；在非洲撒哈拉以南，预测在2014-2016年间营养不足率为23%；在发展中世界，有6600万的小学学龄儿童饿着肚子去上学，仅非洲就有2300万。</div>
+							<div class="intro_p4" style="padding-top:10px;"><span>联合国目标：</span>到2030年，消除饥饿，确保所有人特别是穷人和弱势群体，包括婴儿，全年都有安全、营养和充足的食物；消除一切形式的营养不良，解决孕妇、哺乳期妇女营养需求。</div>
+						</div>
+
+						<div class="parentBox01">
+							<div class="intro_p3">
+								<span>目标2</span>
+								<span>确保健康</span>
+								<span>促进福祉</span>
+							</div>
+							<div class="intro_p4"><span>事实：</span>每年仍然有超过600万的5岁以下的儿童死亡；撒哈拉以南非洲和南亚在儿童死亡方面所占比例正在上升，每5个5岁以下儿童死亡中就有4个发生在这两个地区；出生在贫穷家庭的儿童5岁之前死亡的机率几乎是出身在富裕家庭儿童的两倍；艾滋病目前是非洲青少年（10-19岁）死亡的主要原因。</div>
+							<div class="intro_p4" style="padding-top:10px;"><span>联合国目标：</span>到2030年，消除新生儿和5岁以下儿童可预防的死亡；实现联合国“三零愿景”，消除艾滋病。</div>
+						</div>
+
+						<div class="parentBox01">
+							<div class="intro_p3">
+								<span>目标3</span>
+								<span>优质教育</span>
+								<span>学习机会</span>
+							</div>
+							<div class="intro_p4"><span>事实：</span>发展中地区小学教育适龄儿童失学人数为5700万，适龄失学儿童中，一半以上来自撒哈拉以南非洲地区； 世界上有1.03亿青少年缺乏基本的读写算技能，其中60%为女性。</div>
+							<div class="intro_p4" style="padding-top:10px;"><span>联合国目标：</span>到2030年，确保所有男女童完成免费、公平和优质的中小学教育，并取得相关和有效的学习成果；确保所有男女童获得优质幼儿发展、看护和学前教育；建立和改善兼顾儿童、残疾和性别平等的教育设施，为所有人提供安全、非暴力、包容和有效的学习环境。</div>
+						</div>
+
+						<div class="parentBox02">
+							<h2 class="intro_h1 intro_h4">实现方式</h2>
+							<p class="intro_p1">选择一个你要帮助实现的目标，通过查找资料、研究分析，设计商业类、科技类项目或设计线上线下活动方案发起直接筹款募捐来帮助他们。</p>
+							<div class="pieceBox">
+								<p>
+									<span style="margin-bottom:20px">商业类</span>
+									<span style="margin-left:25px; margin-bottom:20px;">科技类</span>
+									<span>公益类</span>
+									<span style="margin-left:25px">其他类</span>
+								</p>
+							</div>
+						</div>
+
+						<h2 class="intro_h1 intro_h4">项目评比</h2>
+						<p class="intro_p5">
+							<img src="img/match07.png">
+						</p>
+						<p class="intro_p6">本次大赛采用<span>项目方案、倡导推广、募款筹款</span>等三部分权重评分，为不同偏好和特长的同学提供脱颖而出的机会：</p>
+						<div class="intro_div intro_p7">
+							<p>
+								<span><strong>项目方案</strong>，强调发现和解决问题的能力，设计要根据非洲实际情况因地制宜，力求简单且具有可执行性；</span>
+							</p>
+							<p>
+								<span><strong>倡导推广</strong>，考察学生领导力，要求各参赛队伍在关注方案本身同时，要通过倡导宣传以影响带动更多人群关注非洲贫困问题；</span>
+							</p>
+							<p>
+								<span><strong>募款筹款</strong>，考验同学们的行动力，鼓励不同类别项目的参赛队伍都能在比赛过程中，发起公益募款，最终金额将被纳入评分。</span>
+							</p>
+						</div>
+
+						<h2 class="intro_h1 intro_h5">报名平台</h2>
+						<table class="specification_paragraph_table">
+							<tr>
+								<td class="row1">思博胜 · 特优生创始人团队</td>
+								<td class="row2">武老师</td>
+								<td class="row3">电话 187-4599-7187</td>
+							</tr>
+						</table>
+						<div class="line"></div>
+						<h2 class="intro_h1 intro_h9">报名须知</h2>
+						<p class="intro_p8">报名时须提交</p>
+						<div class="intro_div2">
+							<p>
+								<span><b>队名：</b>提供本队队伍名称（队伍名称可在7月8日初赛投稿前修改）</span>
+							</p>
+							<p>
+								<span><b>主题：</b>选择好“可持续发展⽬标”中的⼀项，作为主题即参赛项⽬⽅向</span>
+							</p>
+							<p>
+								<span><b>同意书：</b>每位参赛选⼿须提交其⾄少⼀位家⻓签署的参赛同意书</span>
+							</p>
+							<!--<p>
+								<span><b>报名费：</b>167元/人，此费用将计入每支参赛队伍所筹款项总额中</span>
+							</p>-->
+
+						</div>
+
+						<h2 class="intro_h1 intro_h10">特别声明</h2>
+						<p class="intro_p8">此赛事的具体活动可能会有调整，解释权归承办单位。</p>
+
+						<h2 class="intro_h1 intro_h11">联系方式</h2>
+						<!--<p class="intro_p8" style="font-weight:bold; line-height:25px;">400-0175-121</p>
+						<p class="intro_p8" style="font-weight:bold; line-height:25px; margin-bottom:3px;">65150080</p>-->
+						<p class="intro_p8" style="margin-bottom:60px;">武老师 18745997187</p>
+					</div>
+
+				</div>
+				<div class="gameBox gameC02">
+					<ul>
+						<li>
+							<div class="personBox">
+								<span><img src="../img/tutorPic/tutor_bg.png"></span>
+								<span>Brett Gamboa</span>
+								<span>达特茅斯学院</span>
+							</div>
+						</li>
+						<li>
+							<div class="personBox">
+								<span><img src="../img/tutorPic/tutor_jg.png"></span>
+								<span>Jerome Game</span>
+								<span>哥伦比亚大学</span>
+							</div>
+						</li>
+						<li>
+							<div class="personBox">
+								<span><img src="../img/tutorPic/tutor_gdc.png"></span>
+								<span>G . Daniel Cohen</span>
+								<span>莱斯大学</span>
+							</div>
+						</li>
+						<li>
+							<div class="personBox">
+								<span><img src="../img/tutorPic/tutor_rl.png"></span>
+								<span>Robert Lyon</span>
+								<span>纽约大学Stern商学院</span>
+							</div>
+						</li>
+
+						<li>
+							<div class="personBox">
+								<span><img src="../img/tutorPic/tutor_bt.png"></span>
+								<span>Brandon Tilley</span>
+								<span>哈佛大学</span>
+							</div>
+						</li>
+						<li>
+							<div class="personBox">
+								<span><img src="../img/tutorPic/tutor_lb.png"></span>
+								<span>Luca Bossi</span>
+								<span>宾夕法尼亚大学</span>
+							</div>
+						</li>
+						<li>
+							<div class="personBox">
+								<span><img src="../img/tutorPic/tutor_fb.png"></span>
+								<span>Faiza Bellounis</span>
+								<span>康奈尔大学</span>
+							</div>
+						</li>
+
+						<!--新添加-->
+
+						<li>
+							<div class="personBox">
+								<span><img src="../img/tutorPic/tutor_sukailin.png"></span>
+								<span>苏凯琳</span>
+								<span>联合国艾滋病规划署东南非区域代表</span>
+							</div>
+						</li>
+						<li>
+							<div class="personBox">
+								<span><img src="../img/tutorPic/tutor_yedawei.png"></span>
+								<span>叶大伟</span>
+								<span>姚基金秘书长</span>
+							</div>
+						</li>
+						<li>
+							<div class="personBox">
+								<span><img src="../img/tutorPic/tutor_zhangyan.png"></span>
+								<span>张琰</span>
+								<span>联合国开发计划署项目经理</span>
+							</div>
+						</li>
+
+						<li>
+							<div class="personBox">
+								<span><img src="../img/tutorPic/tutor_wangyalin.png"></span>
+								<span>王亚琳</span>
+								<span>联合国开发计划署项目官员</span>
+							</div>
+						</li>
+
+						<li>
+							<div class="personBox">
+								<span><img src="../img/tutorPic/tutor_chenguang.png"></span>
+								<span>陈光</span>
+								<span>北京市志愿服务联合会副秘书长</span>
+							</div>
+						</li>
+
+						<li>
+							<div class="personBox">
+								<span><img src="../img/tutorPic/tutor_lilianxing.png"></span>
+								<span>李连星</span>
+								<span>清华大学对外传播研究中心中非媒体研究项目秘书长</span>
+							</div>
+						</li>
+						<li>
+							<div class="personBox">
+								<span><img src="../img/tutorPic/tutor_zhengchunling.png"></span>
+								<span>郑春玲</span>
+								<span>北京市最佳志愿服务组织<br/>心飞扬青少年志愿服务中心负责人</span>
+							</div>
+						</li>
+						<li>
+							<div class="personBox">
+								<span><img src="../img/tutorPic/tutor_manuer.png"></span>
+								<span>马努尔</span>
+								<span>中非民间商会国际联络助理秘书长</span>
+							</div>
+						</li>
+						<li>
+							<div class="personBox">
+								<span><img src="../img/tutorPic/tutor_lucuicui.png"></span>
+								<span>卢翠翠</span>
+								<span>印第安纳大学 Kelley商学院助理教授</span>
+							</div>
+						</li>
+						<li>
+							<div class="personBox">
+								<span><img src="../img/tutorPic/tutor_wanggeng.png"></span>
+								<span>王耕</span>
+								<span>美国麦肯锡咨询公司项目经理，哈佛大学研究生</span>
+							</div>
+						</li>
+					</ul>
+					<div class="tutorText">
+						<p class="tutorTextp1"><span>*</span>导师团队将于7.15-28初赛阶段给予视频或线下指导；</p>
+						<p class="tutorTextp2">比赛评审组将在导师团队及其他受邀专业人士中产生，敬请期待。</p>
+					</div>
+				</div>
+				<div class="gameBox gameC03">
+					<div class="matchTime">
+						<div class="timeCenter">
+							<div class="timeLeft">
+								<div class="line_process_top">
+									<div class="position_line_red"></div>
+									<span class="line_span line_top_02"></span>
+									<span class="line_span line_top_03"></span>
+									<span class="line_span line_top_04"></span>
+									<span class="line_span line_top_05"></span>
+									<span class="line_span line_top_06"></span>
+									<span class="line_span line_top_07"></span>
+								</div>
+								<p>
+									<!-- <span class="time_sp1">初赛</span> -->
+									<!--<span class="time_sp2">初赛</span>-->
+									<!-- <span class="time_sp3"></span> -->
+									<span class="time_sp4">6月01日<span class="time_sp5">比赛报名</span></span>
+									
+									<span class="time_sp4">7月11日 00:00<span class="time_sp5">项目策划书开始提交</span></span>
+									
+									<span class="time_sp4">7月16日 21:00<span class="time_sp5">报名截止</span></span>
+									
+									<span class="time_sp4">7月20日 10:00<span class="time_sp5">项目路演开始</span></span>
+									
+									<span class="time_sp4">7月27日 15:00<span class="time_sp5">公布十二强</span></span>
+									
+									<span class="time_sp4">8月03日<span class="time_sp5">决赛日</span></span>
+									
+									
+								</p>
+								<!-- <p>
+									<span class="time_sp1">决赛</span>
+									<span class="time_sp3"></span>
+									<span class="time_sp4">7月22日</span>
+									<span class="time_sp5">决赛开始</span>
+									<span class="time_sp4">8月4日</span>
+									<span class="time_sp5">总决赛及颁奖典礼</span>
+								</p> -->
+							</div>
+							<!-- <div class="timeIcon">
+								<span></span>
+								<span></span>
+								<span></span>
+							</div> -->
+							<!-- <div class="timeRight">
+								<p>
+									<span class="time_sp1">复赛</span>
+									<span class="time_sp3"></span>
+									<span class="time_sp4">7月12日</span>
+									<span class="time_sp5">晋级复赛20强公布</span>
+									<span class="time_sp5">复赛开始</span>
+									<span class="time_sp5">分配导师参与指导</span>
+									<span class="time_sp4">7月13日</span>
+									<span class="time_sp5">复活赛开始</span>
+									<span class="time_sp4">7月22日</span>
+									<span class="time_sp5">复赛结束</span>
+									<span class="time_sp5">晋级决赛12强公布</span>
+								</p>
+							</div> -->
+						</div>
+					</div>
+					<div class="statement">特别声明：此赛事具体活动可能会有调整，解释权归赛事组委会所有。</div>
+
+				</div>
+			</div>
+		</section>
+
+		<!--报名-->
+		<div class="applyBox">
+			<a onclick="checkJoinAndEditEndTime()">立即报名</a>
+		</div>
+
+		<footer>
+			<!--footer-->
+		</footer>
+		<script>
+			//比赛进程 进度条计算 start
+			lineCountProcess();
+
+			function lineCountProcess() {
+				var startTime = new Date("2019/6/1 00:00:00").getTime(); //开始时间
+				var nowTime = new Date().getTime(); //当前时间
+				var endTime = new Date("2019/8/3 23:59:59").getTime(); //结束时间
+				var betweenTime = endTime - startTime; //开始时间 和结束时间差
+				var curBetweenTime = nowTime - startTime; //开始时间和当前时间差
+				
+				// console.log(percentageWidth)
+				//获取6月1号的时间戳
+				var time601 = new Date("2019/6/1 00:00:00").getTime();
+				//获取7月11号的时间戳
+				var time711 = new Date("2019/7/11 00:00:00").getTime();
+				var curBetweenTime711 = nowTime - time601; //开始时间和当前时间差
+				var betweenTime711 = time711 - time601; //开始时间 和结束时间差
+				//获取7月16号时间戳
+				var time716 = new Date("2019/7/16 21:00:00").getTime();
+				var curBetweenTime716 = nowTime - time711; //开始时间和当前时间差
+				var betweenTime716 = time716 - time711; //开始时间 和结束时间差
+				//获取7月20号时间戳
+				var time720 = new Date("2019/7/20 10:00:00").getTime();
+				var curBetweenTime720 = nowTime - time716 //开始时间和当前时间差
+				var betweenTime720 = time720 - time716; //开始时间 和结束时间差
+				//获取7月27号时间戳
+				var time727 = new Date("2019/7/27 15:00:00").getTime();
+				var curBetweenTime727 = nowTime - time720 //开始时间和当前时间差
+				var betweenTime727 = time727 - time720; //开始时间 和结束时间差
+				//获取8月3号时间戳
+				var time803 = new Date("2019/8/03 23:59:59").getTime();
+				var curBetweenTime803 = nowTime - time727 //开始时间和当前时间差
+				var betweenTime803 = time803 - time727; //开始时间 和结束时间差
+
+				// 设置时间进度条
+				var percentageWidth
+				if(nowTime <= time711){
+				percentageWidth = Math.ceil(curBetweenTime711 / betweenTime711 * 100)*(0.2) //计算进度条长度所占比例
+				}else if(nowTime <= time716){
+				percentageWidth = Math.ceil(curBetweenTime716 / betweenTime716 * 100)*(0.2)+(20) //计算进度条长度所占比例
+				}else if(nowTime <= time720){
+				percentageWidth = Math.ceil(curBetweenTime720 / betweenTime720 * 100)*(0.2)+(40) //计算进度条长度所占比例
+				}else if(nowTime <= time727){
+				percentageWidth = Math.ceil(curBetweenTime727 / betweenTime727 * 100)*(0.2)+(60) //计算进度条长度所占比例
+				}else if(nowTime <= time803){
+				percentageWidth = Math.ceil(curBetweenTime803 / betweenTime803 * 100)*(0.2)+(80) //计算进度条长度所占比例
+				}
+				if (percentageWidth >= 100) {
+					percentageWidth = 100;
+				}
+				$('.position_line_red').height(percentageWidth + '%') //设置进度条长度
+				if (nowTime >= time601) {
+					$('.line_top_02').addClass('line_span_red_02');
+				}
+				if (nowTime >= time711) {
+					$('.line_top_03').addClass('line_span_red_02');
+					$('.match_center').addClass('match_duel_red')
+				}
+				if (nowTime >= time716) {
+					$('.line_top_04').addClass('line_span_red_02');
+					$('.match_end').addClass('match_duel_red')
+				}
+				if (nowTime >= time720) {
+					$('.line_top_05').addClass('line_span_red_02');
+					$('.match_end').addClass('match_duel_red')
+				}
+				if (nowTime >= time727) {
+					$('.line_top_06').addClass('line_span_red_02');
+				}
+				if (nowTime >= time803) {
+					$('.line_top_07').addClass('line_span_red_02');
+				}
+			}
+		</script>
+	</body>
+
+</html>

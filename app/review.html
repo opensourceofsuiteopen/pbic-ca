@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="default">
+		<meta name="format-detection" content="telephone=no">
+		<link rel="stylesheet" type="text/css" href="../css/comman.css" />
+		<link rel="stylesheet" type="text/css" href="../css/pageArr.css" />
+		<link rel="stylesheet" type="text/css" href="../css/weui.min.css" />
+		<link rel="stylesheet" href="../css/swiper-3.3.1.min.css" />
+		<!-- JS -->
+		<script src="../js/jquery-1.12.0.min.js"></script>
+		<script src="../js/jquery-form.js"></script>
+		<script src="../js/jqmd5.js"></script>
+		<script src="../js/sha1.js"></script>
+		<script src="../js/weui.js"></script>
+		<script src="../js/vue.min.js"></script>
+		<script type="text/javascript" src="../js/swiper-3.3.1.jquery.min.js"></script>
+		<script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+		<script src="../js/wxconfig.js"></script>
+		<script src="../js/comman.js"></script>
+		<title>往期回顾</title>
+		<script>
+			var vm;
+				
+			var voteId = getQuery('voteId'); 
+			$(function() {
+				$('.H_left').click(function(){
+					window.history.back();
+				});
+//				$("header").load("header.html");
+				$("footer").load("footer.html");
+			})
+		</script>
+		<style>
+			header {
+				max-width: 750px;
+				min-width: 320px;
+				height: 44px;
+				box-sizing: border-box;
+				margin: 0 auto;
+				position: fixed;
+				top: 0;
+				left: 0;
+				right: 0;
+				z-index: 2;
+				border-bottom:1px solid #e5e5e5;
+				background: #FFFFFF;
+			}
+			body {
+				max-width: 750px;
+				min-width: 320px;
+				margin: 0 auto;
+				color: #333;
+			}
+			
+			.myHeader {
+				height: 44px;
+				background: #e5233e;
+				padding: 0 12px;
+				border-bottom:1px solid #e5e5e5;
+			}
+			
+			.H_left {
+				display: inline-block;
+				width: 10%;
+				height: 44px;
+				float: left;
+				margin-left:12px;
+				background: url("img/imack_01.png") no-repeat left center;
+				background-size: 10px 17px;
+			}
+			
+			.H_right {
+				display: inline-block;
+				width: 80%;
+				height: 44px;
+				float: left;
+				/*background: url("img/match01-02.png") no-repeat center;*/
+				background-size: 159px 26px;
+				text-align:center;
+				line-height:44px;
+				font-size:18px;
+				color:black;
+			}
+			
+			html, body {
+			    position: relative;
+			    height: 100%;
+		    }
+		    body {
+		      background: #eee;
+		      font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+		      font-size: 14px;
+		      color:#000;
+		      margin: 0;
+		      padding: 0;
+		      background: #333333;
+		    }
+		    .wq{
+		    	width: 100%;
+		    	/*padding-top: 44px;*/
+		    	padding-bottom: 63px;
+		    	box-sizing: border-box;
+		    	position: relative;
+		    }
+		    .swiper-slide img{
+		    	display: block;
+		    	width:100%;
+		    }
+		    .swiper-pagination{
+		    	text-align: right;
+		    }
+		    .swiper-pagination-bullet{
+				width: 6px;
+				height: 6px;
+				background: #aabfda;
+				border: 1px solid #aabfda;
+			}
+			.swiper-pagination-bullet-active{
+				background: rgba(0,0,0,0);
+				border: 1px solid #e22640;
+			}
+			.swiper-container-horizontal>.swiper-pagination-bullets, .swiper-pagination-custom, .swiper-pagination-fraction{
+				bottom: 4px;
+			}
+			.page01{
+				width: 100%;
+				height: 63px;
+				background: #333333;
+				color: #FFFFFF;
+				font-size: 12px;
+				line-height: 20px;
+				padding:10px 12px 10px 72px;
+				box-sizing: border-box;
+				position: absolute;
+				bottom: 0;
+				left: 0;
+			}
+			.page01 .pageNum {
+			    position: absolute;
+			    left: 0;
+			    top: 0;
+			    width: 130px;
+			    height: 130px;
+			    margin: 0;
+			    padding: 0;
+			    background: url(../img/nums_back.png) no-repeat 30px 15px;
+				background-size: 22px;
+			}
+			.nums1 {
+			    position: absolute;
+			    top: 5px;
+			    left: 12px;
+			    font-size: 44px;
+			    line-height: 44px;
+			    color: #e5233e;
+			}
+			.nums2 {
+			    position: absolute;
+			    top: 43px;
+			    left: 43px;
+			    font-size: 21px;
+			    line-height: 21px;
+			    color: #FFFFFF;
+			}
+			.hideHead{
+				display: none;
+			}
+		</style>
+	</head>
+
+	<body id="tutor">
+		<header class="hideHead">
+			<div class="H_left"></div>
+			<div class="H_right">
+				往期回顾
+			</div>
+		</header>
+		<div class="wq">
+			 <div class="swiper-container">
+			    <div class="swiper-wrapper">
+			      <div class="swiper-slide"><img src="img/review-01.jpg"></div>
+			      <div class="swiper-slide"><img src="img/review-02.jpg"></div>
+			      <div class="swiper-slide"><img src="img/review-03.jpg"></div>
+			      <div class="swiper-slide"><img src="img/review-04.jpg"></div>
+			      <div class="swiper-slide"><img src="img/review-05.jpg"></div>
+			      <div class="swiper-slide"><img src="img/review-07.jpg"></div>
+			    </div>
+			    <!-- Add Pagination -->
+			    <div class="swiper-pagination"></div>
+			    <!-- Add Arrows -->
+			 </div>
+			 <div class="page01 clear">
+	        	<p class="pbicT">你，青春年少、爱心飞扬，有创意、有憧憬、有担当，或许你参加过商赛，参加过社会倡导，参加过公益募捐，但公益挑战则是一项全新的赛事</p>
+	    		<p class="pageNum"><span class="nums1">1</span><span class="nums2">6</span></p>
+	        </div>
+		</div>
+		<script>
+			$(function(){
+				$(".H_left").click(function(){
+					history.back();
+				})
+			})
+			var swiper = new Swiper('.swiper-container', {
+				autoplay: 6000,
+				speed: 300,
+				loop: true,
+				paginationType : 'bullets',
+				pagination : '.swiper-pagination',
+				paginationClickable: true,
+				autoplayDisableOnInteraction: false,
+				onSlideChangeStart: function(swiper) {
+					var num=swiper.activeIndex;
+		        	if(num!=1 && num!=7){
+		        		$(".pbicT").css("line-height","44px");
+		        		$(".pbicT").css("font-size","12px");
+		        		$(".pbicT").text("2017PBIC决赛现场");
+		        	}else{
+		        		$(".pbicT").css("line-height","20px");
+		        		$(".pbicT").css("font-size","12px");
+		        		$(".pbicT").text("你，青春年少、爱心飞扬，有创意、有憧憬、有担当，或许你参加过商赛，参加过社会倡导，参加过公益募捐，但公益挑战则是一项全新的赛事");
+		        	}
+		        	$(".nums1").text(num);
+					if(num==0){
+						$(".nums1").text(6);
+					}
+					if(num==7){
+		        		$(".nums1").text(1);
+		        	}
+				}
+			});
+			
+		</script>
+	</body>
+</html>
+
+
+
+

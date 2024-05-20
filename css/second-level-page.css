@@ -1,0 +1,207 @@
+/*公共样式设置 start*/
+body{
+	font-family: "Microsoft YaHei",sans-serif;
+}
+.secondPageHead{
+	width: 100%;
+	background: #333333;
+	height: 100px;
+}
+.bannerLogo{
+			margin: auto;
+		    width: 351px;
+		    height: 61px;
+		    background: url(../img/bannerLogo-01.png)no-repeat center top;
+		    cursor: pointer;
+		}
+/*公共宽度设置*/
+.publicWidthStyle{
+	width: 960px;
+	min-width: 960px;
+	margin: 0 auto;
+}
+.pubLineIcon{
+	display: inline-block;
+	width: 8px;
+	height: 40px;
+	background: #e5233e;
+	margin-bottom: -13px;
+	margin-right: 6px;
+	border:1px solid red;
+}
+/*公共样式设置 end*/
+
+/*项目介绍  start*/
+.secondPageIntroduction{
+	width: 100%;
+	/*height: 1630px;*/
+	background: #ffffff;
+}
+.introductionNav{
+	font-size: 24px;
+	color: #646262;
+	margin-top: 34px;
+
+}
+.nav_span_style{
+	font-size: 24px;
+	color: #1e1a1a;
+	/*font-family: "Microsoft YaHei",sans-serif;*/
+	
+}
+.nav_span_style a{
+	color: #e5233e;
+}
+.nav_span_style a:hover{
+	color: #e5233ede;
+}
+.intro_title_style{
+	font-size: 24px;
+	color: #1e1a1a;
+	text-align: center;
+	margin-top: 50px;
+}
+.intro_img{
+	margin: 0 auto;
+	text-align: center;
+	display: block;
+	margin-top: 45px;
+}
+.intro_txt{
+	/*font-family: "Microsoft YaHei,sans-serif";*/
+	font-size: 18px;
+	color: #333333;
+	text-indent: 2em;
+	/*margin-top: 80px;*/
+	width: 605px;
+}
+.intro_txt p{
+	line-height: 32px;
+	/*margin-top: 30px;*/
+	/*word-break:keep-all;*/
+/*white-space:nowrap;*/
+}
+.intor_p_txt{
+	width: 960px;
+	font-size: 18px;
+	margin: 0 auto;
+	margin-top: 46px;
+	line-height: 32px;
+	text-indent: 2em;
+}
+/*项目介绍 end*/
+/*策划案 start*/
+.plan_title_style{
+	width: 150px;
+	height: 30px;
+	margin: 0 auto;
+	text-align: center;
+	background: url(../img/small_title.png) center center no-repeat;
+	color: #e5233e;
+	font-size: 24px;
+	line-height: 30px;
+	font-weight: bold;
+}
+.plan_mar_01{
+	margin-top: 85px;
+	margin-bottom: 85px;
+}
+.plan_mar_02{
+	margin-top: 75px;
+	margin-bottom: 85px;
+}
+.paln_type{
+	width: 370px;
+	height: 370px;
+	position: relative;
+	line-height: 32px;
+}
+.plan_title_icon{
+	text-align: center;
+	font-size: 22px;
+	color: #333333;
+	font-weight: bold;
+}
+.plan_title_icon img{
+	height: 52px;
+}
+.plan_title_icon p{
+	margin-top: 20px;
+}
+.plan_txt{
+	font-size: 18px;
+	color: #333333;
+	margin-top: 25px;
+}
+.paln_type_left {
+	margin-left: 50px;
+	margin-right: 120px;
+}
+.paln_type_right {
+
+}
+.plan_span_pos{
+	display: block;
+	position: absolute;
+	background: #ebebeb;
+}
+.plan_span_pos_01{
+	width: 360px;
+	height: 1px;
+	left: 0px;
+	top:370px;
+}
+.plan_span_pos_02{
+	width:1px;
+	height: 195px;
+	left: 423px;
+    top: 110px;
+}
+.paln_intro_list_content{
+	padding-bottom: 180px;
+}
+.paln_intro{
+	font-size: 18px;
+	color: #333333;
+	text-indent: 2em;
+	margin-bottom: 50px;
+}
+.paln_intro_left{
+	width: 130px;
+	height: 100%;
+	
+	 /*background: #f8f8f8;*/
+	text-align: center;
+	font-size: 22px;
+	color: #333333;
+	line-height: 38px;
+}
+.paln_intro_left .paln_intro_p_blod{
+	font-weight: bold;
+	
+}
+.paln_intro_right{
+	width: 827px;
+	/*border: 1px solid #ebebeb;*/
+	border-left:1px solid #ebebeb;
+	background: #fff;
+}
+.paln_intro_con{
+	width: 770px;
+	margin: 0 auto;
+	font-size: 18px;
+	color: #333333;
+	padding: 15px 0;
+}
+.paln_intro_con p{
+	line-height: 32px;
+}
+.paln_intro_con .paln_con_span{
+	font-weight: bold;
+}
+.paln_intro_list{
+	 background: #f8f8f8;
+	 border: 1px solid #ebebeb;
+	 margin-bottom: 30px;
+}
+/*策划案 end*/

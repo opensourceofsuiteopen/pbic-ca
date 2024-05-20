@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="default">
+		<meta name="format-detection" content="telephone=no">
+		<title>更新团队信息</title>
+		<link href="../css/weui.min.css" rel="stylesheet" type="text/css">
+		<link rel="stylesheet" href="../css/swiper-3.3.1.min.css" />
+		<link rel="stylesheet" type="text/css" href="../css/comman.css" />
+		<!-- JS -->
+		<script src="../js/jquery-1.12.0.min.js"></script>
+		<script src="../js/jquery-form.js"></script>
+		<script src="../js/jqmd5.js"></script>
+		<script src="../js/sha1.js"></script>
+		<script src="../js/weui.js"></script>
+		<script src="../js/vue.min.js"></script>
+		<script src="../js/swiper-3.3.1.jquery.min.js"></script>
+		<script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+		<script src="../js/wxconfig.js"></script>
+		<script src="../js/jq-signature.js"></script>
+		<script src="../js/comman.js"></script>
+		<script type="text/javascript">
+			noloadxn=true;
+			var n=0;
+			$(function() {
+				vm=new Vue({
+					el:"#body",
+					data:{
+						totalNum:0,
+						idNum:0,
+						imgSrc:["img/apply-top-app-num1.png","img/apply-top-app-num2.png","","img/apply-top-app-num3.png"],
+						groupName: '', //团队名称
+						agreeBookurl: "", //同意书文件路径
+						teamDes: "", //团队简介
+						teamPhoto: [], //团队照片
+						teamMedia:[],//视频
+						teamPartner: [
+						{
+							userNameZh:'',
+							userNameEn:'',
+							school:'',
+							gender:"",
+							age:'',
+							tel:'',
+							email:'',
+							parentName:'',
+							parentTel:'',
+						}],
+						userNameZh:'',
+						userNameEn:'',
+						school:'',
+						gender:'',
+						age:'',
+						tel: '',
+						email:'',
+						parentName:'',
+						parentTel:'',
+						nextNum:2,
+						writeNum:1,
+						perNum:0,
+						currentNum:-1,
+						slideOne:1,
+					},
+					methods:{
+						getMyItem:function(){
+							request("CFVote", "getMyTeamInfo", {userId:userID},function(data){
+								if(data.code==0){
+									vm.idNum=data.id;
+									if(data.totalNum!=null){
+										vm.totalNum=data.totalNum;
+									}
+									var info=eval('(' + data.info+ ')');
+									vm.teamPartner=info.teamPartner;
+									vm.groupName=data.name; 
+									vm.agreeBookurl=info.agreeBookurl; 
+									vm.teamDes=info.teamDes; 
+									vm.teamPhoto=info.teamPhoto;
+									if(info.teamMedia!=null){
+										vm.teamMedia=info.teamMedia;
+									}
+								}
+							});
+						},
+						toNext:function(num){
+							vm.nextNum=num;
+							if(num==4){
+								swiper2.init();
+							}
+						},
+						toBack:function(){
+							if(vm.nextNum==4 || vm.nextNum==2){
+								vm.nextNum=2;
+							}else{
+								history.back();
+							}
+						},
+						//提交申请资料
+						addApplyfor: function() {
+							vm.teamDes=vm.teamDes.trim();
+							var des=vm.teamDes;
+							var info = {
+								agreeBookurl: vm.agreeBookurl, //同意书路径
+								teamDes: des, //团队介绍
+								teamPhoto: vm.teamPhoto, //团队照片
+								teamMedia:vm.teamMedia,  //团队视频
+								teamPartner: vm.teamPartner //报名人信息
+							}
+							//长度大于3的时候,停止循环
+							var lengths = parseInt(vm.teamPartner.length);
+							if(lengths<3){
+								showAlert("参加团队最少3个人");
+								return;
+							}
+							groupNumber = true;
+							for(var i = 0; i < lengths; i++) {
+								var nameNumber = vm.teamPartner[i];
+
+								if(!groupNumber) {
+									break;
+								}
+								for(var key in nameNumber) {
+									if(nameNumber[key] == '') {
+										groupNumber = false;
+										break;
+									} else {
+										groupNumber = true;
+									}
+								}
+							}
+							if(groupNumber && vm.groupName != '' && vm.teamDes != '' && vm.teamPhoto.length>0 && vm.agreeBookurl != '') {
+								// console.log("信息填写通过");
+								showLoad("更新中...");
+								info=JSON.stringify(info);
+								request("CFVote", "updateInfo", {
+									name: vm.groupName,
+									userId:userID
+								}, function(data) {
+									hideLoad();
+									if(data.code == 0) {
+										var voteId = data.voteId;
+										var voteIdname = voteId;
+										showAlert("更新成功，请等待审核");
+									} else {
+										showAlert("更新失败  " + data.msg);
+									}
+								}, "post", -1, {info:info});
+							} else {
+								hideLoad();
+								showAlert("请填写完整的报名信息");
+							}
+						},
+						//点击添加人员
+						toAdd:function(index){
+							vm.perNum=index;
+							vm.clearPer();
+							vm.nextNum=3;
+							vm.currentNum=-1;
+						},
+						//点击更新人员信息
+						updateNew:function(index){
+							vm.currentNum=index;
+							vm.userNameZh=vm.teamPartner[index].userNameZh;
+							vm.userNameEn=vm.teamPartner[index].userNameEn;
+							vm.school=vm.teamPartner[index].school;
+							vm.gender=vm.teamPartner[index].gender;
+							vm.age=vm.teamPartner[index].age;
+							vm.tel=vm.teamPartner[index].tel;
+							vm.email=vm.teamPartner[index].email;
+							vm.parentName=vm.teamPartner[index].parentName;
+							vm.parentTel=vm.teamPartner[index].parentTel;
+							vm.nextNum=3;
+						},
+						//增加报名人数
+						addApplaynum: function() {
+							var groupNumber=true;
+							var onePer={
+								userNameZh:vm.userNameZh.trim(),
+								userNameEn:vm.userNameEn.trim(),
+								school:vm.school.trim(),
+								gender:vm.gender,
+								age:vm.age,
+								tel:vm.tel,
+								email:vm.email.trim(),
+								parentName:vm.parentName.trim(),
+								parentTel:vm.parentTel,
+							};
+							for(var key in onePer) {
+								if(onePer[key] == '') {
+									groupNumber = false;
+									break;
+								} else {
+									groupNumber = true;
+								}
+							}
+							if(groupNumber){
+								if(vm.currentNum!=-1){
+									vm.teamPartner[vm.currentNum].userNameZh=vm.userNameZh;
+									vm.teamPartner[vm.currentNum].userNameEn=vm.userNameEn;
+									vm.teamPartner[vm.currentNum].school=vm.school;
+									vm.teamPartner[vm.currentNum].gender=vm.gender;
+									vm.teamPartner[vm.currentNum].age=vm.age;
+									vm.teamPartner[vm.currentNum].tel=vm.tel;
+									vm.teamPartner[vm.currentNum].email=vm.email;
+									vm.teamPartner[vm.currentNum].parentName=vm.parentName;
+									vm.teamPartner[vm.currentNum].parentTel=vm.parentTel;
+								}else{
+									if(vm.perNum==0){
+										vm.teamPartner[0].userNameZh=vm.userNameZh;
+										vm.teamPartner[0].userNameEn=vm.userNameEn;
+										vm.teamPartner[0].school=vm.school;
+										vm.teamPartner[0].gender=vm.gender;
+										vm.teamPartner[0].age=vm.age;
+										vm.teamPartner[0].tel=vm.tel;
+										vm.teamPartner[0].email=vm.email;
+										vm.teamPartner[0].parentName=vm.parentName;
+										vm.teamPartner[0].parentTel=vm.parentTel;
+									}else{
+										vm.teamPartner.push(onePer);
+									}
+								}
+								vm.toNext(2);
+							}else{
+								showAlert("填写信息不完整");
+							}
+						},
+						clearPer:function(){
+							vm.userNameZh='';
+							vm.userNameEn='';
+							vm.school='';
+							vm.gender='';
+							vm.age='';
+							vm.tel= '';
+							vm.email='';
+							vm.parentName='';
+							vm.parentTel='';
+						},
+						clearFirst:function(){
+							vm.teamPartner[0].userNameZh='';
+							vm.teamPartner[0].userNameEn='';
+							vm.teamPartner[0].school='';
+							vm.teamPartner[0].gender='';
+							vm.teamPartner[0].age='';
+							vm.teamPartner[0].tel= '';
+							vm.teamPartner[0].email='';
+							vm.teamPartner[0].parentName='';
+							vm.teamPartner[0].parentTel='';
+						},
+						removeTxt:function(){
+							vm.groupName='';
+						},
+						removePhoto:function(index){
+						    vm.teamPhoto.splice(index,1);
+						},
+						//删除最后一个报名人
+						deleteApply:function(index){
+							vm.teamPartner.splice(index,1);
+						},
+						//性别
+						addGender:function(numStr){
+							vm.gender=numStr;
+						},
+						clearTxts:function(n){
+							if(n==1){
+								vm.userNameZh='';
+							}else if(n==2){
+								vm.userNameEn='';
+							}else if(n==3){
+								vm.school='';
+							}else if(n==4){
+								vm.email='';
+							}else if(n==5){
+								vm.tel='';
+							}else if(n==6){
+								vm.parentName='';
+							}else if(n==7){
+								vm.parentTel='';
+							}
+						},
+						iconAge:function(){
+							if(vm.age>0){
+								vm.age=Number(vm.age)-1;
+							}else{
+								vm.age=12;
+							}
+						},
+						showPhotoBg:function(info){
+							return "url("+info+")no-repeat center center,#F2F2F2";
+						},
+					}
+				});
+				if(userID==null){
+					login(function(){
+						vm.getMyItem();
+					});
+				}else{
+					vm.getMyItem();
+				}
+				$(".addPhoto02").click(function() {
+					var nums=vm.teamPhoto.length;
+					if(nums>9 || nums==9){
+						showAlert("图片最多上传9张");
+						return;
+					}
+					if(!$(this).attr("disabled")) {
+						uploadFile(3, function(url, path) {
+							$(this).removeAttr("disabled");
+							var url = url.toLowerCase();
+							if(/\.(jpg|png|jpeg)$/.test(url)) {
+								vm.teamPhoto.push(path);
+								$("html,body").animate({
+									scrollTop: 300
+								}, 10);
+							} else {
+								showAlert('抱歉,上传文件只支持jpg,png,jpeg格式');
+							}
+						}.bind(this), function() {
+							$(this).attr("disabled", true);
+						}.bind(this))
+					}
+				});
+				//预览轮播
+				swiper2 = new Swiper('.myItem', {
+					autoplay: 5000,
+					speed: 1000,
+					loop: true,
+					autoplayDisableOnInteraction: false,
+					pagination : '.swiper-pagination',
+				  	paginationType : 'bullets',
+				  	paginationClickable: true,
+			        observer:true,//修改swiper自己或子元素时，自动初始化swiper
+					onClick: function(swiper){
+			      		vm.slideOne=swiper.activeIndex;
+						swiper1.init();
+						$(".bigSwiper").show();
+				    }
+				});
+				$(".bigSwiper").click(function(){
+					$(this).hide();
+				});
+				var swiper1 = new Swiper('.ids3_1', {
+					autoplay: 5000,
+					speed: 1000,
+					loop: true,
+					autoplayDisableOnInteraction: true,
+					pagination : '.swiper-pagination',
+				  	paginationType : 'bullets',
+				  	paginationClickable: true,
+			        observer:true,//修改swiper自己或子元素时，自动初始化swiper
+			        onInit:function(swiper){
+						swiper.slideTo(vm.slideOne);
+					}
+				});
+			});
+			//上传团队照
+				
+		</script>
+		<style>
+			html,body{
+				display: block;
+				width: 100%;
+				min-height: 100%;
+			}
+			input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+			    color: #888888; 
+			} 
+			input::-moz-placeholder { /* Mozilla Firefox 19+ */
+			    color: #888888; 
+			}
+			input:-ms-input-placeholder{
+			    color: #888888;
+			}
+			
+			input::-webkit-input-placeholder{
+			    color: #888888;
+			}
+			textarea:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+			    color: #888888; 
+			} 
+			textarea::-moz-placeholder { /* Mozilla Firefox 19+ */
+			    color: #888888; 
+			}
+			textarea:-ms-input-placeholder{
+			    color: #888888;
+			}
+			
+			textarea::-webkit-input-placeholder{
+			    color: #888888;
+			}
+			.bodyDiv02{
+				/*padding-top: 55px;*/
+				padding-top: 10px;
+				box-sizing: border-box;
+			}
+			.applay_top{
+				width: 100%;
+				height: 44px;
+				line-height: 44px;
+				font-size: 18px;
+				background: #FFFFFF;
+				padding: 0px 40px;
+				text-align: center;
+				box-sizing: border-box;
+				position: relative;
+				border-bottom: 1px solid #e5e5e5;
+				position: fixed;
+				top: 0;
+				left: 0;
+				z-index: 20;
+			}
+			.back_index{
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 43px;
+				height: 43px;
+				background: url(../img/imack_01.png) no-repeat center center;
+				background-size: 11px;
+			}
+			.applay_num{
+				width: 100%;
+				position: absolute;
+				top: 64px;
+				left: 0;
+			}
+			.applay_num .num01{
+				width: 155px;
+				display: block;
+				margin: 0 auto;
+			}
+		    .applay02{
+		    	padding: 0px 12px 60px 12px;
+		    	box-sizing: border-box;
+		    }
+		    .teamName{
+		    	height: 35px;
+		    	font-size: 16px;
+		    	padding-right: 30px;
+		    	box-sizing: border-box;
+		    	border-bottom: 1px solid #e5e5e5;
+		    	position: relative;
+		    }
+		    .removeTxt{
+		    	position: absolute;
+		    	right: 0;
+		    	width: 30px;
+		    	height: 100%;
+		    	text-align: center;
+		    	line-height: 35px;
+		    }
+		    .removeTxt img{
+		    	width: 15px;
+		    }
+		    .removeOne{
+		    	position: absolute;
+		    	right: -7px;
+		    	top:-7px;
+		    	width: 15px;
+		    	height: 15px;
+		    }
+		    .removeOne img{
+		    	width: 15px;
+		    	display: block;
+		    }
+		    .noBorder{
+		    	border: none;
+		    	outline: none;
+		    	width: 100%;
+		    	height: 33px;
+		    	font-size: 16px;
+		    }
+		    .noBorder02{
+		    	outline: none;
+		    	border: none;
+		    	height: 27px;
+		    	width: 45px;
+		    	display: block;
+		    	text-align: center;
+		    }
+		    .ageInput{
+		    	float: left;
+		    	margin-top: 3px;
+		    	width: 68px;
+		    	height: 29px;
+		    	padding: 0px 1px;
+		    	border-bottom:1px solid #E5E5E5;
+		    	border-radius: 4px;
+		    	box-sizing: border-box;
+		    	position: relative;
+		    }
+		    .teamLi{
+		    	margin-top: 20px;
+		    	width: 100%;
+		    	height: 40px;
+		    	line-height: 40px;
+		    	font-size: 15px;
+		    	color: #000000;
+		    	padding-left: 32px;
+		    	box-sizing: border-box;
+		    	position: relative;
+		    }
+		    .leftTitle{
+		    	font-size: 18px;
+		    	font-weight: bold;
+		    	position: absolute;
+		    	left: 0;
+		    	top: 0;
+		    }
+		    .leftTitle02{
+		    	font-size: 18px;
+		    	font-weight: bold;
+		    }
+		    .con_txt{
+		    	float: left;
+		    	height: 40px;
+		    	line-height: 40px;
+		    	min-width: 80px;
+		    	text-align: center;
+		    	margin-left:15px;
+		    	margin-bottom: 10px;
+		    	padding: 0px 3px;
+		    	box-sizing: border-box;
+		    	border: 1px solid #888888;
+		    	border-radius: 4px;
+		    	position: relative;
+		    }
+		    .addPer{
+		    	float: left;
+		    	height: 40px;
+		    	width: 80px;
+		    	margin-left:15px;
+		    	margin-bottom: 10px;
+		    	box-sizing: border-box;
+		    	border: 1px dashed #888888;
+		    	border-radius: 4px;
+		    	background: url(../img/add.png) no-repeat center center;
+		    	background-size: 12px;
+		    }
+		    .teamIntro{
+		    	margin-top: 22px;
+		    	border-bottom: 1px solid #e5e5e5;
+		    	box-sizing: border-box;
+		    	position: relative;
+		    }
+		    .teamIntro02{
+		    	border:none;
+		    	overflow: hidden;
+		    }
+		    .upTxt{
+		    	font-size: 16px;
+		    	position: absolute;
+		    	top: 65px;
+		    	left: 100px;
+		    	display: none;
+		    }
+		    .addIntro{
+		    	position: relative;
+		    	padding: 15px 0px 35px 0px;
+		    	box-sizing: border-box;
+		    }
+		    .txtnoBorder{
+		    	width: 100%;
+		    	height: 120px;
+		    	font-size: 15px;
+		    	line-height: 20px;
+		    	border: none;
+		    	outline: none;
+		    	resize:none;
+		    }
+		    .txtNum{
+		    	position: absolute;
+		    	right: 0;
+		    	bottom: 0;
+		    	width: 90px;
+		    	text-align: right;
+		    	font-size: 16px;
+		    	line-height: 35px;
+		    	color: #888888;
+		    	z-index: 11;
+		    }
+		    .redNum{
+		    	color: #E5233E;
+		    }
+		    .inImgList{
+				float: left;
+				width: 90px;
+				height: 90px;
+				margin-right: 15px;
+		    	margin-top: 13px;
+				position: relative;
+			}
+			.inImg{
+				width: 90px;
+				height: 90px;
+				overflow: hidden;
+				display: flex;
+				justify-content: center;
+				background: #F9F9F9;
+			}
+			.inImg img{
+				width: auto;
+				height: 100%;
+			}
+		    .addPhoto{
+		    	width: 90px;
+		    	height: 90px;
+		    	float: left;
+		    	margin-right: 15px;
+		    	margin-top: 13px;
+		    	position: relative;
+		    }
+		    .addPhoto02{
+		    	margin-right: 0px;
+		    	border: 1px dashed #888888;
+		    	box-sizing: border-box;
+		    	background: url(../img/add.png) no-repeat center center;
+		    	background-size: 12px;
+		    }
+		    .addPhoto img{
+		    	display: block;
+		    	width: 90px;
+		    }
+		    .inImgList .removePhoto{
+		    	position: absolute;
+		    	width: 15px;
+		    	top: -7px;
+		    	right: -7px;
+		    }
+		    .applay03{
+		    	padding: 0px 12px 60px 12px;
+		    	box-sizing: border-box;
+		    }
+		    .liName{
+		    	height: 35px;
+		    	line-height: 34px;
+		    	width: 100%;
+		    	margin-top: 10px;
+		    	border-bottom: 1px solid #e5e5e5;
+		    	box-sizing: border-box;
+		    	position: relative;
+		    }
+		    .liName01{
+		    	line-height: 35px;
+		    	border: none;
+		    }
+		    .setTitle{
+		    	float: left;
+		    	width: 45px;
+		    	height: 100%;
+		    	font-size: 16px;
+		    }
+		    .perThree{
+				float: left;
+				height: 100%;
+			}
+			.perFour{
+				float: right;
+				height: 100%;
+				width: 128px;
+			}
+			.perSex{
+				display: block;
+				position: relative;
+				float: left;
+				height: 100%;
+				margin-right:30px;
+				line-height: 35px;
+				padding-left: 22px;
+			}
+			.perSex01{
+				margin-right:0px;
+			}
+			.sexs{
+				display: block;
+				position: absolute;
+				height: 100%;
+				width: 20px;
+				left: 0;
+				top: 0;
+				background: url(../img/apply-icon-false.png) no-repeat left center;
+				background-size: 15px;
+			}
+			.onsel{
+				background: url(../img/apply-icon-true.png) no-repeat left center;
+				background-size: 15px;
+			}
+		    .hideDive{
+		    	display: none;
+		    }
+		    .drop_sumit{
+		    	position: fixed;
+		        bottom: 0;
+		        left: 0;
+		    	width: 100%;
+		    	height: 49px;
+		    	line-height: 49px;
+		    	text-align: center;
+		    	font-size: 16px;
+		    	font-weight: bold;
+		    	color: #FFFFFF;
+		    	background: #333333;
+		    	border: none;
+		    	outline: none;
+		    	z-index: 21;
+		    }
+		    .drop_sumit1{
+		    	width: 50%;
+		    }
+		    .drop_sumit2{
+		    	width: 50%;
+		    	right: 0;
+		    	left: auto;
+		    	background: #e5233e;
+		    	color: #FFFFFF;
+		    }
+		    .drop_sumit3{
+		    	right: 0;
+		    	left: auto;
+		    	background: #e5233e;
+		    	color: #FFFFFF;
+		    }
+		    .wordC{
+		    	width: 100%;
+		    	position: relative;
+		    }
+		    .sub_clear{
+		    	position: absolute;
+		    	right: 0;
+		    	top: 1px;
+		    	width: 40px;
+		    	height: 40px;
+		    	line-height: 40px;
+		    	text-align: center;
+		    	z-index: 22;
+		    }
+		    .sub_clear img{
+		    	width: 16px;
+		    }
+		    .applay04{
+				padding: 0px 12px;
+				box-sizing: border-box;
+			}
+			.teamTitle{
+				font-size: 16px;
+				line-height: 46px;
+				text-align: center;
+				color: #e5233e;
+			}
+			.titel_id{
+				font-size: 12px;
+				margin-top: 10px;
+				margin-bottom: 5px;
+			}
+			.titleItem{
+				font-size: 15px;
+				font-weight: bold;
+				margin-bottom:1px;
+			}
+			.titleTotal{
+				font-size: 16px;
+				color: #e5233e;
+				margin-bottom:8px;
+			}
+			.captain{
+				font-size: 12px;
+				margin-top: 1px;
+			}
+			.contItem{
+				font-size: 14px;
+				margin-top: 10px;
+			}
+		    .hideDive{
+		    	display: none;
+		    }
+			.swiper-container .swiper-wrapper .swiper-slide  {
+				width:100%;
+				height: 160px;
+				overflow: hidden;
+				text-align: center;
+				display: flex;
+				justify-content: center;
+			}
+			.swiper-slide img{
+				width: auto;
+				height: 100%;
+				flex-shrink: 0;
+			}
+		    .swiper-pagination-bullet{
+				width: 6px;
+				height: 6px;
+				background: #aabfda;
+				border: 1px solid #aabfda;
+			}
+			.swiper-pagination-bullet-active{
+				background: rgba(0,0,0,0);
+				border: 1px solid #e22640;
+			}
+			.swiper-container-horizontal>.swiper-pagination-bullets, .swiper-pagination-custom, .swiper-pagination-fraction{
+				bottom: 4px;
+			}
+			/*图片放大
+			 */
+			.bigSwiper{
+		    	display: none;
+		    }
+		    .back_gift{
+		    	position: fixed;
+			    z-index: 100;
+			    width: 100%;
+			    height: 100%;
+			    top: 0;
+			    left: 0;
+			    background: rgba(0,0,0,.6);
+		    }
+		    .no_div2{
+			    position: absolute;
+			    z-index: 101;
+			    width:100%;
+			    height: 100%;
+			    top: 50%;
+			    left: 50%;
+			    -webkit-transform: translate(-50%,-50%);
+			    transform: translate(-50%,-50%);
+			}
+			.no_div2 .swiper-container{
+				width: 100%;
+				height: 100%;
+			}
+			.no_div2 .swiper-container .swiper-wrapper .swiper-slide{
+				width: 100%;
+				height: 100%;
+				overflow-y: auto;
+				display: flex;
+				align-items:center;
+			}
+			.no_div2 img{
+				width: 100%;
+				height: auto;
+			}
+			.hideHead{
+				display: none;
+			}
+		</style>
+	</head>
+	<body id="body" class="bodyDiv02">
+		<div class="applay_top hideHead"><span class="back_index" @click="toBack"></span><p>更新团队信息</p></div>
+		<div class="applay02" v-show="nextNum==2">
+			<ul>
+				<li class="teamName">
+					<div class="removeTxt" v-show="groupName!=''" @click="removeTxt"><img src="../img/login_no.png"/></div>
+					<input class="noBorder" placeholder="团队名称" maxlength="20" v-model="groupName"/>
+				</li>
+				<li class="teamLi">
+					<div class="leftTitle">队长</div>
+					<div class="li_con clear">
+						<div class="con_txt" v-show="teamPartner[0].userNameZh!=''" @click="updateNew(0)">
+							<div class="removeOne" @click.stop="clearFirst"><img src="../img/apply-no.png"/></div>
+							<p>{{teamPartner[0].userNameZh}}</p>
+						</div>
+						<div class="addPer" @click="toAdd(0)" v-show="teamPartner[0].userNameZh==''"></div>
+					</div>
+				</li>
+				<li class="teamLi">
+					<div class="leftTitle">成员</div>
+					<div class="li_con clear">
+						<div class="con_txt" v-for="applys in teamPartner" v-if="$index>0" @click="updateNew($index)">
+							<div class="removeOne" @click.stop="deleteApply($index)"><img src="../img/apply-no.png"/></div>
+							<p>{{applys.userNameZh}}</p>
+						</div>
+						<div class="addPer" @click="toAdd(1)"></div>
+					</div>
+				</li>
+				<li class="teamIntro clear">
+					<div class="leftTitle02">团队简介</div>
+					<div class="addIntro">
+						<textarea class="txtnoBorder" placeholder="输入团队介绍" maxlength="300" v-model="teamDes"></textarea>
+						<p class="txtNum" :class="{'redNum':teamDes.length==300}">{{teamDes.length}}/300</p>
+					</div>
+				</li>
+				<li class="teamIntro teamIntro02 clear">
+					<div class="leftTitle02">团队照片</div>
+					<div class="inImgList" v-for="photo in teamPhoto">
+						<div class="inImg">
+							<img :src="photo"/>
+						</div>
+						<img class="removePhoto" src="../img/shut1.png"  @click="removePhoto($index)"/>
+					</div>
+					<div class="addPhoto addPhoto02"></div>
+					<p class="upTxt">上传中...</p>
+				</li>
+			</ul>
+			<button class="drop_sumit drop_sumit1" @click='toNext(4)'>预览</button>
+			<button class="drop_sumit drop_sumit2" @click='addApplyfor'>提交</button>
+		</div>
+		<div class="applay03" v-show="nextNum==3">
+			<ul>
+				<li class="liName">
+					<div class="removeTxt" v-show="userNameZh!=''"><img src="../img/login_no.png" @click="clearTxts(1)"/></div>
+					<input class="noBorder" placeholder="中文名" v-model="userNameZh"/>
+				</li>
+				<li class="liName">
+					<div class="removeTxt" v-show="userNameEn!=''"><img src="../img/login_no.png" @click="clearTxts(2)"/></div>
+					<input class="noBorder" placeholder="英文名" v-model="userNameEn"/>
+				</li>
+				<li class="liName liName01">
+					<div class="setTitle">性别</div>
+					<div class="perThree">
+						<span class="perSex"><b class="sexs" :class="{'onsel':gender=='1'}" @click="addGender('1')"></b>男</span><span class="perSex perSex01"><b class="sexs" :class="{'onsel':gender=='0'}" @click="addGender('0')"></b>女</span>
+					</div>
+					<div class="perFour">
+						<div class="setTitle">年龄</div>
+						<div class="li_div05">
+							<div class="ageInput">
+								<input class="noBorder02" type="number" v-model="age" maxlength="3" oninput="if(value<1){value=''} if(value.indexOf('.')!=-1){value=value.replace('.', '');} if(value>20){showAlert('年龄最大是20岁');value=20;} if(value.length>3){value=value.slice(0,3)}"/>
+							</div>
+						</div>
+					</div>
+				</li>
+				<li class="liName">
+					<div class="removeTxt" v-show="school!=''"><img src="../img/login_no.png" @click="clearTxts(3)"/></div>
+					<input class="noBorder" placeholder="学校" v-model="school"/>
+				</li>
+				<li class="liName">
+					<div class="removeTxt" v-show="email!=''"><img src="../img/login_no.png" @click="clearTxts(4)"/></div>
+					<input class="noBorder" placeholder="邮箱" v-model="email"/>
+				</li>
+				<li class="liName">
+					<div class="removeTxt" v-show="tel!=''"><img src="../img/login_no.png" @click="clearTxts(5)"/></div>
+					<input class="noBorder keyInput01" type="number" placeholder="手机号" v-model="tel" oninput="if(value.length>11)value=value.slice(0,11)"/>
+				</li>
+				<li class="liName">
+					<div class="removeTxt" v-show="parentName!=''"><img src="../img/login_no.png" @click="clearTxts(6)"/></div>
+					<input class="noBorder" placeholder="家长" v-model="parentName"/>
+				</li>
+				<li class="liName">
+					<div class="removeTxt" v-show="parentTel!=''"><img src="../img/login_no.png" @click="clearTxts(7)"/></div>
+					<input class="noBorder keyInput01" type="number" placeholder="家长手机号" v-model="parentTel" oninput="if(value.length>11)value=value.slice(0,11)"/>
+				</li>
+			</ul>
+			<button class="drop_sumit" @click="addApplaynum">保存</button>
+		</div>
+		<div class="applay04" v-show="nextNum==4">
+			<div class="teamTitle">
+				<p>团队信息</p>
+			</div>
+			<div class="contentItem">
+				<div class="swiper-container myItem">
+					<div class="swiper-wrapper">
+						<div class="swiper-slide" v-for="pohto in teamPhoto" >
+							<img :src="pohto" />
+						</div>
+					</div>
+					<div class="swiper-pagination"></div>
+				</div>
+			</div>
+			<div class="txtItem clear">
+				<p class="titel_id">编号：{{idNum}}</p>
+				<p class="titleItem">{{groupName}}</p>
+				<p class="titleTotal">票数：{{totalNum}}</p>
+				<p class="captain">队长：{{teamPartner[0].userNameZh}}</p>
+				<p class="captain">队员：<span v-for="team in teamPartner" v-if="$index>0"><i v-show="$index>1">，</i>{{team.userNameZh}}</span></p>
+				<div class="contItem">{{teamDes}}</div>
+			</div>
+			<button class="drop_sumit drop_sumit3" @click='addApplyfor'>提交</button>
+			<div class="bigSwiper">
+				<div class="back_gift"></div>
+				<div class="no_div2">
+					<div class="swiper-container ids3_1">
+						<div class="swiper-wrapper">
+							<div class="swiper-slide" v-for="pohto in teamPhoto"><img :src="pohto" /></div>
+						</div>
+						<div class="swiper-pagination"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

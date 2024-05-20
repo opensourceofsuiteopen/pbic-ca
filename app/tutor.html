@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="default">
+		<meta name="format-detection" content="telephone=no">
+		<link rel="stylesheet" type="text/css" href="../css/comman.css" />
+		<link rel="stylesheet" type="text/css" href="../css/pageArr.css" />
+		<link rel="stylesheet" type="text/css" href="../css/weui.min.css" />
+		<link rel="stylesheet" href="../css/swiper-3.3.1.min.css" />
+		<!-- JS -->
+		<script src="../js/jquery-1.12.0.min.js"></script>
+		<script src="../js/jquery-form.js"></script>
+		<script src="../js/jqmd5.js"></script>
+		<script src="../js/sha1.js"></script>
+		<script src="../js/weui.js"></script>
+		<script src="../js/vue.min.js"></script>
+		<script type="text/javascript" src="../js/swiper-3.3.1.jquery.min.js"></script>
+		<script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+		<script src="../js/wxconfig.js"></script>
+		<script src="../js/comman.js"></script>
+		<title>导师团队-</title>
+		<script>
+			var vm;
+				
+			$(function() {
+				$("footer").load("footer.html");
+				$(".back_index").click(function(){
+					history.back();
+				});
+				//选项卡01	
+				var uid = getCookie("China_Africa_UID");
+				vm = new Vue({
+					el:"#tutor",
+					data:{
+						//导师团队
+						competitionTeam: [{
+							picUrl: "../img/tutorPic/tutor_bg.png",
+							name: "Brett Gamboa",
+							university: "达特茅斯学院",
+							job:"达特茅斯学院英语语言教授",
+							intro:"研究“莎士比亚第一人”",
+							info:"研究“莎士比亚第一人”",
+						},
+						{
+							picUrl: "../img/tutorPic/tutor_jg.png",
+							name: "Jerome Game",
+							university: "哥伦比亚大学",
+							job:"哥伦比亚大学炙手可热的电影学教授",
+							intro:"剑桥大学国王学院博士",
+							info:"剑桥大学国王学院博士",
+						},
+						{
+							picUrl: "../img/tutorPic/tutor_gdc.png",
+							name: "G . Daniel Cohen",
+							university: "莱斯大学",
+							job:"莱斯大学历史系主任",
+							intro:"奥地利维也纳人类历史研究项目成员",
+							info:"奥地利维也纳人类历史研究项目成员",
+						},
+						{
+							picUrl: "../img/tutorPic/tutor_rl.png",
+							name: "Robert Lyon",
+							university: "纽约大学Stern商学院",
+							job:"纽约大学Stern商学院顶级教授",
+							intro:"曾从事出版管理，创意项目管理，商业沟通顾问自由撰稿人",
+							info:"曾从事出版管理，创意项目管理，商业沟通顾问自由撰稿人",
+						},
+						
+						{
+							picUrl: "../img/tutorPic/tutor_Catherine-Sozi.jpg",
+							name: "Catherine Sozi",
+							job: "联合国艾滋病规划署东南非21国区域代表"
+						},
+						{
+							picUrl: "../img/tutorPic/tutor_yedawei.png",
+							name: "叶大伟",
+							job: "姚基金秘书长"
+						},
+						{
+							picUrl: "../img/tutorPic/tutor_zhangyan.png",
+							name: "张琰",
+							job: "联合国儿童基金会项目官员"
+						},
+						{
+							picUrl: "../img/tutorPic/tutor_wangyalin.png",
+							name: "王亚琳",
+							job: "联合国开发计划署项目官员"
+						},
+						{
+							picUrl: "../img/tutorPic/tutor_zhengchunling.png",
+							name: "郑春玲",
+							job: "北京市最佳志愿服务组织",
+							intro: "心飞扬青少年志愿服务中心负责人",
+							info:"心飞扬青少年志愿服务中心负责人",
+						},
+						{
+							picUrl: "../img/tutorPic/tutor_lilianxing.png",
+							name: "李连星",
+							job: "清华大学对外传播研究中心中非报道项目组秘书长"
+						},
+						{
+							picUrl: "../img/tutorPic/tutor_lucuicui.png",
+							name: "卢翠翠",
+							job: "印第安纳大学Kelly商学院助理教授"
+						},
+						{
+							picUrl: "../img/tutorPic/tutor_wanggeng.png",
+							name: "王耕",
+							job: "麦肯锡咨询公司项目经理"
+						},
+						{
+							picUrl: "../img/tutorPic/tutor_manuer.png",
+							name: "Manuel Ortega",
+							job: "约翰霍普金斯大学访问学者"
+						}
+						
+						],
+					},
+					methods:{
+						
+					}
+						
+				})
+				
+			});
+		</script>
+		<style>
+			header {
+				max-width: 750px;
+				min-width: 320px;
+				margin: 0 auto;
+				position: fixed;
+				top: 0;
+				left: 0;
+				right: 0;
+				z-index: 2;
+				border-bottom:1px solid #e5e5e5;
+			}
+			body {
+				max-width: 750px;
+				min-width: 320px;
+				margin: 0 auto;
+				color: #333;
+			}
+			
+			.myHeader {
+				height: 44px;
+				background: #e5233e;
+				padding: 0 12px;
+				border-bottom:1px solid #e5e5e5;
+			}
+			
+			.H_left {
+				display: inline-block;
+				width: 10%;
+				height: 44px;
+				float: left;
+				margin-left:12px;
+				background: url("img/imack_01.png") no-repeat left center;
+				background-size: 10px 17px;
+			}
+			
+			.H_right {
+				display: inline-block;
+				width: 80%;
+				height: 44px;
+				float: left;
+				/*background: url("img/match01-02.png") no-repeat center;*/
+				background-size: 159px 26px;
+				text-align:center;
+				line-height:44px;
+				font-size:18px;
+				color:black;
+			}
+			.tutora{
+				height:100%;
+				position:absolute;
+				/*top:58px;*/
+				top: 12px;
+				left:12px;
+				right:12px;
+			}
+			.tutoraTeam{
+				position:relative;
+			}
+			.tutor{
+				width:100%;
+				position:relative;
+				float:left;
+				margin-bottom:12px;
+				overflow: hidden;
+			}
+			.tutor .tutorImg{
+				float:left;
+				width:160px;
+				height: 160px;
+				overflow: hidden;
+				/*margin-right:12px;*/ 
+			}
+			.tutor .tutorImg img{
+				width:100%;
+				
+			}
+			.tutor .tutorImg div{
+				width:100%;
+				height:100%;
+			}
+			.tutor .tutor-wrapper{
+				text-align:left;
+				width:46%;
+			}
+			.tutor .tutorName{
+				font-size:15px;
+				line-height:20px;
+				font-weight:bold;
+				text-align:left;
+				margin-bottom: 8px;
+			}
+			.tutor .tutorName span{
+				padding-bottom: 2px;
+				border-bottom:3px solid red;
+			}
+			.tutorIntroduction{
+				font-size:14px; 
+				line-height:22px !important;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            				line-height:32px;
+			}
+			.tutor-wrapper-right{
+				text-align:left;
+				font-size:15px;
+				position:absolute;
+				left:172px;
+				top:16px;
+			}
+			.applay_top{
+				width: 100%;
+				height: 44px;
+				line-height: 44px;
+				font-size: 18px;
+				background: #FFFFFF;
+				padding: 0px 40px;
+				text-align: center;
+				box-sizing: border-box;
+				position: relative;
+				border-bottom: 1px solid #e5e5e5;
+				position: fixed;
+				top: 0;
+				left: 0;
+				z-index: 20;
+			}
+			.back_index{
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 43px;
+				height: 43px;
+				background: url(../img/imack_01.png) no-repeat center center;
+				background-size: 11px;
+			}
+		</style>
+	</head>
+
+	<body id="tutor">
+		<!--<div class="applay_top"><span class="back_index"></span><p>导师团队</p></div>-->
+		<div class="tutora" >
+			<div >
+				<ul class="tutormain" >
+					<li class="tutor" v-for="competition in competitionTeam" v-if="$index<15">
+						<div class="tutorImg"><div><img v-bind:src="competition.picUrl" ></div></div>
+						<div class="tutor-wrapper-right">
+							<p class="tutorName"><span>{{competition.name}}</span></p>
+							<p class="tutorIntroduction">{{competition.job}}<br>{{competition.info}}</p>
+							<!--<p class="tutorIntroduction1">深圳讯</p>-->
+						</div>
+					</li>
+				</ul>
+			</div>
+			
+		</div>
+		<!--<footer>
+			</footer>-->
+		
+	
+	</body>
+
+</html>
+
+
+
+

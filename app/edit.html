@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="default">
+		<meta name="format-detection" content="telephone=no">
+		<link rel="stylesheet" type="text/css" href="../css/pageArr.css" />
+		<link rel="stylesheet" type="text/css" href="../css/weui.min.css" />
+		<link rel="stylesheet" href="../css/swiper-3.3.1.min.css" />
+		<link rel="stylesheet" type="text/css" href="../css/comman.css" />
+		<!-- JS -->
+		<script src="../js/jquery-1.12.0.min.js"></script>
+		<script src="../js/jquery-form.js"></script>
+		<script src="../js/jqmd5.js"></script>
+		<script src="../js/sha1.js"></script>
+		<script src="../js/weui.js"></script>
+		<script src="../js/vue.min.js"></script>
+		<script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+		<script type="text/javascript" src="../js/swiper-3.3.1.jquery.min.js"></script>
+		<script src="../js/wxconfig.js"></script>
+		<script src="../js/comman.js"></script>
+		<title>编辑项目</title>
+		<script>
+			var vm;
+			var voteId= getQuery("voteId");
+			$(function() {
+				$("footer").load("footer.html");
+				$('.H_left').click(function(){
+					if(vm.ids!=1){
+						vm.ids = 1;
+					}else{
+						window.history.back();
+					}
+				});
+				//选项卡01
+				$('.imgPic').hide();
+				var uid = getCookie("China_Africa_UID");
+				vm = new Vue({
+					el:"#edit",
+					data:{
+						keyword: "",
+						nodata: false,
+						edit_content:"",
+						teamPhoto:[],
+						ids:1,
+						upLoadImg:[],
+						voteUserId: "",//参与用户表的主键ID
+						voteId:"",
+						datae:'',
+						MyTeamInfo:'',
+						mediaData:[],
+						slideNum:1,
+					},
+					methods:{
+						  
+//						查询团队信息：
+						getMyTeamInfo: function() {
+							showLoad();
+							request("CFVote","getMyTeamInfo",{userId:userID},function(data) {
+								if(data.code==0){
+									hideLoad();
+									vm.voteId = data.id;
+									vm.datae = data;
+									vm.MyTeamInfo=data.info;//
+									vm.getMyItemInfo();
+								}else{
+									// console.log(data.msg);
+								}
+							})
+						},
+					
+						//编辑参赛项目：
+						editItem: function() {   
+							if(vm.keyword==""){
+								showAlert("项目名称不能为空");
+								return;
+							}
+							if(vm.edit_content==""){
+								showAlert("项目内容不能为空");
+								return;
+							}
+							if(vm.mediaData.length==0){
+								showAlert("项目图片不能为空");
+								return;
+							}
+							showLoad();
+							request("CFVote","editItem",{name:vm.keyword,info:vm.edit_content,mediaData:vm.mediaData,userId:userID,voteUserId:vm.voteId,},function(data){
+								hideLoad();
+								if(data.code==0){
+									window.location.href="my_team.html?voteId="+vm.voteId+"&ids="+4;
+								}else{
+									showAlert(data.msg);
+								}
+							})
+						},
+						//查询wode团队项目信息:
+						getMyItemInfo: function() {
+							showLoad();
+							request("CFVote","getMyItemInfo",{voteId:vm.voteId},function(data){
+								hideLoad();
+								if(data.code==0){
+									vm.keyword=data.name;
+									vm.edit_content = data.info;
+									if(data.mediaData!=""){
+										var md = data.mediaData.split(",");
+										for(var i=0;i<md.length;i++){
+											var obj={src:md[i]};
+											vm.mediaData.push(obj);
+										}
+									}else{
+										vm.mediaData=[];
+									}
+								}else{
+									if(data.msg=="该信息不存在"){
+										// console.log(data.msg);
+									}else{
+										showAlert(data.msg);
+									}
+								}
+							})
+						},
+						shut: function(){
+							vm.keyword="";
+						},
+						shutImg: function(a) {
+							vm.mediaData.splice(a,1);
+						},
+						preview: function(){
+							vm.ids=2;
+						},
+						publice: function() {
+							vm.editItem();
+						},
+						bac: function() {
+							vm.ids=1;
+						},
+						showBig:function(src,index){
+							vm.slideNum=Number(index+1);
+							swiper2.init();
+							$(".noGift").show();
+						},
+					}
+				})
+				if(userID!=null){
+					vm.getMyTeamInfo();
+				}else{
+					login(function(){
+						vm.getMyTeamInfo();
+					});
+				}
+				//上传照片
+				$(".upLoad").click(function(){
+					var nums=vm.mediaData.length;
+					if(nums>9 || nums==9){
+						showAlert("图片最多上传9张");
+						return;
+					}
+					if(!$(this).attr("disabled")){
+	                    uploadFile(3, function(url,path) {
+	                        $(this).removeAttr("disabled");
+	                        var url = url.toLowerCase();
+	                        var paths = path;
+	                        if(/\.(jpg|png|jpeg)$/.test(url)) {
+								vm.mediaData.push(path);
+	                        }else{
+	                            showAlert('抱歉,上传文件只支持jpg,png,jpeg格式');
+	                        }
+	                    }.bind(this), function(){
+	                        $(this).attr("disabled", true)
+	                    }.bind(this))
+	                }
+				})//上传结束
+				$(".noGift").click(function(){
+					$(this).hide();
+				});
+				swiper2 = new Swiper('.ids2', {
+					autoplay: 5000,
+					speed: 1000,
+					loop: true,
+					autoplayDisableOnInteraction: true,
+					pagination : '.swiper-pagination',
+				  	paginationType : 'bullets',
+				  	paginationClickable: true,
+			        observer:true,//修改swiper自己或子元素时，自动初始化swiper
+					onInit:function(swiper){
+						swiper.slideTo(vm.slideNum);
+					}
+				});
+				
+			});
+		</script>
+		<style>
+			.imgbox{
+				width:50%;
+				text-align:center;
+				margin:0px auto;
+			}
+			#path{
+				display:inline-block;
+				width:100%;
+				text-align:center;
+				margin:0px auto;
+			}
+			header {
+				max-width: 750px;
+				min-width: 320px;
+				margin: 0 auto;
+				position: fixed;
+				top: 0;
+				left: 0;
+				right: 0;
+				z-index: 2;
+				background: #FFFFFF;
+				border-bottom:1px solid #e5e5e5;
+			}
+		
+			.H_left {
+				display: inline-block;
+				width: 10%;
+				height: 44px;
+				float: left;
+				margin-left:12px;
+				background: url("img/imack_01.png") no-repeat left center;
+				background-size: 10px 17px;
+			}
+			
+			.H_right {
+				display: inline-block;
+				width: 80%;
+				height: 44px;
+				float: left;
+				background-size: 159px 26px;
+				text-align:center;
+				line-height:44px;
+				font-size:18px;
+				color:#333333;
+			}
+			.H-head{
+				max-width: 750px;
+				min-width: 320px;
+				margin: 0 auto;
+				position: fixed;
+				top: 0;
+				left: 0;
+				right: 0;
+				z-index: 2;
+				background: #FFFFFF;
+				border-bottom:1px solid #e5e5e5;
+			}
+		
+			.H-head .H_left {
+				display: inline-block;
+				width: 10%;
+				height: 44px;
+				float: left;
+				margin-left:12px;
+				background: url("img/imack_01.png") no-repeat left center;
+				background-size: 10px 17px;
+			}
+			
+			.H-head .H_right {
+				display: inline-block;
+				width: 80%;
+				height: 44px;
+				float: left;
+				background-size: 159px 26px;
+				text-align:center;
+				line-height:44px;
+				font-size:18px;
+				color:#333333;
+			}
+			.changeLanguageDiv {
+				position: relative;
+				float: right;
+				height: 100%;
+				right: 5px;
+			}
+			
+			.changeLanguage {
+				color: #FFFFFF;
+				text-decoration: underline;
+				font-size: 12px;
+				line-height: 44px;
+			}
+			/*button*/
+			.button{
+				width:100%;
+				height:40px;
+				border: none;
+				font-size: 18px;
+				
+				margin-top:46px;
+			}
+			.button-footer{
+				width:100%;
+				height:49px;
+				border: none;
+				position:fixed;
+				bottom:0;
+				margin-top:46px;
+			}
+			.button-footer .signupBtn {
+				background-color: #E5233E;
+				width:50%;	
+				height:100%;
+				box-sizing:border-box;
+				float:right;
+				border: none;
+				display:block;
+				color: #FFFFFF;
+				font-size: 16px;
+			}
+			.button-footer .signupBtn-left {
+				background-color: #333;
+				width:50%;
+				height:100%;
+				box-sizing:border-box;
+				float:left;
+				border: none;
+				display:block;
+				color: #FFFFFF;
+				font-size: 16px;
+			}
+					
+			.signupBtn {
+				background-color: #fff;
+				width:50%;	
+				height:40px;
+				box-sizing:border-box;
+				float:right;
+				border: none;
+				display:block;
+				color: #333333;
+			}
+			.signupBtn-left {
+				background-color: #fff;
+				width:50%;
+				height:40px;
+				box-sizing:border-box;
+				float:left;
+				border: none;
+				display:block;
+				font-weight:bold;
+				color:#e5233e
+			}
+			.content{
+				position:relative;
+				padding: 0px 15px;
+				padding-bottom: 50px;
+				box-sizing:border-box;
+				overflow: hidden;
+			}	
+			.content>img{
+				width:100%;
+				height:160px;
+				border:1px solid red;
+			}
+			.content .number{
+				font-size:12px;
+				line-height:32px;
+				color:#333;
+			}
+			.content p:nth-child(2){
+				font-size:15px;			
+				color:#333333;
+				font-weight:bold;
+			}
+			.content p:nth-child(3){
+				font-size:13px;			
+				color:#e5233e;
+				line-height:30px;
+			}
+			.content p:nth-child(4),.content p:nth-child(5){
+				font-size:12px;			
+				color:#333333;
+				line-height:16px;
+			}
+			.content .main{
+				font-size:13px;			
+				color:#333333;
+				height:153px;
+				line-height:20px;
+				margin-top:6px;
+				padding-top:3.6px;
+				border-bottom:1px solid #eee;
+				position:relative
+			}
+			.content .main .txt{
+				border:none;
+			    width: 100%;
+			    height: 126px;
+			    line-height: 25px;
+			    color:#333333;
+			    outline: none;
+			    font-size: 16px;
+			    padding: 7px 0px 0px 0px;
+			    box-sizing: border-box;
+			    position: relative;
+			    resize:none;
+			}
+			.content .main .redNum{
+				color:#E5233E ;
+			}
+			.upLoadImg{
+				width:100%;
+				height:96px;
+				margin:16px auto;
+			}
+			.upLoadImg>div{
+				float:left;
+			}
+			.upLoadImg .upImg{
+				width:90px;
+				height:90px;
+				background:#F2F2F2;
+				position:relative;
+				margin-right:12px;
+			}
+			.upLoadImg .upImg .divImg{
+				width: 100%;
+				height: 100%;
+				display: flex;
+				overflow: hidden;
+    			justify-content: center;
+			}
+			.upLoadUl .upImg img{
+				width: auto;
+			    height: 96px;
+			    flex-shrink: 0;
+			}
+			.upLoadImg .upImg .removeImg{
+				width:16px;
+				height:16px;
+				background:url('img/shut1.png')no-repeat 0 0;
+				background-size:cover;
+				position:absolute;
+				right:-8px;
+				top:-8px;
+			}
+			.upLoadImg .upLoad{
+				width:90px;
+				height:90px;
+				box-sizing:border-box;
+				background:url('img/add.png')no-repeat center center;
+				background-size:13px 13px;
+				border:1px dashed #cbcbcb;
+			}
+			.itemName{
+				width:100%;
+				height:46px;
+				padding:0 15px; 
+				position:relative;
+				/*margin-top:46px;*/
+				box-sizing:border-box;
+			}
+			.itemName>span{
+				width:10%;
+				height:100%;display:block;
+				background:url('img/shut2.png')no-repeat right center;
+				background-size:17px 17px;
+				position:absolute;
+				right:12px;
+				z-index:0;
+			}
+			.itemName input{
+				font-size:16px;
+				line-height:36px;
+				width:100%;
+				height:100%;
+				border:0 none;
+				border-bottom:1px solid #eee;
+				caret-color:red;
+				outline:none;
+				box-sizing: border-box;
+			}
+			.input_in{
+				position: absolute;
+				bottom: 2px;
+				right: 0px;
+				color: #888;
+			}   
+			/*button*/
+			.buttonItem{
+				width:100%;
+				height:40px;
+				border: none;
+				/*margin-top:46px;*/
+				position: relative;
+			}
+			.buttonItem b{
+				display: block;
+				position: absolute;
+				top: 13px;
+				left: 50%;
+				width: 2px;
+				height: 14px;
+				border-left: 1px solid #bebebe;
+			}
+			.button-footerItem .signupBtn-centerItem {
+				background-color: #E5233E;
+				width:100%;	
+				height:49px;
+				box-sizing:border-box;
+				margin:0 auto;
+				border: none;
+				display:block;
+				position:fixed;
+				bottom:0;
+				left: 0;
+				font-size: 16px;
+				color: #FFFFFF;
+			}
+			.button-footerItem .signupBtn-left {
+				background-color: #333;
+				width:50%;
+				height:40px;
+				box-sizing:border-box;
+				float:left;
+				border: none;
+				display:block;
+				color: #FFFFFF;
+			}
+					
+			.signupBtnItem {
+				background-color: #fff;
+				width:50%;	
+				height:40px;
+				box-sizing:border-box;
+				float:right;
+				border: none;
+				display:block;
+				font-size: 16px;
+				color:#e5233e;
+				font-weight:bold;
+			}
+			.signupBtn-leftItem {
+				background-color: #fff;
+				width:50%;
+				height:40px;
+				box-sizing:border-box;
+				float:left;
+				border: none;
+				display:block;
+				font-size: 16px;
+			}
+			.button-footerItem{
+				width:100%;
+				height:40px;
+				border: none;
+				font-size: 18px;
+				position:relative;
+				bottom:0;
+				margin-top:96px;
+			}
+			.contentItem{
+				position:relative;
+				min-height: 1px;
+				width:246px;
+				box-sizing:border-box;
+				text-align:center;
+				margin:16px auto;
+				overflow: hidden;
+			}	
+			.contentItem .imgUp{
+				width:76px;
+				height:76px;
+				float:left;
+				overflow: hidden;
+				margin:3px 3px;
+				display: flex;
+				justify-content: center;
+			}
+			.contentItem .imgUp img{
+				width: auto;
+				height: 76px;
+				flex-shrink: 0;
+			}
+		
+			.txtItem{
+				width:100%;
+				margin:0 auto;
+				box-sizing:border-box;
+				position:relative;
+			}
+			.txtItem .titleItem{
+				width:100%;
+				text-align:center;
+				font-size:18px;
+				line-height:28px;
+				margin-bottom: 3px;
+			}
+			.txtItem .contItem{
+				width:100%;
+				padding-left:12px;
+				padding-right:12px;
+				font-size:14px;
+				margin:0 auto;
+				line-height:18px;
+				box-sizing:border-box;
+			}
+			.upLoadUl>li {
+				float:left;
+				margin-right:12px;
+				margin-bottom:12px;
+			}
+			.swiper-container {
+				height:100%;
+			}
+			/*图片放大
+			 */
+			.noGift{
+		    	display: none;
+		    }
+		    .back_gift{
+		    	position: fixed;
+			    z-index: 102;
+			    width: 100%;
+			    height: 100%;
+			    top: 0;
+			    left: 0;
+			    background: rgba(0,0,0,.6);
+		    }
+		    .no_div{
+			    position: absolute;
+			    z-index: 103;
+			    width:100%;
+			    height: 100%;
+			    top: 50%;
+			    left: 50%;
+			    -webkit-transform: translate(-50%,-50%);
+			    transform: translate(-50%,-50%);
+			}
+			.no_div .swiper-slide{
+				width: 100%;
+				height: 100%;
+				overflow-y: auto;
+				display: flex;
+				align-items:center;
+			}
+			.no_div img{
+				width: 100%;
+				height: auto;
+			}
+			.no_div .swiper-pagination-bullet{
+				width: 6px;
+				height: 6px;
+				background: #aabfda;
+				border: 1px solid #aabfda;
+			}
+			.no_div .swiper-pagination-bullet-active{
+				background: rgba(0,0,0,0);
+				border: 1px solid #e22640;
+			}
+			.no_div .swiper-container-horizontal>.swiper-pagination-bullets, .swiper-pagination-custom, .swiper-pagination-fraction{
+				bottom: 4px;
+			}
+			.hideHead{
+				display: none;
+			}
+		</style>
+	</head>
+	<body id="edit">
+		<div v-show="ids==1">
+			<header class="hideHead">
+				<div class="H_left"></div>
+				<div class="H_right">
+					编辑项目
+				</div>
+			</header>
+			<div class="itemName">
+				<span @click="shut()" v-show="keyword!=''">&nbsp;&nbsp;</span>
+				<input type="text" placeholder="输入项目名称"  v-model="keyword">
+			</div>
+			<div class="content">
+				<div class="info" >
+					<div class="main">
+						<textarea  maxLength='200' v-model="edit_content" placeholder="输入项目内容" class="txt">
+							
+						</textarea>
+						<span class="input_in" :class="{'redNum':edit_content.length==200}">{{edit_content.length}}/200字</span>
+					</div>
+					<div class="upLoadImg">
+						<ul class="upLoadUl">
+							<li class="upImg" v-for="upLImg in mediaData">
+								<div class="divImg"><img :src="upLImg.src" ></div>
+								<div class="removeImg" @click="shutImg($index)"></div>
+							</li>
+							<li class="upLoadLi">
+								<div  class="upLoad" >	
+								</div>
+							<li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="button-footer">
+				<button class="signupBtn-left" @click="preview()">预览</button></button>
+				<button class="signupBtn" @click="publice()" >发布</button>
+			</div>
+		</div>
+		<div v-show="ids==2">
+			<div class="H-head hideHead">
+				<div class="H_left"></div>
+				<div class="H_right">
+					{{datae.name}}
+				</div>
+			</div>
+			<div class="buttonItem">
+				<b></b>
+				<button class="signupBtn-leftItem" onclick="javascript:{window.location.href='my_team.html?ids='+3}">团队信息</button>
+				<button class="signupBtnItem">参赛项目</button>
+			</div>
+			<div class="contentItem" v-show="mediaData.length>0">
+				<div class="imgUp" v-for="upLImg in mediaData" @click="showBig(upLImg,$index)">
+					<img :src="upLImg.src">
+				</div>
+			</div>
+			<div class="txtItem">
+				<div class="titleItem">{{keyword}}  </div>
+				<div class="contItem">{{edit_content}} </div>
+			</div>
+			<div class="button-footerItem">
+				<button class="signupBtn-centerItem" @click="publice()"  >发布</button>
+			</div>
+			<div class="noGift">
+				<div class="back_gift"></div>
+				<div class="no_div">
+					<div class="swiper-container ids2">
+						<div class="swiper-wrapper">
+							<div class="swiper-slide" v-for="info in mediaData"><img :src="info.src" /></div>
+						</div>
+						<div class="swiper-pagination"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+
+</html>
+

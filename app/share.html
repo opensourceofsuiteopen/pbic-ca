@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="default">
+		<meta name="format-detection" content="telephone=no">
+		<link rel="stylesheet" type="text/css" href="../css/comman.css" />
+		<link rel="stylesheet" type="text/css" href="../css/pageArr.css" />
+		<link rel="stylesheet" type="text/css" href="../css/weui.min.css" />
+		<link rel="stylesheet" href="../css/swiper-3.3.1.min.css" />
+		<!-- JS -->
+		<script src="../js/jquery-1.12.0.min.js"></script>
+		<script src="../js/jquery-form.js"></script>
+		<script src="../js/jqmd5.js"></script>
+		<script src="../js/sha1.js"></script>
+		<script src="../js/weui.js"></script>
+		<script src="../js/vue.min.js"></script>
+		<script type="text/javascript" src="../js/swiper-3.3.1.jquery.min.js"></script>
+		<script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+		<script src="../js/wxconfig.js"></script>
+		<script src="../js/comman.js"></script>
+		<title>团队信息</title>
+		<script>
+			AppId = "wx208c001297a2f701";
+			baseShareURL = "http://www.pbic.com/";
+			var voteId = getQuery('voteId');
+			var shareURL = baseShareURL + "app/share.html?voteId="+voteId;
+			var shareIcon = baseShareURL + "app/img/congratulalions.png";
+			var shareTitle = "PBIC投票活动";
+			var shareDes = "PBIC团队投票。";
+//
+			openId =getCookie("openId");
+			unionId = getCookie("unionId");
+			jsapiTicket = getCookie("jsapiTicket");
+			accessToken = getCookie("accessToken");
+			wxName = getCookie("wxName");
+			wxPicurl = getCookie("wxPicurl");
+			
+	        if(is_weixn()) {
+	            var reaurl = "share.html?voteId="+voteId;
+	            useWX(reaurl, 0);
+	        }
+
+			function onWXReady() {
+				wxShare(
+					shareURL,
+					shareIcon,
+					shareTitle,
+					shareDes,
+					function() {
+						_hmt.push(['_trackEvent', "PBIC投票", "分享到朋友圈", wxName, 2]);
+					},
+					function() {
+						_hmt.push(['_trackEvent', "PBIC投票", "发送给好友", wxName, 1]);
+					}
+				);
+			}
+			var vm;
+			var voteId = getQuery('voteId');
+			$(function() {
+				$('.H_left').click(function(){
+					window.history.back();
+				});
+//				$("header").load("header.html");
+				$("footer").load("footer.html");
+
+				//选项卡01	
+				var uid = getCookie("China_Africa_UID");
+				vm = new Vue({
+					el:"#help",
+					data:{
+						keyword: "",
+						ids:3,
+						name:'',
+						info:'',
+						toast:0,
+						MyTeamInfo:'',
+						serail:'',
+						count:0,
+						datae:'',
+						editt:false,
+						teamPhoto:'',
+						medieInfo:[],
+						leader:'',
+						slideNum:1,
+					},
+					methods:{
+						//查询团队项目信息:
+						getMyItemInfo: function() {
+							showLoad();
+							request("CFVote","getMyItemInfo",{voteId:voteId},function(data){
+								hideLoad();
+								if(data.code==0){
+									vm.keyword=data.name;
+									vm.info = data.info;
+									if(data.mediaData!=""){
+										var md = data.mediaData.split(",");
+										for(var i=0;i<md.length;i++){
+											var obj={src:md[i]};
+											vm.medieInfo.push(obj);
+										}
+									}else{
+										vm.mediaInfo=[];
+									}
+								}else{
+									// console.log(data.msg);
+								}
+							})
+						},
+						
+						//获取团队信息：
+						getMyTeamInfo: function() {
+							showLoad();
+							request("CFVote","showMeVoteInfo",{voteId:voteId},function(data) {
+								hideLoad();
+								if(data.code==0){
+									vm.datae = data;
+									vm.count = data.count;
+									vm.serail = data.voteId;
+									vm.MyTeamInfo=eval('(' + data.info+ ')');
+									vm.leader=vm.MyTeamInfo.teamPartner[0].userNameZh;
+									setTimeout(setSwip,200);
+									shareIcon = vm.MyTeamInfo.teamPhoto[0];
+									shareTitle = "PBIC投票";
+									shareDes = `我们是${data.name}团队，请为我们投出您手中宝贵的一票吧！`;
+								}else{
+									// console.log(data.msg);
+								}
+							})
+						},
+						getUserName: function(aaa){
+							var a = "";
+							if(aaa==undefined){
+								return " ";
+							}else{
+								for(var i =1;i<aaa.length;i++){
+									if(i!=aaa.length-1){
+										a += aaa[i].userNameZh+"，";
+									}else{
+										a += aaa[i].userNameZh;
+									}
+								}
+								return a;
+							}
+						},
+						goItem: function() {
+							vm.ids=4;
+						},
+						toeditt: function() {
+							vm.editt=true;
+						},
+						goPartner: function() {
+							vm.ids=3;
+						},
+						showBig:function(src,index){
+							vm.slideNum=Number(index+1);
+							swiper2.init();
+							$(".noGift").show();
+						}
+					}
+				})
+			
+				vm.getMyTeamInfo();
+				vm.getMyItemInfo();
+				$(".noGift").click(function(){
+					$(this).hide();
+				});
+				swiper2 = new Swiper('.ids4', {
+					autoplay: 5000,
+					speed: 1000,
+					loop: true,
+					autoplayDisableOnInteraction: true,
+					pagination : '.swiper-pagination',
+				  	paginationType : 'bullets',
+				  	paginationClickable: true,
+			        observer:true,//修改swiper自己或子元素时，自动初始化swiper
+					onInit:function(swiper){
+						swiper.slideTo(vm.slideNum);
+					}
+				});
+			});
+			function setSwip(){
+				swiper = new Swiper('.ids3', {
+							autoplay: 5000,
+							speed: 1000,
+							loop: true,
+							autoplayDisableOnInteraction: false,
+							pagination : '.swiper-pagination',
+						  	paginationType : 'bullets',
+						  	paginationClickable: true,
+					        observer:true,//修改swiper自己或子元素时，自动初始化swiper
+				});
+			}
+		</script>
+		<style>
+			header {
+				max-width: 750px;
+				min-width: 320px;
+				margin: 0 auto;
+				position: fixed;
+				top: 0;
+				left: 0;
+				right: 0;
+				z-index: 2;
+				background: #FFFFFF;
+				border-bottom:1px solid #e5e5e5;
+			}
+			body {
+				max-width: 750px;
+				min-width: 320px;
+				margin: 0 auto;
+				color: #333;
+			}
+			
+			.myHeader {
+				height: 44px;
+				background: #e5233e;
+				padding: 0 12px;
+				border-bottom:1px solid #e5e5e5;
+			}
+			
+			.H_left {
+				display: inline-block;
+				width: 10%;
+				height: 44px;
+				float: left;
+				margin-left:12px;
+				background: url("img/imack_01.png") no-repeat left center;
+				background-size: 10px 17px;
+			}
+			
+			.H_right {
+				display: inline-block;
+				width: 80%;
+				height: 44px;
+				float: left;
+				background-size: 159px 26px;
+				text-align:center;
+				line-height:44px;
+				font-size:18px;
+				color:#333333;
+			}
+			
+			.changeLanguageDiv {
+				position: relative;
+				float: right;
+				height: 100%;
+				right: 5px;
+			}
+			
+			.changeLanguage {
+				color: #FFFFFF;
+				text-decoration: underline;
+				font-size: 12px;
+				line-height: 44px;
+			}
+			/*button*/
+			.button{
+				width:100%;
+				height:40px;
+				border: none;
+				font-size: 18px;
+				
+				margin-top:46px;
+			}
+			.button-footer{
+				width:100%;
+				height:40px;
+				border: none;
+				font-size: 18px;
+				position:fixed;
+				bottom:0;
+				
+				margin-top:46px;
+			}
+			.button-footer .signupBtn {
+				background-color: #E5233E;
+				width:50%;	
+				height:40px;
+				box-sizing:border-box;
+				float:right;
+				border: none;
+				display:block;
+				color: #FFFFFF;
+			}
+			.button-footer .signupBtn-left {
+				background-color: #333;
+				width:50%;
+				height:40px;
+				box-sizing:border-box;
+				float:left;
+				border: none;
+				display:block;
+				color: #FFFFFF;
+				
+			}
+					
+			.signupBtn {
+				background-color: #fff;
+				width:50%;	
+				height:40px;
+				box-sizing:border-box;
+				float:right;
+				border: none;
+				display:block;
+				color: #333333;
+			}
+			.signupBtn-left {
+				background-color: #fff;
+				width:50%;
+				height:40px;
+				box-sizing:border-box;
+				float:left;
+				border: none;
+				display:block;
+				font-weight:bold;
+				color:#e5233e
+			}
+			.content{
+				position:absolute;
+				left:12px;
+				right:12px;
+				box-sizing:border-box;
+				
+			}	
+			.content .swiper-container{
+				width:100%;
+				height:160px;
+			}
+			.content .swiper-container .swiper-wrapper {
+				width:100%;
+			}
+			.content .swiper-container .swiper-wrapper .swiper-slide  {
+				width:100%;
+				height: 160px;
+				overflow: hidden;
+				text-align: center;
+				display: flex;
+				justify-content: center;
+			}
+			.content .swiper-container .swiper-wrapper .swiper-slide img{
+				width: auto;
+				height: 100%;
+				flex-shrink: 0;
+			}
+			.content .number{
+				font-size:12px;
+				line-height:26px;
+				color:#333;
+			}
+			.content .editrow{
+				font-size:16px;			
+				color:#000;
+				height:26px;
+				font-weight:bold;
+				line-height:26px;
+				position:relative; 
+			}
+			.content .editrow input {
+				border:0 none;
+				font-size:16px;			
+				color:#000;
+				font-weight:bold;
+				height:26px;
+				line-height:26px;
+				color:#000;
+				width:86%;
+				float:left;
+				position:relative; 
+			}
+			.content .p_01{
+				font-size: 16px;
+				color: #e5233e;
+				margin-bottom: 3px;
+			}
+			.content .p_02,.content .p_03{
+				font-size: 12px;
+			}
+			.content .main{
+				font-size:14px;			
+				color:#000;
+				line-height:20px;
+				margin-top:6px;
+				padding-top:3.6px;
+			}
+			.upLoadImg{
+				width:100%;
+				height:96px;
+				margin:16px auto;
+			}
+			.upLoadImg>div{
+				float:left;
+			}
+			.upLoadImg .upImg{
+				width:96px;
+				height:96px;
+				background:#333333;
+				position:relative;
+				margin-right:16px;
+			}
+			.upLoadImg .upImg>div{
+				width:16px;
+				height:16px;
+				background:url('./img/shut1.png')no-repeat 0 0;
+				background-size:cover;
+				position:absolute;
+				right:-8px;
+				top:-8px;
+			}
+			.upLoadImg .upImg img{
+				width:96px;
+				height:96px;
+			}
+			.upLoadImg .upLoad{
+				width:96px;
+				height:96px;
+				box-sizing:border-box;
+				background:url('./img/camera.png')no-repeat center center;
+				background-size:27px 23px;
+				border:1px dashed #cbcbcb;
+			}
+			/*/item*/
+			/*button*/
+			.buttonH{
+				width:100%;
+				height:40px;
+				border: none;
+				/*margin-top:46px;*/
+				position: relative;
+			}
+			.buttonH b{
+				display: block;
+				position: absolute;
+				top: 13px;
+				left: 50%;
+				width: 2px;
+				height: 14px;
+				border-left: 1px solid #bebebe;
+			}
+			.buttonH .btnActive{
+				color: #e5233e;
+				font-weight: bold;
+			}
+			.button-footerH{
+				width:100%;
+				height:40px;
+				border: none;
+				font-size: 16px;
+				position:fixed;
+				bottom:0;
+				margin-top:46px;
+			}
+			.button-footerH .signupBtnH {
+				background-color: #E5233E;
+				width:50%;	
+				height:40px;
+				box-sizing:border-box;
+				float:right;
+				border: none;
+				display:block;
+				color: #FFFFFF;
+			}
+			.button-footerH .signupBtn-leftH {
+				background-color: #333;
+				width:50%;
+				height:40px;
+				box-sizing:border-box;
+				float:left;
+				border: none;
+				display:block;
+				color: #FFFFFF;
+				
+			}
+			.signupBtnH {
+				background-color: #fff;
+				width:50%;	
+				height:40px;
+				box-sizing:border-box;
+				float:right;
+				border: none;
+				display:block;
+				font-size: 16px;
+			}
+			.signupBtn-leftH {
+				background-color: #fff;
+				width:50%;
+				height:40px;
+				box-sizing:border-box;
+				float:left;
+				border: none;
+				display:block;
+				color: #333333;
+				font-size: 16px;
+			}
+			.contentH{
+				position:relative;
+				height:246px;
+				width:246px;
+				box-sizing:border-box;
+				text-align:center;
+				margin:16px auto;
+			}	
+			.contentH div{
+				width:76px;
+				height:76px;
+				margin: 3px;
+				float:left;
+				background: #F9F9F9;
+				overflow: hidden;
+				text-align: center;
+				display: flex;
+				justify-content: center;
+			}
+			.contentH div img{
+				width: auto;
+				height: 76px;
+				flex-shrink: 0;
+			}
+			.txtH{
+				width:100%;
+				margin:0 auto;
+				box-sizing:border-box;
+				margin:0 auto;
+			}
+			.txtH .titleH{
+				width:100%;
+				text-align:center;
+				font-size:18px;
+				line-height:28px;
+			}
+			.txtH .contH{
+				width:100%;
+				padding-left:12px;
+				padding-right:12px;
+				font-size:15px;
+				margin:0 auto;
+				line-height:18px;
+				margin-top: 3px;
+				box-sizing:border-box;
+			}
+			.editName{
+				width:100px;
+				position:absolute;
+				right:0;
+				top:0;
+				height:26px;
+				background:url('./img/edit.png')no-repeat right center;
+				background-size:22px 18.5px;
+				float:right;
+			}
+			.swiper-container {
+				height:100%;
+			}
+			.swiper-pagination-bullet{
+				width: 6px;
+				height: 6px;
+				background: #aabfda;
+				border: 1px solid #aabfda;
+			}
+			.swiper-pagination-bullet-active{
+				background: rgba(0,0,0,0);
+				border: 1px solid #e22640;
+			}
+			.swiper-container-horizontal>.swiper-pagination-bullets, .swiper-pagination-custom, .swiper-pagination-fraction{
+				bottom: 4px;
+			}
+			.myQR{
+				margin:0 auto;
+				text-align:center;
+				font-size:20px;
+				line-height:32px;
+				width:80%;
+				font-weight:bold;
+				color:#e5233e;
+				margin-top:66px;
+			}
+			.myQR p{
+				font-size:15px;
+				line-height:16px;
+			}
+			.myQR>img{
+				width:96px;
+				margin: 30px;
+			}
+		    /*图片放大
+			 */
+			.noGift{
+		    	display: none;
+		    }
+		    .back_gift{
+		    	position: fixed;
+			    z-index: 100;
+			    width: 100%;
+			    height: 100%;
+			    top: 0;
+			    left: 0;
+			    background: rgba(0,0,0,.6);
+		    }
+		    .no_div{
+			    position: absolute;
+			    z-index: 101;
+			    width:100%;
+			    height: 100%;
+			    top: 50%;
+			    left: 50%;
+			    -webkit-transform: translate(-50%,-50%);
+			    transform: translate(-50%,-50%);
+			}
+		    .no_div .swiper-slide{
+				width: 100%;
+				height: 100%;
+				overflow-y: auto;
+				display: flex;
+				align-items:center;
+			}
+			.no_div img{
+				width: 100%;
+				height: auto;
+			}
+			.hideHead{
+				display: none;
+			}
+		</style>
+	</head>
+
+	<body id="help">
+		<header class="hideHead">
+			<div class="H_left"></div>
+			<div class="H_right">
+				{{datae.name}}
+			</div>
+		</header>
+		<div class="buttonH">
+			<b></b>
+			<button class="signupBtn-leftH" :class="{'btnActive':ids==3}" @click="goPartner()">团队信息</button>
+			<button class="signupBtnH" :class="{'btnActive':ids==4}" @click="goItem()">参赛项目</button>
+		</div>
+		<div v-show="ids==3">
+			<div class="content">
+				<div class="swiper-container ids3">
+					<div class="swiper-wrapper" >
+						<div class="swiper-slide" v-for="MyTeam in MyTeamInfo.teamPhoto"><img :src="MyTeam"></div>
+					</div>
+					<div class="swiper-pagination"></div>
+				</div>
+				
+				<div class="info">
+					<p class="number">编号：{{serail}}</p>
+					<div class="editrow" >{{datae.name}}  </div>
+					<p class="p_01">得票：{{datae.count}}</p>
+					<p class="p_02">队长：{{leader}}<div></div></p>
+					<p class="p_03">成员：{{getUserName(MyTeamInfo.teamPartner)}}</p>
+					<div class="main">{{decodeURIComponent(MyTeamInfo.teamDes)}}</div>
+				</div>
+				<div class="myQR">
+					<!-- 请记住小组编号{{serail}}
+					<br />
+					<p>扫描识别二维码 关注微信号 进入投票通道<br />为我们小组投票！</p>
+					<img src="img/myQR.jpg" alt=""/> -->
+					<p>请识别下方二维码，进入投票通道，在“搜索search”框中输入编号：{{serail}}，点击“🔍”按钮，为我们的队伍投票加油！</p>
+					<img src="img/myQR2019.png" alt=""/>
+				</div>
+			</div>
+		</div>
+		
+		<div v-show="ids==4">
+			<div class="contentH" >
+				<div class="imgDiv" v-for="info in medieInfo" @click="showBig(info.src,$index)">
+					<img :src="info.src">
+				</div>
+			</div>
+			<div class="txtH">
+				<div class="titleH">{{keyword}} </div>
+				<div class="contH">{{info}}</div>
+			</div>
+			<div class="noGift">
+				<div class="back_gift"></div>
+				<div class="no_div">
+					<div class="swiper-container ids4">
+						<div class="swiper-wrapper">
+							<div class="swiper-slide" v-for="info in medieInfo"><img :src="info.src" /></div>
+						</div>
+						<div class="swiper-pagination"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+
+</html>
+
+
+
+

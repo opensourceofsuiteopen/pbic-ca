@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en" style="font-size: 10px;">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" type="text/css" href="./css/comman.css"/>
+    <link rel="stylesheet" type="text/css" href="./css/pageArr.css"/>
+    <link rel="stylesheet" type="text/css" href="./css/weui.min.css"/>
+    <!-- JS -->
+    <script src="./js/jquery-1.12.0.min.js"></script>
+    <script src="./js/jquery-form.js"></script>
+    <!-- <script src="./js/jqmd5.js"></script>
+    <script src="./js/sha1.js"></script> -->
+    <!-- <script src="./js/weui.js"></script> -->
+    <!-- <script src="./js/vue.min.js"></script> -->
+    <!-- <script src="./js/comman.js"></script> -->
+    <!-- <script src="js/swiper.js" type="text/javascript" charset="utf-8"></script> -->
+    <title>参赛队伍列表</title>
+    <script>
+        const CON_NEWHOST = 'http://match.pbic.com'
+        $(function () {
+            $("header").load("hearder01.html");
+            $("footer").load("footer.html");
+            $('.H_left').click(function () {
+                window.history.back();
+            })
+            hideDialog()
+            $(".dialog-close").click(function(){
+                hideDialog()
+            })
+
+            window.addEventListener('message', receiveMessage, false);
+
+        });
+
+        function receiveMessage(event) {
+            console.log(event.data);
+            let data = event.data;
+            if(data.type ==='total'){
+                $("#teamNumber")[0].innerText ="(" + data.data.total + ")"
+                // 像素转rem，10为根节点字体大小
+                if(data.data.total > 0) {
+                    $("#external-frame").css("height", data.data.height / 10 +"rem") 
+                }
+                
+            }
+            else if(data.type ==='teamInfo'){
+                showDialog(data.data);
+            }
+            
+        }
+
+        function showDialog(teamInfo){
+
+            // console.log(teamInfo);
+            
+            $("#team-name")[0].innerText=teamInfo.teamName
+            $("#desc-cn")[0].innerText = teamInfo.teamDescription
+            $("#desc-en")[0].innerText = teamInfo.teamDescriptionEn
+
+            if(!!teamInfo.teamPhoto){
+                $("#desc-img")[0].src = CON_NEWHOST + teamInfo.teamPhoto
+                $("#desc-img").show()
+            }else{
+                $("#desc-img").hide()
+            }            
+            
+            $(".mask").show()
+            $(".dialog-panel").show()
+        }
+        function hideDialog(){
+            $(".mask").hide()
+            $(".dialog-panel").hide()
+        }
+
+    </script>
+
+    <style>
+
+        header {
+            width: 100%;
+            margin: 0 auto;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 2;
+        }
+
+
+        .indexes {
+            width: 1200px;
+            margin: 36px auto;
+            position: relative;
+            font-size: 18px;
+            line-height: 30px;
+            text-indent: 16px;
+            letter-spacing: 2px;
+        }
+
+        .indexes .box {
+            width: 4px;
+            height: 30px;
+            background: #e5233e;
+            float: left
+        }
+
+        .indexes span {
+            color: #cfcfcf;
+            margin: 0 2px;
+        }
+
+        .indexes > a:hover {
+            color: #e5233e;
+        }
+
+        .team-list{
+            width: 100%;
+            max-width: 1200px;
+            /* height: 6400px; */
+            border: none;
+        }
+
+        .mask{
+            font-size: 10px;
+            -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
+            font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif;
+            box-sizing: inherit;
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.5;
+            background: #000000;
+            z-index: 2001;
+        }
+
+        .dialog-panel{
+            position:fixed;
+            top:100px;        
+            width:100%;        
+            z-index: 2002;
+        }
+
+        .el-dialog{
+
+            width:80%;
+            /* max-width: 120rem; */
+            min-width: 20rem;
+            
+            height:80%;
+            /* max-height: 70rem; */
+            min-height: 30rem;
+
+            -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
+            font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif; 
+            background: #FFFFFF;
+            border-radius: 2px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+            box-sizing: border-box;
+            transform: none;
+            margin: 0 auto;
+            padding: 1rem;
+            font-size: 12pt; 
+        }
+
+        .el-dialog .el-dialog-header{
+            padding: 20px;
+            font-weight: bold;
+            border-bottom-style: solid;
+            border-bottom-width: 1px;
+            border-bottom-color: rgba(0, 0, 0, 0.1);
+        }
+        .el-dialog .el-dialog-body{
+            padding: 20px;
+            font-size: 14pt;
+            line-height: 1.8;
+            background-color: white;
+            overflow-x: hidden;
+            overflow-y: auto;
+            height: 600px;
+            
+        }
+
+        .el-dialog .el-dialog-body #team-name{
+            font-size: 16pt;
+            font-weight: bold;
+            line-height: 2;
+            color: black;
+            text-align: center;
+            
+        }
+
+        .el-dialog .el-dialog-body div{
+            margin-top: 1rem;
+            text-align: left;
+            /* max-height: 480px;
+            max-width: ; */
+        }
+        .el-dialog .el-dialog-body div img{
+            width: 100%;
+        }
+
+    </style>
+</head>
+
+<body id="liItem">
+
+<header></header>
+<div style="height:102px"></div>
+<div class="indexes">
+    <div class="box"></div>
+    <a href="./index.html">首页</a><span>/</span>参赛队伍<span id="teamNumber" style="color: #888888;"></span>
+</div>
+<div class="content">
+    <div style="text-align: center; min-height:40px; margin-bottom: 20px;">
+        <!-- <iframe src="http://localhost:8081/teamlist?matchId=1" frameborder="0" class="team-list" scrolling="no" id="external-frame"></iframe> -->
+        <iframe src="http://match.pbic.com/teamlist?matchId=3" frameborder="0" class="team-list" scrolling="no" id="external-frame"></iframe>
+    </div>
+</div>
+<footer></footer>
+<div class="mask"></div>
+<div class="dialog-panel">
+    <div class="el-dialog">
+        <div class="el-dialog-header">
+            <span id="dialog-title">团队详情</span>
+            <img src="img/file_load_close.png" class="dialog-close" style="float: right;" alt="">
+        </div>
+        <div class="el-dialog-body">
+            <div id="team-name"></div>
+            <div id="desc-cn"></div>
+            <div id="desc-en"></div>
+            <div style="text-align: center;">
+                <img id="desc-img">
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    
+</style>
+</body>
+
+</html>
+
+
+

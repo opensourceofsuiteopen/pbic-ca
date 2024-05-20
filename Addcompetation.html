@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="default">
+		<meta name="format-detection" content="telephone=no">
+		<link rel="stylesheet" type="text/css" href="./css/comman.css" />
+		<link rel="stylesheet" type="text/css" href="./css/pageArr.css" />
+		<link rel="stylesheet" type="text/css" href="./css/weui.min.css" />
+		<!-- JS -->
+		<script src="./js/jquery-1.12.0.min.js"></script>
+		<script src="./js/jquery-form.js"></script>
+		<script src="./js/jqmd5.js"></script>
+		<script src="./js/sha1.js"></script>
+		<script src="./js/weui.js"></script>
+		<script src="./js/vue.min.js"></script>
+		<script src="./js/comman.js"></script>
+		<script type="text/javascript" src="js/swiper-3.3.1.jquery.min.js"></script>
+		<title>添加参赛项目</title>
+		<script>
+			var vm;
+			hasloadRight=true;
+			$(function() {
+				if(isMobile){
+					location.href = "app/Competation.html";
+				}  
+			
+				
+				$("header").load("header01.html");
+				$("footer").load("footer.html");
+
+			
+//				var uid = getCookie("China_Africa_UID");
+				vm = new Vue({
+					el:"#Edit",
+					data:{
+						voteList: [],
+						page: 1,
+						size: 12,
+						pageCount: 0,
+						pageIn: null,
+						keyword: "",
+						pageArr: null,
+						ready: ["投票", "已投"],
+						activityId: activityId,
+						nodata: false,
+						todyDate: new Date(),
+						noDate: new Date("2017-07-15 00:00:00"),
+						datae:'',
+						
+					},
+					methods:{
+						toEdit: function() {
+							alert(a0);
+							window.location.href='./edit.html';
+						},
+					}
+				})
+				$('.noLi').eq(1).addClass('onActive');
+				$('.noLi').eq(1).siblings().removeClass('onActive');
+			});
+		</script>
+		<style>
+			header {
+				width:1920px;
+				margin: 0 auto;
+				position: fixed;
+				top: 0;
+				left: 0;
+				right: 0;
+				z-index: 2;
+			}
+			header>img{
+				width:100%;
+			}
+			body {
+				width: 100%;
+				height:100%;
+				margin: 0 auto;
+				color: #333;
+			}
+			
+			.myHeader {
+				height: 44px;
+				background: #e5233e;
+				padding: 0 12px;
+				border-bottom:1px solid #e5e5e5;
+			}
+			
+			.H_left {
+				display: inline-block;
+				width: 10%;
+				height: 44px;
+				float: left;
+				margin-left:12px;
+				background: url("img/imack_01.png") no-repeat left center;
+				background-size: 10px 17px;
+			}
+			
+			.H_right {
+				display: inline-block;
+				width: 80%;
+				height: 44px;
+				float: left;
+				/*background: url("img/match01-02.png") no-repeat center;*/
+				background-size: 159px 26px;
+				text-align:center;
+				line-height:44px;
+				font-size:18px;
+				color:black;
+			}
+			
+			.changeLanguageDiv {
+				position: relative;
+				float: right;
+				height: 100%;
+				right: 5px;
+			}
+			
+			.changeLanguage {
+				color: #FFFFFF;
+				text-decoration: underline;
+				font-size: 12px;
+				line-height: 44px;
+			}
+			/*button*/
+			.button{
+				width:506px;
+				height:40px;
+				border: none;
+				font-size: 18px;
+				font-family: "微软雅黑";
+				position:relative;
+				margin:0 auto;
+				
+			}
+			
+			.button-footer .signupBtn-center {
+				background-color: #E5233E;
+				width:160px;	
+				height:32px;
+				box-sizing:border-box;
+				margin:0 auto;
+				border: none;
+				display:block;
+				color: #FFFFFF;
+			}
+			.button-footer .signupBtn-left {
+				background-color: #333;
+				width:50%;
+				height:40px;
+				box-sizing:border-box;
+				float:left;
+				border: none;
+				display:block;
+				color: #FFFFFF;
+				
+			}
+					
+			.signupBtn {
+				background-color: #fff;
+				width:50%;	
+				height:40px;
+				box-sizing:border-box;
+				float:right;
+				border: none;
+				display:block;
+				font-size:24px;
+				font-weight:bold;
+				color:#e5233e
+			}
+			.signupBtn-left {
+				background-color: #fff;
+				width:50%;
+				height:40px;
+				box-sizing:border-box;
+				float:left;
+				border: none;
+				display:block;
+				color: black;
+				font-size:24px;
+				color:#888;box-sizing:border-box;
+			}
+			.button-footer{
+				width:100%;
+				height:40px;
+				border: none;
+				font-size: 18px;
+				position:relative;
+				bottom:0;
+				font-family: "微软雅黑";
+				margin-top:96px;
+				margin-bottom:920px;
+			}
+			.content{
+				position:relative;
+		
+				width:100%;
+				box-sizing:border-box;
+				text-align:center
+			}	
+			.content>img{
+				width:100%;
+				height:160px;
+			}
+			.content .number{
+				font-size:16px;
+				line-height:28px;
+				color:#333;
+				margin:0;
+				margin-top:86px;
+			}
+			.content p:nth-child(2){
+				font-size:26px;			
+				color:#000;
+				line-height:46px;
+				font-weight:bold;
+				margin:0;
+			}
+			.content p:nth-child(3){
+				font-size:16px;			
+				color:#000;
+				line-height:28px;
+				margin:0
+			}
+			.content p:nth-child(4),.content p:nth-child(5){
+				font-size:16px;		
+				color:#000;
+				margin:0;
+				line-height:28px;
+			}
+			.content .main{
+				font-size:13px;			
+				color:#000;
+				line-height:20px;
+				margin-top:6px;
+				padding-top:3.6px;
+				border:1px solid red;
+			}
+			.upLoadImg{
+				width:100%;
+				height:96px;
+				margin:16px auto;
+			}
+			.upLoadImg>div{
+				float:left;
+			}
+			.upLoadImg .upImg{
+				width:96px;
+				height:96px;
+				background:black;
+				position:relative;
+				margin-right:16px;
+			}
+			.upLoadImg .upImg>div{
+				width:16px;
+				height:16px;
+				background:url('./img/shut1.png')no-repeat 0 0;
+				background-size:cover;
+				position:absolute;
+				right:-8px;
+				top:-8px;
+			}
+			.upLoadImg .upImg img{
+				width:96px;
+				height:96px;
+			}
+			.upLoadImg .upLoad{
+				width:96px;
+				height:96px;
+				box-sizing:border-box;
+				background:url('./img/camera.png')no-repeat center center;
+				background-size:27px 23px;
+				border:1px dashed #cbcbcb;
+			}
+			.main{
+				position:relative;
+			}
+			.button span{
+				color:#ebebeb;
+				float:right;
+			}
+			.indexes{
+				width:1200px;
+				margin:36px auto;
+				position:relative; 
+				font-size:18px;
+				line-height:30px;
+				text-indent:16px;
+				letter-spacing:2px;
+			}
+			.indexes .box{
+				width:4px;
+				height:30px;
+				background:#e5233e;
+				float:left
+			}
+			.indexes span{
+				color:#cfcfcf;
+				margin:0 2px;
+			}
+			.indexes>a:hover{
+				color:#e5233e;
+			}
+		</style>
+	</head>
+
+	<body id="Edit">
+		<header>
+			<img src="./img/logo.png" alt=""/>
+			<!--<div class="H_left"></div>
+			<div class="H_right">
+				我的团队
+			</div>-->
+		</header>
+		<div style="height:102px"></div>
+		<!--<section>-->
+			<div class="indexes">
+				<div class="box"></div>
+				<a href="index.html">首页</a><span>/</span><a href="./listItem.html">参赛队伍</a><span>/</span>{{datae}}
+			</div>
+			<div class="main">
+				<div class="button">
+					<button class="signupBtn-left" onclick="javascript:{window.location.href='competationItem.html?ids='+5}">我的团队<span>|</span></button>
+					
+					<button class="signupBtn" onclick="javascript:{window.location.href='Addcompetation.html'}">参赛项目</button>
+				</div>
+				<div class="content">
+					<div class="info" >
+						<p class="number">请参赛选手注意截至日期</p>
+						<p>2019年7月14日</p>
+						<p>逾期未填写参赛项目的队伍自动视为弃权</p>
+						<p>截至日期前可更改项目内容</p>
+					</div>
+				</div>
+				<div class="button-footer">
+					<button class="signupBtn-center"  onclick="javascript:{window.location.href='./edit.html'}">添加参赛项目</button>
+				</div>
+			</div>
+		
+
+		<footer>
+		
+		</footer>
+	</body>
+
+</html>

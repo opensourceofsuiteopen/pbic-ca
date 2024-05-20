@@ -1,0 +1,572 @@
+body{
+	margin: 0;
+	padding: 0;
+	border: none;
+	background: white;
+	font-size: 14px;
+	font-family: "微软雅黑","华文黑体","黑体","华文细黑","arial, helvetica, sans-serif";
+	color: #333333;
+	width: 100%;
+	/*overflow-x: hidden;*/
+	
+	-webkit-text-size-adjust:none; /** 禁止文字自动调整大小，默认随着设备旋转文字大小会发生变化 **/
+	-webkit-tap-highlight-color: rgba(0,0,0,0); /** 去掉IOS上点击链接和文本框的默认半透明灰色覆盖层 **/
+	-webkit-touch-callout:none; /** 禁止长按弹出IOS底部菜单，img和a标签都要加 **/
+	-webkit-overflow-scrolling: touch; /** 独立区域平滑滚动和回弹 **/
+}
+
+a{
+	text-decoration: none;
+	color: #333333;
+}
+
+h1,h2,h3,h4,h5,h6{
+	font-weight: normal;
+	margin: 0;
+}
+
+p{
+	margin: 0;
+}
+
+ul{
+	margin: 0;
+	padding: 0;
+}
+
+li{
+	list-style: none;
+}
+
+.clear{
+	clear: both;
+}
+
+.ellispse{
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+footer{
+	position: relative;
+	width: 100%;
+	left: 0;
+	bottom: 0;
+	z-index: 1;
+}
+.panel{
+	margin-top: 10px;
+	padding: 20px;
+	text-align: center;
+	color: #333333;
+	display: none;
+	font-size: 16px;
+	line-height: 1.8em;
+}
+.panel img{
+	
+}
+.panel a{
+	color: #5777ff;
+}
+.panel span{
+	color: #ff9900;
+}
+
+.login-mask {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.3);
+	display: none;
+}
+
+.wxQR-div {
+	width: 300px;
+	padding: 30px 30px;
+	margin: 0 auto;
+	background-color: white;
+	position: relative;
+	top: 50px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.wxQR-div .close {
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 40px;
+	height: 40px;
+	background: url(../img/close.png) no-repeat 50%;
+	background-size: 23px 21px;
+	cursor: pointer;
+}
+
+#wxQR {
+	width: 300px;
+	height: 400px;
+	background-color: white;
+}
+
+
+
+/*网页右侧咨询框*/
+.consult{
+	min-width:60px;
+	height:260px;
+	margin:auto 0;
+	position:fixed;
+	bottom:0;
+	right:0;
+	z-index:100;
+}
+.consult ul{
+	min-width:60px;
+	min-height:120px;
+	float:right;
+}
+.consult ul li{
+	width:60px;
+	height:50px;
+	cursor:pointer;
+	position:absolute;
+	top:0;
+	right:0;
+	transition:all 0.3s linear;
+	-webkit-transition:all 0.3s linear;
+}
+.consult ul li.conLi04{
+	width:60px;
+	height:70px;
+	top:260px;
+	background:url("../img/task49.png") no-repeat left top;
+}
+.consult ul li.conLi04:hover{
+	background:url("../img/task49-1.png") no-repeat left top;
+}
+
+/**
+ * 网页右侧浮框
+ */
+.IndexApplay{
+	width: 160px;
+	height: 540px;
+	position: fixed;
+	right: 0;
+	top: 50%;
+	z-index: 12;
+	transform: translateY(-50%);
+	/*overflow: hidden;*/
+	
+}
+.toApply{
+	width: 160px;
+	height: 100%;
+	float: right;
+	background: #333333;
+	border-radius: 4px;
+	font-size: 20px;
+	z-index: 12;
+	text-align: center;
+	overflow: hidden;
+	box-shadow: 0 0 10px rgba(0,0,0,0.3);
+}
+.hideRight{
+	position: absolute;
+	right: 143px;
+	top: 210px;
+	display: block;
+	transform: translateY(-50%);
+	width: 17px;
+	height: 36px;
+	z-index: 13;
+	cursor: pointer;
+	background: url(../img/index_hideRight01.png) no-repeat center center;
+}
+.addYate{
+	right: 10px;
+	transform:rotate(180deg);
+	-ms-transform:rotate(180deg); 	/* IE 9 */
+	-moz-transform:rotate(180deg); 	/* Firefox */
+	-webkit-transform:rotate(180deg); /* Safari 和 Chrome */
+	-o-transform:rotate(180deg); 	/* Opera */
+}
+.toApply .noLi{
+	width: 100%;
+	height: 68px;
+	line-height: 68px;
+	cursor: pointer;
+}
+.toApply .noLiLogin{
+	width: 100%;
+	height: 50px;
+	line-height: 50px;
+	cursor: pointer;
+}
+.toApply .noLi:hover{
+	/*background: #e5233e;*/
+}
+.toApply .noLi:hover a{
+	color: #e5233e;
+}
+.toApply .noLi .tomy{
+	display: block;
+	padding: 0px 10px;
+	box-sizing: border-box;
+	color: #FFFFFF;
+}
+.toApply .firstA :hover{
+	background: url(../img/sign_up.png) center no-repeat;
+}
+.toApply .firstA  .tomy:hover{
+	color: #fff;
+}
+.toApply .noLi b{
+	display: block;
+	border-bottom: 1px solid #2b2b2b;
+}
+.toApply .myCode{
+	height: 295px;
+	color: #FFFFFF;
+}
+.toApply .onActive{
+	background: #e5233e;
+}
+.onAcitve_233{
+	background: #232323;
+}
+.toApply .myCode .code_p1{
+	font-size: 20px;
+	margin-top: 20px;
+}
+.toApply .myCode .code_p2{
+	font-size: 24px;
+	margin-bottom: 25px;
+}
+.toApply .myCode .code_p3 img{
+	display: block;
+	margin: 0 auto;
+}
+/*
+ 登录框
+ * */
+.login-iframe-mask{
+	position: fixed;
+	width: 100%;
+	height:100%;
+	top:0;
+	left:0;
+	background: rgba(0,0,0,0.6);
+	background: white;
+	z-index:100001;
+	-webkit-overflow-scrolling: touch; 
+}
+.login-iframe-mask iframe{
+	border: none;
+	width:100%;
+	height:100%;
+}
+
+/*弹出框--样式
+ */
+.weui_dialog{
+	padding-top: 5px;
+}
+.weui_dialog .per_no{
+	display: block;
+	width: 100%;
+	height: 30px;
+	position: absolute;
+	top: -15px;
+	left: 0;
+	background: url(../app/img/pop2.png) no-repeat center center;
+	background-size: 30px;
+}
+.weui_dialog_ft{
+	background: #333333;
+}
+.weui_dialog_ft a:first-child{
+	background: #333333!important;
+}
+.weui_dialog_ft a:nth-child(2){
+	background: #e5233e!important;
+}
+.weui_btn_dialog.default,.weui_btn_dialog.primary{
+	color: #FFFFFF!important;
+}
+.weui_dialog_confirm .weui_dialog_ft .primary:active{
+	background: #333333;
+}
+.weui_dialog_confirm .weui_dialog .weui_dialog_bd{
+	min-height: 10px;
+}
+ .float_left {
+    float: left;
+ }
+
+.float_right {
+    float: right;
+}
+.clearfloat:after{display:block;clear:both;content:"";visibility:hidden;height:0} 
+.clearfloat{zoom:1} 
+.xs_file_load{
+	color: #e5233e;
+	font-size: 18px;
+	cursor: pointer;
+	border-bottom: 1px solid #e5233e;
+	width: 110px;
+	margin: 0 auto;
+	margin-top: 10px;
+	line-height: 20px;
+}
+/*学术文件下载 start*/
+.file_load_cover{
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	left: 0;
+	top:0;
+	right: 0;
+	bottom: 0;
+	margin: auto;
+	background: rgba(0,0,0,0.2);
+	z-index: 15;
+	display: none;
+}
+.vedio_link_cover{
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	left: 0;
+	top:0;
+	right: 0;
+	bottom: 0;
+	margin: auto;
+	background: rgba(0,0,0,0.2);
+	z-index: 15;
+	display: none;
+}
+.vedio_link_cover .file_load_close_box{
+	top: 17px;
+	right: 40px;
+}
+.file_load_con{
+	width: 900px;
+	height:460px;
+	position: fixed;
+	left: 0;
+	top:0;
+	right: 0;
+	bottom: 0;
+	margin: auto;
+	margin-top: 150px;
+	background: #ffffff;
+	border-radius: 4px;
+}
+.file_load_close_box{
+	position: absolute;
+	right: 20px;
+	top: 0;
+	height: 60px;
+}
+.file_load_close{
+	float: right;
+	margin-top: 18px;
+	margin-right: 18px;
+	cursor: pointer;
+}
+.file_load_list{
+	font-size: 24px;
+	color: #333333;
+	padding-left: 40px;
+	border-bottom: 1px solid #ebebeb;
+	line-height: 60px;
+	height: 60px;
+}
+.file_list_ul li{
+	font-size: 16px;
+	color: #555555;
+	position: relative;
+	border-bottom: 1px solid #ebebeb;
+	padding: 20px 0;
+	width: 820px;
+	margin: 0 auto;
+}
+/* .file_list_ul li:nth-child(1){
+	border-top: 1px solid #ebebeb;
+} */
+.file_list_ul li .file_load_btn{
+	font-size: 14px;
+	color: #ff2f51;
+	position: absolute;
+	right: 0;
+	/* top:30px; */
+	padding-bottom: 3px;
+	border-bottom: 1px solid #ff2f51;
+}
+/*学术文件下载 end*/
+/*已填写项目策划书队伍 start*/
+.project_complete_team{
+	width: 256px;
+	height: 500px;
+	/* background:rgba(255,255,255,1); */
+	box-shadow: 0px 0px 21px 0px rgba(24,24,24,0.14);
+	border-radius: 4px;
+	position: fixed;
+	left: 0;
+	top: 50%;
+	transform: translateY(-50%);
+	z-index: 15;
+	overflow: hidden;
+}
+.project_complete_team_box{
+	overflow: hidden;
+	height: 500px;
+	background: #fff;
+    border-radius: 4px;
+}
+.project_complete_team .hideLeft{
+	position: absolute;
+	display: block;
+	transform: translateY(-50%);
+	width: 17px;
+	height: 36px;
+	z-index: 13;
+	cursor: pointer;
+	background: url(../img/index_hideRight01.png) no-repeat center center;
+	right: 0;
+    top: 50%;
+	transform: rotate(-180deg)
+}
+.project_complete_team .hideLeft.addYate{
+	transform: rotate(0deg)
+}
+.project_complete_title{
+	width: 100%;
+	height: 56px;
+	background:rgba(255,230,232,1);
+	border-radius: 4px;
+	font-size: 22px;
+	font-family: PingFang-SC-Bold;
+	font-weight: bold;
+	color:rgba(229,35,62,1);
+	line-height: 56px;
+	text-align: center;
+	position: relative;
+	z-index:10;
+}
+.project_complete_tab{
+	width: 100%;
+	height: 54px;
+	background:#fff;
+	position: relative;
+	z-index:10;
+	padding: 14px 38px 8px;
+    box-sizing: border-box;
+}
+.project_complete_tab_box{
+	width: 100%;
+	height: 32px;
+	border: 1px solid #E5233E;
+	border-radius: 16px;
+	display: flex;
+}
+.project_complete_tab_box div{
+	width: 50%;
+	cursor: pointer;
+	text-align: center;
+	font-size: 16px;
+	font-family: MicrosoftYaHei;
+	font-weight: 400;
+	color:#E5233E;
+	line-height: 32px;
+}
+.project_complete_tab_box div:nth-child(1){
+	border-radius: 14px 0 0 14px;
+}
+.project_complete_tab_box div:nth-child(2){
+	border-radius: 0 14px 14px 0;
+}
+.project_complete_tab_box div.active{
+	background: #E5233E;
+	color: #fff;
+}
+.project_complete_team_box .project_complete_list{
+	width: 100%;
+	height: 390px;
+	padding: 0 20px;
+	box-sizing: border-box;
+	position: relative;
+	background:rgba(255,255,255,1);
+}
+.project_complete_list li{
+	height: 78px;
+	/* border-bottom: 1px solid #EEEEEE; */
+	display: flex;
+	padding: 15px 0 0;
+	box-sizing: border-box;
+}
+.project_complete_project{
+	width: 38px;
+	height: 38px;
+	line-height: 38px;
+	text-align: center;
+	color: #A8AAB6;
+	font-size: 16px;
+	font-family: PingFang-SC-Bold;
+	font-weight: bold;
+	margin-right: 7px;
+}
+.project_complete_project img{
+	width: 38px;
+}
+.project_complete_underline{
+	width: 171px;
+	display: flex;
+	border-bottom: 1px solid #eee;
+}
+.project_complete_img{
+	width: 38px;
+	height: 38px;
+	margin-right: 16px;
+	overflow: hidden;
+	display: flex;
+}
+.swiper-slide .project_complete_img img{
+	height: 38px;
+	margin: 0 auto;
+	width: auto;
+}
+.project_complete_right{
+	width: 117px;
+}
+.project_complete_right_title{
+	height:14px;
+	font-size:18px;
+	line-height: 14px;
+	font-family:MicrosoftYaHei-Bold;
+	font-weight:bold;
+	color:rgba(51,51,51,1);
+	margin-bottom: 10px;
+}
+.project_complete_right_code{
+	width: 117px;
+	height:15px;
+	font-size:16px;
+	line-height: 15px;
+	font-family:MicrosoftYaHei;
+	font-weight:400;
+	color:rgba(153,153,153,1);
+	overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+/* 向上移动 */
+@keyframes move {
+	0%   {top:0px;  }
+	100% {top:-100%;}
+}
+/*已填写项目策划书队伍 end*/

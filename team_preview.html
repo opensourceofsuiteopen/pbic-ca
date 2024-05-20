@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="default">
+		<meta name="format-detection" content="telephone=no">
+		<link rel="stylesheet" type="text/css" href="./css/comman.css" />
+		<link rel="stylesheet" type="text/css" href="./css/weui.min.css" />
+		<!-- JS -->
+		<script src="./js/jquery-1.12.0.min.js"></script>
+		<script src="./js/jqmd5.js"></script>
+		<script src="./js/sha1.js"></script>
+		<script src="./js/weui.js"></script>
+		<script src="./js/vue.min.js"></script>
+		<script src="./js/comman.js"></script>
+		<title>团队详情预览</title>
+	</head>
+	<body>
+		<div id="app">
+			<h1>{{teamname}}</h1>
+			<h2>团队成员</h2>
+			<table>
+				<tr>
+					<td>中文名</td>
+					<td>英文名</td>
+					<td>学校</td>
+					<td>性别</td>
+					<td>电话</td>
+					<td>邮箱</td>
+					<td>父/母姓名</td>
+					<td>父/母电话</td>
+				</tr>
+				<tr v-for="partner in teamdetail.teamPartner">
+					<td>中文名</td>
+					<td>英文名</td>
+					<td>学校</td>
+					<td>性别</td>
+					<td>电话</td>
+					<td>邮箱</td>
+					<td>父/母姓名</td>
+					<td>父/母电话</td>
+				</tr>
+			</table>
+			<h2>团队描述</h2>
+			<p class="intro">团队描述团队描述团队描述</p>
+			<h3>团队照片</h3>
+			<div class="team-photo">
+				<img src="img/15.png" />
+			</div>
+		</div>
+	</body>
+	<script>
+		vm  = new Vue({
+			el:"#app",
+			data:{
+				teamname:"",
+				teamdetail:null
+			},
+			methods:{
+				getTeamDetail: function(){
+					showLoad("获取详情")
+					request("CFVote", "showMeVoteInfo", {voteId:202}, function(data){
+						hideLoad();
+						if(data.code==0){
+							vm.teamname = data.name;
+							var info = data.info;
+							try{
+								vm.teamdetail =JSON.parse(info);
+								// console.log(vm.teamdetail);
+							}catch(e){
+								showAlert("解析失败", e.toString(), "");
+							}
+						}else{
+							showAlert("获取详情失败", data.msg, "重试", "", function(index){
+								if(index==1){
+									vm.getTeamDetail();
+								}
+							})
+						}
+					})
+				}
+			}
+		})
+		vm.getTeamDetail();
+	</script>
+</html>

@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>PBIC 2019</title>
+		<link href="css/weui.min.css" rel="stylesheet" type="text/css">
+		<link rel="stylesheet" href="css/swiper-3.3.1.min.css" />
+		<link rel="stylesheet" type="text/css" href="css/comman.css" />
+		<link rel="stylesheet" type="text/css" href="css/second-level-page.css" />
+		<!-- JS -->
+		<script src="js/jquery-1.12.0.min.js"></script>
+		<script src="js/jqmd5.js"></script>
+		<script src="js/sha1.js"></script>
+		<script src="js/weui.js"></script>
+		<script src="js/vue.min.js"></script>
+		<script src="js/swiper.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/comman.js"></script>
+		<script>
+			hasloadRight = false;
+			// if(isMobile) {
+			// 	location.href = "app/index.html";
+			// }
+		</script>
+
+		<style type="text/css">
+			.exc_title {
+				color: #e5233e;
+				font-size: 48px;
+				text-align: center;
+				font-weight: bold;
+				/*width: 960px;*/
+				margin: 0 auto;
+			}
+			
+			.exc_line {
+				width: 70px;
+				height: 4px;
+				background: #e5233e;
+				margin: 0 auto;
+				margin-top: 30px;
+				margin-bottom: 60px;
+			}
+			
+			.exc_p_box {
+				font-size: 18px;
+				padding-bottom: 14px;
+				color: #333333;
+			}
+			
+			.exc_p_box p {
+				line-height: 34px;
+				margin-bottom: 30px;
+			}
+			
+			.frist_swiper_img {
+				width: 100%;
+				height: 640px;
+				background-size:cover ;
+			}
+			.swiper_img{
+				width: 960px;
+				height: 640px;
+				overflow: hidden;
+				background: #000000;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				background-size: cover;
+			}
+			.sml_box {
+				width: 200px;
+				height: 116px;
+				position: relative;
+			}
+			
+			.frist_swiper_sml {
+				width: 200px;
+				/*height: 112px;*/
+				position: absolute;
+				left: 14px;
+				top: 2px;
+			}
+			
+			.sml_box_cover {
+				width: 200px;
+				height: 112px;
+				position: absolute;
+				border: 2px solid #e5233e;
+				left: 12px;
+				top: 0px;
+				background: rgba(0, 0, 0, 0.2);
+				display: none;
+			}
+			
+			.swiper_sml_con {
+				width: 100%;
+				height: 140px;
+				position: relative;
+				margin-top: 18px;
+			}
+			
+			.frist_swiper_2,
+			.second_swiper_2,
+			.three_swiper_2 {
+				width: 900px;
+				margin: 0 auto;
+			}
+			
+			.frist_swiper .swiper_sml_con .swiper-slide-active .sml_box_cover {
+				display: block;
+			}
+			
+			.second_swiper .swiper_sml_con .swiper-slide-active .sml_box_cover {
+				display: block;
+			}
+			
+			.swiper_sml_con .swiper-button-prev {
+				width: 50px;
+				height: 30px;
+				background: url(img/tip_left_gray.png) center center no-repeat;
+				left: -16px;
+			}
+			
+			.swiper_sml_con .swiper-button-prev:hover {
+				background: url(img/tip_left.png) center center no-repeat;
+			}
+			
+			.swiper_sml_con .swiper-button-prev:focus,
+			.swiper_sml_con .swiper-button-next {
+				outline: none;
+			}
+			
+			.swiper_sml_con .swiper-button-next {
+				width: 50px;
+				height: 30px;
+				background: url(img/tip_right_gray.png) center center no-repeat;
+				right: -16px;
+			}
+			
+			.swiper_sml_con .swiper-button-next:hover {
+				background: url(img/tip_right.png) center center no-repeat;
+			}
+			
+			.music_run {
+				font-size: 24px;
+				color: #333333;
+				margin-top: 50px;
+				margin-bottom: 45px;
+			}
+			
+			.music_txt_instro {
+				font-size: 18px;
+				color: #333333;
+				padding: 20px 15px 20px 20px;
+				border: 2px solid #e5233e;
+				margin-top: 75px;
+				margin-bottom: 55px;
+			}
+			
+			.music_txt_instro .p_txt1 {
+				line-height: 34px;
+				letter-spacing: 2px;
+			}
+			
+			.music_txt_instro .p_txt2 {
+				color: #e5233e;
+				text-align: right;
+			}
+			
+			.sower_con {
+				background: #f7f7f7;
+				padding-top: 50px;
+				padding-bottom: 100px;
+			}
+			
+			.a_football {
+				padding-top: 60px;
+				padding-bottom: 120px;
+			}
+			
+			.nav_span_style a {
+				color: #e5233e;
+			}
+		</style>
+	</head>
+
+	<body id="app">
+
+		<div class="secondPageHead">
+			<div class="bannerLogoBox">
+				<div class="bannerLogo" title="Back to Home" onclick="javascript:{window.location.href='index.html'}"></div>
+			</div>
+		</div>
+		<div class="publicWidthStyle">
+			<div>
+				<div class="introductionNav">
+					<span class="pubLineIcon"></span>
+					<span class="nav_span_style"><a href="index.html">首页</a></span> / <span class="nav_span_style">PBIC 2019</span>
+				</div>
+			</div>
+			<div class="exc_title">
+				Music Run
+				<div class="exc_line">
+
+				</div>
+			</div>
+			<div class="exc_p_box">
+				<p>"Music Run" 项目主要帮助的人群为马拉维共和国公立学校的青少年。团队将通过为他们的学校捐助 "爱心音乐教室" 的乐器助力当地音乐教育的发展。</p>
+				<p>2018年2月3日，Music Run团队利用超过1万美金的募捐款购买了414件乐器，捐赠给马拉维共和国6所学校的6间音乐教室，马拉维第一夫人格特鲁德·穆塔里卡女士出席了捐赠仪式，超过2000名非洲学生因此受益。</p>
+			</div>
+
+			<!--第一个seiper  start-->
+			<div class="frist_swiper">
+				<div class="swiper-container frist_swiper_1">
+					<div class="swiper-wrapper">
+						<div class="swiper-slide swiper-no-swiping swiper_img" v-for="item in fristSwiperData" v-bind:style="{backgroundImage:'url('+item.bigImgSrc+')'}">
+							<!--<img v-bind:src="item.bigImgSrc" alt="" class="frist_swiper_img" />-->
+							<!--<div calss="frist_swiper_img" v-bind:style="{backgroundImage:'url('+item.bigImgSrc+')'}"></div>-->
+							<!--<div class="frist_swiper_img" style="background: url(img/index_img_new_03.jpg);"></div>-->
+						</div>
+					</div>
+				</div>
+
+				<div class="swiper_sml_con">
+					<div class="swiper-container frist_swiper_2">
+						<div class="swiper-wrapper">
+							<div class="swiper-slide" v-for="item in fristSwiperData">
+								<div class="sml_box">
+									<img v-bind:src="item.bigImgSrc" alt="" class="frist_swiper_sml" />
+									<div class="sml_box_cover"></div>
+								</div>
+
+							</div>
+						</div>
+					</div>
+					<div class="swiper-button-prev"></div>
+					<!--左箭头-->
+					<div class="swiper-button-next"></div>
+					<!--右箭头-->
+				</div>
+
+			</div>
+			<!--第一个seiper end-->
+
+			<div class="music_run">以下是Music Run在PBIC2017总决赛现场的精彩表现:</div>
+			<div>
+				<p class="video_style" style="width: 960px;">
+					<script src="https://p.bokecc.com/player?vid=35CFCEBE93D957A79C33DC5901307461&siteid=D2E655881C30EDCB&autoStart=false&width=960&height=605&playerid=E14196B7EDDC235F&playertype=1" type="text/javascript"></script>
+				</p>
+			</div>
+
+			<div class="music_txt_instro">
+				<p class="p_txt1">“我们会为马拉维青少年的笑容以及音乐梦想而全力以赴，我们也希望社会大众能够关注并关怀远方的马拉维少年，为他们的梦想而助力。希望我们的行动，能让热爱音乐的非洲学生们在旋律与节奏中，萌发并成就他们梦想！”</p>
+				<p class="p_txt2">-Music Run团队口号</p>
+			</div>
+		</div>
+		<!--SOWER  START-->
+		<div class="sower_con">
+
+			<div class="publicWidthStyle">
+				<div class="exc_title">
+					Sower
+					<div class="exc_line"></div>
+				</div>
+				<div class="exc_p_box">
+					<p>他们是5位中非青少年“播种者”的代表，借助中国的高科技产品Arktek（被动式疫苗保存箱），通过他们的公益行为和理想，在非洲播种下爱和希望的种子，致力于帮助非洲儿童安全有效地接种疫苗，拥有健康的未来。</p>
+					<p>该项目即将落地津巴布韦，未来10年，将为3个社区内的儿童解决接种疫苗的安全有效问题，预计影响人数超过1.8万人。</p>
+				</div>
+
+				<!--第二个seiper  start-->
+				<div class="second_swiper">
+					<div class="swiper-container second_swiper_1">
+						<div class="swiper-wrapper">
+							<div class="swiper-slide swiper-no-swiping swiper_img" v-for="item in secondSwiperData" v-bind:style="{backgroundImage:'url('+item.bigImgSrc+')'}">
+								<!--<img v-bind:src="item.bigImgSrc" alt="" class="frist_swiper_img" />-->
+							</div>
+						</div>
+					</div>
+
+					<div class="swiper_sml_con">
+						<div class="swiper-container second_swiper_2">
+							<div class="swiper-wrapper">
+								<div class="swiper-slide" v-for="item in secondSwiperData">
+									<div class="sml_box">
+										<img v-bind:src="item.bigImgSrc" alt="" class="frist_swiper_sml" />
+										<div class="sml_box_cover"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="swiper-button-prev"></div>
+						<!--左箭头-->
+						<div class="swiper-button-next"></div>
+						<!--右箭头-->
+					</div>
+
+				</div>
+				<!--第二个seiper end-->
+
+				<div class="music_run">以下是Sower在PBIC2017总决赛现场的精彩表现：</div>
+				<div>
+					<p class="video_style" style="width: 960px;">
+						<script src="https://p.bokecc.com/player?vid=2D8D2DEFC92A2DC79C33DC5901307461&siteid=D2E655881C30EDCB&autoStart=false&width=960&height=605&playerid=E14196B7EDDC235F&playertype=1" type="text/javascript"></script>
+					</p>
+				</div>
+			</div>
+		</div>
+		<!--一只足球 start-->
+		<div class="a_football">
+			<div class="publicWidthStyle">
+				<div class="exc_title">
+					一支足球队
+					<div class="exc_line"></div>
+				</div>
+				<div class="exc_p_box">
+					<p>非洲人民对足球疯狂的热爱在国际足坛声名远扬，这来自于非洲几代人全民足球的体育热情。但由于贫穷导致的资源匮乏，使得一些地区的非洲少年们缺少专业的足球场地和器材。“一支足球队”希望和北京的足球爱好者一起，通过举办公益讲座、宣讲募捐、义卖等方式，为非洲地区热爱足球的青少年带去更专业的活动场地和体育器材。</p>
+
+					<p>在埃塞俄比亚德雷达瓦，“一支足球队”将募捐款12048.58元人民币用于修缮废弃球场，并为当地儿童提供足球与球服。预计新球场将于今年9月正式启用，届时，德雷达瓦市市场Ibrahim将出席并致辞。</p>
+				</div>
+ 
+				<!--第三个seiper  start-->
+				<div class="second_swiper">
+					<div class="swiper-container three_swiper_1">
+						<div class="swiper-wrapper">
+							<div class="swiper-slide swiper-no-swiping swiper_img" v-for="item in threeSwiperData" v-bind:style="{backgroundImage:'url('+item.bigImgSrc+')'}">
+								<!--<img v-bind:src="item.bigImgSrc" alt="" class="frist_swiper_img" />-->
+							</div>
+						</div>
+					</div>
+
+					<div class="swiper_sml_con">
+						<div class="swiper-container three_swiper_2">
+							<div class="swiper-wrapper">
+								<div class="swiper-slide" v-for="item in threeSwiperData">
+									<div class="sml_box">
+										<img v-bind:src="item.bigImgSrc" alt="" class="frist_swiper_sml" />
+										<div class="sml_box_cover"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="swiper-button-prev"></div>
+						<!--左箭头-->
+						<div class="swiper-button-next"></div>
+						<!--右箭头-->
+					</div>
+
+				</div>
+				<!--第三个seiper end-->
+				<div class="music_run">以下是他们在决赛中的精彩表现：</div>
+				<div>
+					<p class="video_style" style="width: 960px;">
+						<script src="https://p.bokecc.com/player?vid=812AB01E87D0DE749C33DC5901307461&siteid=D2E655881C30EDCB&autoStart=false&width=960&height=605&playerid=E14196B7EDDC235F&playertype=1" type="text/javascript"></script>
+					</p>
+				</div>
+			</div>
+
+		</div>
+		<!--一只足球 end-->
+		<!--SOWER  END-->
+		<footer></footer>
+		<script type="text/javascript">
+			$("footer").load("footer.html");
+		</script>
+		<script type="text/javascript">
+			var vm = new Vue({
+				el: "#app",
+				data: {
+					fristSwiperData: [{
+							bigImgSrc: "img/index_img_new_01.jpg",
+							smlImgSrc: ""
+						},
+						{
+							bigImgSrc: "img/frist_swiper_sml02.jpg",
+							smlImgSrc: ""
+						},
+						{
+							bigImgSrc: "img/frist_swiper_sml03.jpg",
+							smlImgSrc: ""
+						},
+						{
+							bigImgSrc: "img/frist_swiper_sml04.jpg",
+							smlImgSrc: ""
+						},
+						{
+							bigImgSrc: "img/index_img_new_02.jpg",
+							smlImgSrc: ""
+						},
+						{
+							bigImgSrc: "img/index_img_new_03.jpg",
+							smlImgSrc: ""
+						},
+						{
+							bigImgSrc: "img/index_img_new_04.jpg",
+							smlImgSrc: ""
+						},
+						{
+							bigImgSrc: "img/index_img_new_05.jpg",
+							smlImgSrc: ""
+						},
+						{
+							bigImgSrc: "img/index_img_new_06.jpg",
+							smlImgSrc: ""
+						},
+						{
+							bigImgSrc: "img/index_img_new_07.jpg",
+							smlImgSrc: ""
+						},
+					],
+					secondSwiperData: [{
+							bigImgSrc: "img/two_swiper_img01.jpg"
+						},
+						{
+							bigImgSrc: "img/two_swiper_img02.jpg"
+						},
+						{
+							bigImgSrc: "img/two_swiper_img03.jpg"
+						},
+						{
+							bigImgSrc: "img/two_swiper_img04.jpg"
+						},
+						{
+							bigImgSrc: "img/two_swiper_img05.jpg"
+						},
+						{
+							bigImgSrc: "img/two_swiper_img06.jpg"
+						},
+						{
+							bigImgSrc: "img/two_swiper_img07.jpg"
+						},
+						{
+							bigImgSrc: "img/two_swiper_img08.jpg"
+						},
+						{
+							bigImgSrc: "img/two_swiper_img09.jpg"
+						},
+						{
+							bigImgSrc: "img/two_swiper_img10.jpg"
+						},
+					],
+					threeSwiperData: [{
+							bigImgSrc: "img/three_swiper_img01.jpg"
+						},
+						{
+							bigImgSrc: "img/three_swiper_img02.jpg"
+						},
+						{
+							bigImgSrc: "img/three_swiper_img03.jpg"
+						},
+						{
+							bigImgSrc: "img/three_swiper_img04.jpg"
+						},
+						{
+							bigImgSrc: "img/three_swiper_img05.jpg"
+						},
+						{
+							bigImgSrc: "img/three_swiper_img06.jpg"
+						},
+						{
+							bigImgSrc: "img/three_swiper_img07.jpg"
+						},
+					]
+
+				}
+			})
+		</script>
+		<script type="text/javascript">
+			var mySwiper1 = new Swiper('.frist_swiper_1', {
+				autoplay: false,
+				spaceBetween: 10,
+				loop: true,
+				loopedSlides: 5, //looped slides should be the same
+
+			})
+			var mySwiper2 = new Swiper('.frist_swiper_2', {
+				autoplay: false,
+				navigation: {
+					nextEl: '.swiper-button-next',
+					prevEl: '.swiper-button-prev',
+				},
+				slidesPerView: 4,
+				touchRatio: 0.2,
+				loop: true,
+				loopedSlides: 5,
+				slideToClickedSlide: true,
+//				autoplayDisableOnInteraction: false
+				//  noSwiping: false,
+			})
+			mySwiper2.controller.control = mySwiper1;
+			mySwiper1.controller.control = mySwiper2; //Swiper2控制Swiper1，需要在Swiper1初始化后
+
+			var mySwiper3 = new Swiper('.second_swiper_1', {
+				autoplay: true,
+				spaceBetween: 10,
+				loop: true,
+				loopedSlides: 5, //looped slides should be the same
+			})
+			var mySwiper4 = new Swiper('.second_swiper_2', {
+				loop: true,
+				slidesPerView: 4,
+				loopedSlides: 5, //looped slides should be the same
+				navigation: {
+					nextEl: '.swiper-button-next',
+					prevEl: '.swiper-button-prev',
+				},
+				slideToClickedSlide: true,
+				autoplayDisableOnInteraction: false
+			})
+			mySwiper4.controller.control = mySwiper3;
+			mySwiper3.controller.control = mySwiper4; //Swiper2控制Swiper1，需要在Swiper1初始化后
+
+			var mySwiper5 = new Swiper('.three_swiper_1', {
+				autoplay: true,
+				spaceBetween: 10,
+				loop: true,
+				loopedSlides: 5, //looped slides should be the same
+			})
+			var mySwiper6 = new Swiper('.three_swiper_2', {
+				loop: true,
+				slidesPerView: 4,
+				loopedSlides: 5, //looped slides should be the same
+				navigation: {
+					nextEl: '.swiper-button-next',
+					prevEl: '.swiper-button-prev',
+				},
+				slideToClickedSlide: true,
+				autoplayDisableOnInteraction: false
+			})
+			mySwiper6.controller.control = mySwiper5;
+			mySwiper5.controller.control = mySwiper6; //Swiper2控制Swiper1，需要在Swiper1初始化后
+
+			$('.swiper-slide').mouseenter(function() {
+				mySwiper1.autoplay.stop();
+				mySwiper3.autoplay.stop();
+				mySwiper5.autoplay.stop();
+
+			})
+			$('.swiper-slide').mouseleave(function() {
+				mySwiper1.autoplay.start();
+				mySwiper3.autoplay.start();
+				mySwiper5.autoplay.start();
+
+			})
+		</script>
+
+	</body>
+
+</html>

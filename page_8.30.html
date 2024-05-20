@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>优秀体验队</title>
+    <link href="css/weui.min.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="css/swiper-3.3.1.min.css"/>
+    <link rel="stylesheet" type="text/css" href="css/comman.css"/>
+    <link rel="stylesheet" type="text/css" href="css/second-level-page.css"/>
+    <link rel="stylesheet" href="css/page_8.30.css" />
+    <!-- JS -->
+    <script src="js/jquery-1.12.0.min.js"></script>
+    <script src="js/jqmd5.js"></script>
+    <script src="js/sha1.js"></script>
+    <script src="js/weui.js"></script>
+    <script src="js/vue.min.js"></script>
+    <script src="js/swiper-3.3.1.jquery.min.js"></script>
+    <script src="js/comman.js"></script>
+	<script>
+		
+		//右侧报名模块
+//			hasloadRight = false;
+//			if(isMobile) {
+//				location.href = "app/index.html";
+//			}
+
+		</script>
+</head>
+<body>
+	<div class="secondPageHead">
+		<div class="bannerLogoBox">
+			<div class="bannerLogo" title="Back to Home" onclick="javascript:{window.location.href='index.html'}"></div>
+		</div>
+	</div>
+	
+	<div class="secondPageIntroduction">
+		<div class="publicWidthStyle">
+			<div class="introductionNav">
+				<span class="pubLineIcon"></span>
+				<span class="nav_span_style"><a href="index.html">首页</a></span> / <span 
+					 class="nav_span_style">优秀体验队</span> 
+					 <!--e8485b-->
+				<span class="share">
+					<span class="share_font">分享到:</span>
+					<img class="VX" style="margin-left: -11px;" src="img/Vx.png" alt="分享到微信" />
+					
+					
+					
+					
+					
+					
+					
+					<!--<img src="img/QQ.png" alt="分享到腾讯QQ" />-->
+					<img class="Qkj" src="img/Qkj.png" alt="分享到QQ空间"/>
+					<img class="XL" src="img/Vb.png" alt="分享到新浪微博" />
+					<div class="hover">
+						<img src="img/pbicqrcode.png" >
+						<p>微 信 " 扫 一 扫 "<span></span></p>
+						<p>分 享 到 朋 友 圈  <span></span> </p>
+					</div>
+				</span>
+				<script>
+					//图片悬停更换样式					
+					//获取页面元素
+					$('.share>img').hover(function(){						
+						var  color ='_color.png';
+						 src = $(this).attr('src');						
+//						console.log(src.split("."));
+						var newSrc = src.split('.');
+						$(this).attr("src",newSrc[0]+color);
+						if($(this).attr('class') == 'VX'){
+							$('.hover').css({height:175});
+							// console.log('ok')
+						}
+					},function(){	
+						$(this).attr("src",src);
+						$('.hover').css({height:''});
+					})
+					
+					//分享到QQ空间和新浪微博
+					$('.Qkj').click(function(){
+						window.open("http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://www.pbic.com&title=PBIC公益活动&desc=小点点行大义是一支特别的队伍，一群3-6岁的小朋友在父母和亲朋好友支持下，争做小小世界公民。#PBIC公益活动#&summary=小点点行大义是一支特别的队伍，一群3-6岁的小朋友在父母和亲朋好友支持下，争做小小世界公民。#PBIC公益活动#&site={{100*100}}","_blank","toolbar=yes, location=yes, directories=no, status=no, menubar=yes, scrollbars=yes, resizable=no, copyhistory=yes, width=400, height=400");											
+					})
+					$('.XL').click(function(){						
+						window.open("http://service.weibo.com/share/share.php?title=PBIC公益活动&img=&url=http://www.pbic.com","_blank","toolbar=yes, location=yes, directories=no, status=no, menubar=yes, scrollbars=yes, resizable=no, copyhistory=yes, width=400, height=400");	
+					})
+					
+					
+					
+				</script>
+			</div>
+		</div>
+		
+		<div class="wrap">
+			<p class="title_1">Little Dots Big Dream</p>
+			<p class="title_2">小点点行大义</p>
+			<p class="cont">
+				小点点行大义是一支特别的队伍，一群3-6岁的小朋友在父母和亲朋好友支持下，争做小小世界公民。虽然现在他们因年龄限制无法参加PBIC正赛，但他们的行动，值得组委会广而告之。
+			</p>
+			<div class="img_1">
+				<img src="img/img_1_1.png" alt="小点点行大义团队" title="小点点行大义团队"/>
+			</div>	
+			<p class="title_1">VERSION</p>
+			<p class="title_2">愿 景</p>
+			<p class="describe">Little Dots convey great energy can make a circle around the  earth</p>
+			<p class="describe">小点点传递聚能量绕地球一圈</p>
+			
+			
+			<p class="title_1">Mission</p>
+			<p class="title_2">使 命</p>
+			<p class="describe">Wish Africa Well  祝福非洲</p>
+			
+			
+			
+			<p class="title_1">Ａction</p>
+			<p class="title_2">倡议行动</p>
+			<p class="cont">我们是3-6岁，来自不同国家地区的小公民，我们听说非洲有很多跟我们一样的小朋友，需要更多食物填饱肚子，需要更多药物保证健康，需要更多的教育设施来学习。我们响应非洲第一夫人抗击艾滋病联合会 (Organisation of African First Ladies Against HIV/AIDS, OAFLA)，联合非盟the African Union发起一场有关减少儿童感染艾滋病病毒提高非洲的母亲们的健康状况的运动。<span></span></p>
+			
+			<p class="title_1">Ａction</p>
+			<p class="title_2">团队介绍</p>
+			<div class="img_1">
+				<img src="img/img_1_2.png" alt="小点点行大义团队" title="小点点行大义团队"/>
+				<p><span>队长:张佳洛</span><span>队员：张上恩、卢峻煕、代翊辰、熊奕宁、郑懿心、龙欣言</span></p>
+			</div>
+			
+			
+			<div class="video">
+				 <p class="video_style" style="width: 960px;">
+     
+         <script
+            src="https://p.bokecc.com/player?vid=85B8FE9E213D210F9C33DC5901307461&siteid=D2E655881C30EDCB&autoStart=false&width=960&height=605&playerid=E14196B7EDDC235F&playertype=1"
+            type="text/javascript"></script>
+      </p>
+    </div>
+    
+    
+			</div>
+			
+			<div class="img_2">
+				<img src="img/img_2_1.png" alt="小点点行大义团队" title="小点点行大义团队"/>
+				<img src="img/img_2_2.png" alt="小点点行大义团队" title="小点点行大义团队" />
+			</div>
+		</div>
+		
+		
+		
+		
+		
+	</div>
+<footer></footer>
+<script type="text/javascript">
+	 $("footer").load("footer.html");
+</script>
+</body>
+</html>

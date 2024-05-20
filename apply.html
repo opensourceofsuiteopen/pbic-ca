@@ -1,0 +1,1284 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>报名</title>
+		<!-- CSS -->
+		<link href="css/weui.min.css" rel="stylesheet" type="text/css">
+		<link rel="stylesheet" href="css/swiper-3.3.1.min.css" />
+		<link rel="stylesheet" type="text/css" href="css/comman.css" />
+		<!-- JS -->
+		<script src="js/jquery-1.12.0.min.js"></script>
+		<script src="js/jqmd5.js"></script>
+		<script src="js/jquery-form.js"></script>
+		<script src="js/sha1.js"></script>
+		<script src="js/weui.js"></script>
+		<script src="js/vue.min.js"></script>
+		<script src="js/jquery.qrcode.min.js"></script>
+		<script src="js/comman.js"></script>
+		<script type="text/javascript" src="js/swiper-3.3.1.jquery.min.js"></script>
+		<script>
+			if(isMobile){
+				location.href = "app/apply.html";
+			}
+			var tt;
+			$(function(){
+				$("header").load("hearder01.html");
+				vm=new Vue({
+					el:"#applayData",
+					data:{
+						activityId: activityId,
+						groupName: '', //团队名称
+						agreeBookurl: "", //同意书文件路径
+						teamDes: "", //团队简介
+						teamPhoto: [], //团队照片
+						teamPartner: [{
+							userNameZh: '',
+							userNameEn: '',
+							school: '',
+							gender: "",
+							age:'12',
+							tel: '',
+							email: '',
+							parentName: '',
+							parentTel: '',
+						}, {
+							userNameZh: '',
+							userNameEn: '',
+							school: '',
+							gender: "",
+							age:'12',
+							tel: '',
+							email: '',
+							parentName: '',
+							parentTel: '',
+						}, {
+							userNameZh: '',
+							userNameEn: '',
+							school: '',
+							gender: '',
+							age:'12',
+							tel: '',
+							email: '',
+							parentName: '',
+							parentTel: '',
+						}],
+						nextNum:2,
+						yesNo:true,
+					},
+					methods:{
+						getMyTeamInfo: function() {
+							request("CFVote","getMyTeamInfo",{userId:userID},function(data) {
+								if(data.code==0){
+									if(data.status==1 || data.status==3){
+										clearTimeout(tt); 
+										showAlert("您已经报过名了", "请去我的队伍查看", "去查看", "", function(index) {
+											if(index == 1) {
+												location.href="competationItem.html?ids=5";
+											}
+										});
+									}
+								}
+							})
+						},
+						//提交申请资料
+						addApplyfor: function() {
+							var info = {
+								agreeBookurl: vm.agreeBookurl, //同意书路径
+								teamDes: vm.teamDes, //团队介绍
+								teamPhoto: vm.teamPhoto, //团队照片
+								teamPartner: vm.teamPartner //报名人信息
+							}
+							//长度大于3的时候,停止循环
+							var lengths = parseInt(vm.teamPartner.length);
+							parseInt(lengths);
+							groupNumber = true;
+							for(var i = 0; i < lengths; i++) {
+								var nameNumber = vm.teamPartner[i];
+
+								if(!groupNumber) {
+									break;
+								}
+								for(var key in nameNumber) {
+									if(nameNumber[key] == '') {
+										groupNumber = false;
+										break;
+									} else {
+										groupNumber = true;
+									}
+								}
+							}
+							if(groupNumber && vm.groupName != '' && vm.teamDes != '' && vm.teamPhoto.length>0 && vm.agreeBookurl != '') {
+								// console.log("信息填写通过");
+								info=JSON.stringify(info);
+								request("CFVote", "iWantToJoin", {
+//									info:info,
+									name: vm.groupName,
+									userId:userID
+								}, function(data) {
+									hideLoad();
+									if(data.code == 0) {
+										var voteId = data.voteId;
+										var voteIdname = voteId;
+										showAlert("报名成功", "恭喜你报名成功", "确定", "", function(index) {
+											if(index == 1) {
+												vm.nextNum=3;
+											}
+										});
+									} else {
+										showAlert("报名失败  " + data.msg);
+									}
+								},"post",2,{info:info});
+							} else {
+								hideLoad();
+								showAlert("请填写完整的报名信息");
+							}
+						},
+						applayYes:function(){
+							showLoad("报名中");
+						    // request("CFVote", "checkJoinAndEditEndTime", {chekType:0}, function(data) {
+							// 	if(data.code == 0) {
+							// 		vm.yesNo=true;
+							// 		vm.addApplyfor();
+							// 	} else {
+							// 		hideLoad();
+							// 		vm.yesNo=false;
+							// 		showAlert("报名失败"+data.msg);
+							// 	}
+							// });
+							vm.yesNo=true;
+							vm.addApplyfor();
+						},
+						//增加报名人数
+						addApplaynum: function() {
+							arraylist = {
+								userNameZh: '',
+								userNameEn: '',
+								school: '',
+								gender: '',
+								age:'12',
+								tel: '',
+								parentName: '',
+								parentTel: '',
+							}
+							vm.teamPartner.push(arraylist);
+						},
+						//x--删除信息
+						clearTxt:function(index,strName){
+							for(var key in vm.teamPartner[index]) {
+								if( key == strName) {
+									vm.teamPartner[index][key] ='';
+									break;
+								}
+							}
+						},
+						toRoman: function(num) {
+							if(isNaN(num)) return num;
+							if(num==0){
+								return "队长信息";
+							}else{
+								var a = [
+									["", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"],
+									["", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XCC"],
+									["", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM"]
+								];
+								var roman = "";
+								var t = 0;
+								for(var m = 0, i = 1000; m < 3; m++, i /= 10) {
+									t = Math.floor((num % i) / (i / 10));
+									roman += a[2 - m][t];
+								}
+								return "队员"+roman+"信息";
+							}
+						},
+						//删除最后一个报名人
+						deleteApply:function(index){
+							vm.teamPartner.splice(index,1);
+						},
+						//性别
+						addGender:function(index,numStr){
+							vm.teamPartner[index].gender=numStr;
+						},
+						//年龄的加减1
+						addAge:function(index,num){
+							vm.teamPartner[index].age=Number(vm.teamPartner[index].age);
+							if(num==1){
+								if(vm.teamPartner[index].age>19){
+									showAlert("年龄最大是20岁");
+									return;
+								}else if(vm.teamPartner[index].age<1){
+									vm.teamPartner[index].age=1;
+								}
+								vm.teamPartner[index].age+=1;
+							}else{
+								if(vm.teamPartner[index].age<=1){
+									vm.teamPartner[index].age=1;
+									return;
+								}
+								vm.teamPartner[index].age-=1;
+							}
+						},
+						deleteImg:function(index){
+							vm.teamPhoto.splice(index,1);
+						},
+						setNext:function(num){
+							if(num==1){
+								$("html,body").animate({
+									scrollTop: 0
+								},10,function(){
+									vm.nextNum=num;
+								});
+								clearTimeout(tt);
+							}else if(num==4){
+								//mySwiper.init();
+								location.href = "competationItem.html?ids=5";
+							}else{
+								vm.nextNum=num;
+							}
+						},
+						toWord:function(){
+							clearTimeout(tt);
+							saveServerImg();
+							$(".wordPer").hide();
+							$(".pcWord").show();
+						},
+						showPhotoBg:function(info){
+							return "url("+info+")no-repeat center center,#F2F2F2";
+						},
+					}
+				})
+				
+				//上传团队照
+				$(".addImg").click(function() {
+					var nums=vm.teamPhoto.length;
+					if(nums>9 || nums==9){
+						showAlert("图片最多上传9张");
+						return;
+					}
+					if(!$(this).attr("disabled")) {
+						uploadFile(3, function(url, path) {
+							$(this).removeAttr("disabled");
+							var url = url.toLowerCase();
+							if(/\.(jpg|png|jpeg)$/.test(url)) {
+								vm.teamPhoto.push(path);
+							} else {
+								showAlert('抱歉,上传文件只支持jpg,png,jpeg格式');
+								$(this).text("+");
+							}
+						}.bind(this), function() {
+							$(this).attr("disabled", true);
+						}.bind(this))
+					}
+				})
+				$(".keyInput01").bind("input", function() {
+					var str = $(this).val().replace(/[^0-9]/g, "");
+					if(str<1){
+						str='';
+					}
+					if(str>20){
+						str=20;
+						showAlert("年龄最大是20岁");
+					}
+					$(this).val(str);
+				})
+				$(".keyInput02").bind("input", function() {
+					var str = $(this).val().replace(/[^0-9]/g, "");
+					$(this).val(str);
+				})
+				$(".toFirst").click(function(){
+					clearTimeout(tt);
+					$(".pcWord").hide();
+					$(".wordPer").show();
+					saveServerImg();
+				})
+				if(userID!=null){
+					setWord();
+					tt=setTimeout(getServerImg,1000);
+					vm.getMyTeamInfo();
+				}else{
+					login(function(){
+						setWord();
+						tt=setTimeout(getServerImg,1000);
+						vm.getMyTeamInfo();
+					});
+				}
+				//预览轮播
+				var	mySwiper = new Swiper('.myItem', {
+					autoplay: 5000,
+					speed: 1000,
+					loop: true,
+					autoplayDisableOnInteraction: false,
+					pagination : '.swiper-pagination',
+				  	paginationType : 'bullets',
+				  	paginationClickable: true,
+			        observer:true,//修改swiper自己或子元素时，自动初始化swiper
+				});
+			})
+			var wordUrl="http://files.specialaedu.com/files/work/ca/app/app_word.html";
+			function setWord(){
+				$("#wxCode").qrcode({
+					width: 165,
+					height: 165,
+					correctLevel: 0,
+					text: wordUrl+"?userId=" + userID
+				});
+			}
+			//微信签名后取出数据
+		    function getServerImg(){
+				request("TemporyaryData", "getDataContent", {dataId:"", dataName:"userId", dataCode:userID},function(data){
+					if(data.code==0){
+						var datas=data.datas;
+						if(datas.length>0 && datas[0].content!=''){
+							vm.agreeBookurl=datas[0].content;
+							$("#qmimg").attr("src", vm.agreeBookurl);
+							$(".wordPer").hide();
+							$(".pcWord").hide();
+	           				$(".sucWord").show();
+	           				clearTimeout(tt); 
+						}else{
+							tt=setTimeout(getServerImg,1000);
+						}
+					}else{
+						tt=setTimeout(getServerImg,1000);
+					}
+				})
+			}
+			//清除储存的签名
+			function saveServerImg(){
+				request("TemporyaryData", "addDataContent", {appId:userID, key:"userId", value:''},function(data){
+					// console.log("保存成功");
+					// console.log(data);
+					tt=setTimeout(getServerImg,1000);
+				})
+			}
+		</script>
+		<style>
+			body{
+				display: block;
+				background: #FFFFFF;
+				min-width: 1024px;
+			}
+			a,button{
+				cursor: pointer;
+			}
+			.top_tab{
+				max-width: 1200px;
+				margin: 0 auto;
+			}
+			.tab_left{
+				font-size: 18px;
+				color: #333333;
+				height: 30px;
+				line-height: 30px;
+				position: relative;
+				margin: 30px 0px 50px 0px;
+				padding-left: 15px;
+				box-sizing: border-box;
+			}
+			.tab_left .tab_b{
+				width: 4px;
+				height: 30px;
+				background: #e5233e;
+				position: absolute;
+				left: 0;
+			}
+			.tab_left a:hover{
+				color: #e5233e;
+			}
+			.applyList{
+				width: 890px;
+				margin: 0 auto;
+				box-sizing: border-box;
+			}
+			.listCon{
+				width: 100%;
+			}
+			.team01{
+				font-size: 18px;
+				margin-bottom: 55px;
+			}
+			.li_div01{
+				text-align: center;
+				font-size: 30px;
+				margin-bottom: 40px;
+			}
+			.div_p01{
+				margin-bottom: 10px;
+			}
+			.div_p02 span{
+				position: relative;
+				display: block;
+				margin: 0 auto;
+				width: 300px;
+				font-weight: bold;
+				padding-bottom: 40px;
+			}
+			.p_b{
+				position: absolute;
+				bottom: 2px;
+				left:130px;
+				display: block;
+				width: 40px;
+				height: 2px;
+				background: #e5233e;
+			}
+			.li_div02,.li_div03,.li_div04,.li_div05{
+				width: 100%;
+				position: relative;
+				padding-left: 123px;
+				box-sizing: border-box;
+			}
+			.li_div05{
+				padding-left: 100px;
+			}
+			.titleT{
+				padding: 1px 75px 1px 1px;
+				height: 50px;
+				border-radius: 4px;
+				border:2px solid #cccccc;
+				box-sizing: border-box;
+				position: relative;
+				margin-bottom: 20px;
+			}
+			.titleT02{
+				height: 200px;
+				padding-right: 1px;
+				padding-bottom: 50px;
+			}
+			.title03{
+				padding-right: 40px;
+			}
+			.title04{
+				border:none;
+				padding-right: 1px;
+			}
+			.span03{
+				width: 28px;
+				height: 45px;
+				position: absolute;
+				display: block;
+				top: 0;
+				right: 0px;
+				background: #f0f0f0 url(img/apply-icon-num.png) no-repeat center center;
+			}
+			.span_a01{
+				position: absolute;
+				display: block;
+				width: 100%;
+				height: 50%;
+				top: 0;
+				left: 0;
+			}
+			.span_a02{
+				top: auto;
+				bottom: 0;
+				left: 0;
+			}
+			.numR{
+				display: block;
+				position: absolute;
+				top: 0;
+				right: 10px;
+				width: 75px;
+				height: 50px;
+				line-height: 50px;
+				text-align: right;
+				color: #b3b3b3;
+			}
+			.numR01{
+				width: 90px;
+				top: auto;
+				bottom: 0;
+			}
+			.noIn{
+				color: #e5233e;
+			}
+			.keyInput{
+				border: none;
+				width: 100%;
+				height: 100%;
+				padding-left: 8px;
+				outline: none;
+				font-size: 18px;
+				box-sizing: border-box;
+			}
+			.keyInput01{
+				text-align: center;
+				padding-left: 0px;
+			}
+			.titleT02 .keyArea{
+				line-height: 25px;
+				outline:none;
+				resize:none;
+				padding: 8px 8px 0px 8px;
+				font-family: "微软雅黑","华文黑体","黑体","华文细黑","arial, helvetica,";
+				color: #333333; 
+			}
+			.icon_name{
+				position: absolute;
+				width: 123px;
+				height: 50px;
+				line-height: 50px;
+				left: 0;
+				top: 0;
+				font-size: 18px;
+				font-weight: bold;
+				padding-left: 38px;
+				box-sizing: border-box;
+				background: url(img/apply-top-messageBox-icon-1.png) no-repeat left center;
+			}
+			.icon_name01{
+				background: url(img/apply-top-messageBox-icon-2.png) no-repeat left center;
+			}
+			.icon_name02{
+				background: url(img/apply-top-messageBox-icon-3.png) no-repeat left center;
+			}
+			.icon_name03{
+				background: url(img/login_name.png) no-repeat left center;
+			}
+			.icon_name04{
+				background: url(img/apply-icon-a-02.png) no-repeat left center;
+			}
+			.icon_name05{
+				background: url(img/apply-icon-a-06.png) no-repeat 6px center;
+			}
+			.icon_name06{
+				background: url(img/apply-icon-a-08.png) no-repeat left center;
+			}
+			.icon_name07{
+				background: url(img/apply-icon-a-03.png) no-repeat left center;
+			}
+			.icon_name08{
+				padding-left: 48px;
+				width: 100px;
+				background: url(img/apply-icon-a-04.png) no-repeat 9px center;
+			}
+			.icon_name09{
+				background: url(img/apply-icon-a-07.png) no-repeat left center;
+			}
+			.titleImg{
+				min-height: 110px;
+				width: 100%;
+			}
+			.inImgList{
+				float: left;
+				width: 110px;
+				height: 110px;
+				margin-right: 20px;
+				margin-bottom: 10px;
+				position: relative;
+			}
+			.inImg{
+				width: 110px;
+				height: 110px;
+				overflow: hidden;
+				display: flex;
+				background: #F9F9F9;
+				justify-content: center;
+			}
+			.inImg img{
+				width: auto;
+				height: 100%;
+			}
+			.addImg{
+				float: left;
+				width: 108px;
+				height: 108px;
+				line-height: 108px;
+				text-align: center;
+				border:1px dashed #bebebe;
+				font-size: 36px;
+				cursor: pointer;
+			}
+			.upImg{
+				width: 100%;
+				margin: 0 auto;
+			}
+			.removeImg{
+				position: absolute;
+				top: -8px;
+				right: -8px;
+				cursor: pointer;
+			}
+			.removeLi{
+				position: absolute;
+				top: 0;
+				right: 0;
+				cursor: pointer;
+			}
+			.removeInput{
+				position: absolute;
+				top: 12px;
+				right: 7px;
+				width: 25px;
+				cursor: pointer;
+			}
+			.team02{
+				height: 468px;
+				font-size: 16px;
+				margin-bottom: 75px;
+				position: relative;
+			}
+			.perOne{
+				float: left;
+				width: 46%;
+				height: auto;
+			}
+			.perTwo{
+				float: right;
+				width: 46%;
+				height: auto;
+			}
+			.perThree{
+				float: left;
+				width: 35%;
+				height: 100%;
+			}
+			.perFour{
+				float: right;
+				width: 65%;
+				height: auto;
+			}
+			.perSex{
+				display: block;
+				position: relative;
+				float: left;
+				height: 100%;
+				margin-right:10px;
+				line-height: 50px;
+				padding-left: 25px;
+			}
+			.perSex01{
+				margin-right:0px;
+			}
+			.sexs{
+				display: block;
+				position: absolute;
+				height: 100%;
+				width: 20px;
+				left: 0;
+				top: 0;
+				background: url(img/apply-icon-false.png) no-repeat left center;
+			}
+			.onsel{
+				background: url(img/apply-icon-true.png) no-repeat left center;
+			}
+			.addPer span{
+				display: block;
+				height: 80px;
+				width: 80px;
+				line-height: 80px;
+				text-align: center;
+				margin: 0 auto;
+				font-size: 32px;
+				border-radius: 40px;
+				border: 1px dashed #bebebe;
+				cursor: pointer;
+			}
+			.sumitApplay{
+				text-align: center;
+				margin: 65px 0px 110px 0px; 
+			}
+			.btn_ap{
+				width: 200px;
+				height: 50px;
+				border-radius: 4px;
+				background: #e5233e;
+				border: none;
+				outline: none;
+				font-size: 18px;
+				color: #FFFFFF;
+			}
+			.btn_ap01{
+				background: #333333;
+				margin-right: 130px;
+			}
+			.btn_ap02{
+				background: #333333;
+				margin-right: 50px;
+			}
+			.applySuc{
+				width: 890px;
+				margin: 0 auto;
+				text-align: center;
+				padding-bottom: 200px;
+			}
+			.suc_p01{
+				font-size: 30px;
+				margin-top: 90px;
+			}
+			.suc_p02{
+				font-size: 18px;
+				margin-top: 25px;
+				margin-bottom: 80px;
+			}
+			.suc_p04{
+				font-size: 30px;
+				font-weight: bold;
+				margin-bottom: 78px;
+			}
+			.suc_p04 span{
+				position: relative;
+				display: inline-block;
+				width: 150px;
+				padding-bottom: 38px;
+			}
+			.suc_p04 b{
+				position: absolute;
+				bottom: 0;
+				left: 53px;
+				display: block;
+				width: 40px;
+				height: 2px;
+				background: #e5233e;
+			}
+			.suc_p05{
+				font-size: 16px;
+				line-height: 30px;
+				text-align: left;
+				text-indent: 30px;
+				padding-left: 190px;
+				box-sizing: border-box;
+			}
+			.suc_p05_01{
+				margin-bottom: 5px;
+			}
+			.suc_p06{
+				font-size: 30px;
+				font-weight: bold;
+				margin:75px 0px 50px 0px;
+			}
+			.suc_p07{
+				font-size: 18px;
+				margin: 40px 0px 50px 0px;
+			}
+			.suc_p07 a{
+				text-decoration: underline;
+			}
+			.hideDive{
+				display: none;
+			}
+			.wordPer{
+				width: 100%;
+				height: 207px;
+				position: relative;
+				padding: 75px 0px 90px 0px;
+			}
+			.wordWx,.wordBtn{
+				width: 50%;
+				float: left;
+				height: 100%;
+				display: block;
+			} 
+			.wordBtn{
+				line-height: 165px;
+			}
+			.wordOr{
+				position: absolute;
+				top: 153px;
+				left: 49.5%;
+			}
+			.code01{
+				width: 165px;
+				height: 165px;
+				margin: 0 auto;
+				background: #B3B3B3;
+			}
+			.code02{
+				font-size: 16px;
+				margin-top: 20px;
+			}
+			.pcWord{
+				background: url(img/apply-top-messageBox-icon-txt.png) no-repeat center 123px;
+			}
+			.txtcon{
+				width: 600px;
+				height: 245px;
+				margin: 0 auto;
+				text-align: center;
+				background: url(img/apply-top-messageBox-icon-word.png) no-repeat center center;
+				background-size: 100%;
+			}
+			.sucWord{
+				padding-top: 35px;
+			}
+			.sucWord .canImg{
+				width: 431px;
+				margin: 0 auto;
+				background: #f6f6f6;
+			}
+			.sucWord .sucTxt{
+				width: 431px;
+				font-size: 14px;
+				line-height: 18px;
+				color: #e5233e;
+				text-align: left;
+				margin: 13px auto 60px auto;
+			}
+			/*预览
+			 */
+			.button {
+			    width: 506px;
+			    height: 40px;
+			    border: none;
+			    font-size: 18px;
+			    font-family: "微软雅黑";
+			    position: relative;
+			    margin: 0 auto;
+			}
+			.signupBtn-left {
+			    background-color: #fff;
+			    width: 100%;
+			    height: 40px;
+			    box-sizing: border-box;
+			    float: left;
+			    border: none;
+			    display: block;
+			    color: black;
+			    font-size: 24px;
+			    color: #e5233e;
+			    box-sizing: border-box;
+			}
+			.contentItem {
+			    position: relative;
+			    /* border: 1px solid red; */
+			    width: 1000px;
+			    height: 456px;
+			    box-sizing: border-box;
+			    text-align: center;
+			    margin: 16px auto;
+			}
+			.txtItem {
+			    width: 1000px;
+			    margin: 0 auto;
+			    box-sizing: border-box;
+			    margin: 0 auto;
+			}
+			.txtItem .titleItem {
+			    width: 100%;
+			    text-align: center;
+			    font-size: 25px;
+			    font-weight: bold;
+			    line-height: 28px;
+			}
+			.txtItem .captain {
+			    text-align: center;
+			    font-size: 16px;
+			    line-height: 24px;
+			    margin-top: 24px;
+			    font-weight: bold;
+			}
+			.txtItem .member {
+			    text-align: center;
+			    font-size: 16px;
+			    line-height: 24px;
+			    font-weight: normal;
+			}
+			.txtItem .contItem {
+			    width: 100%;
+			    font-size: 17px;
+			    margin-top: 50px;
+			    line-height: 30px;
+			    box-sizing: border-box;
+			}
+			.swiper-container{
+				width: 100%;
+				height: 100%;
+			}
+			.swiper-container .swiper-wrapper .swiper-slide  {
+				width:100%;
+				height: 160px;
+				overflow: hidden;
+				text-align: center;
+				display: flex;
+				justify-content: center;
+			}
+			.swiper-slide img{
+				width: auto;
+				height: 100%;
+				flex-shrink: 0;
+			}
+			.swiper-pagination-bullet{
+				width: 6px;
+				height: 6px;
+				background: #aabfda;
+				border: 1px solid #aabfda;
+			}
+			.swiper-pagination-bullet-active{
+				background: rgba(0,0,0,0);
+				border: 1px solid #e22640;
+			}
+			.swiper-container-horizontal>.swiper-pagination-bullets, .swiper-pagination-custom, .swiper-pagination-fraction{
+				bottom: 4px;
+			}
+			.applyYl{
+				width: 1000px;
+				margin: 0 auto;
+			}
+		</style>
+	</head>
+	<body id="applayData">
+		<header></header>
+		<div class="top_tab">
+			<p class="tab_left"><b class="tab_b"></b><a href="index.html">首页</a>/报名</p>
+			<div class="applyList" v-show="nextNum==1">
+				<div class="listCon">
+					<ul>
+						<li class="team01">
+							<div class="li_div01">
+								<p class="div_p01"><img src="img/apply-top-messageBox.png"/></p>
+								<p class="div_p02"><span>团队信息<b class="p_b"></b></span></p>
+							</div>
+							<div class="li_div02">
+								<div class="icon_name">团队名称</div>
+								<div class="titleT">
+									<span class="numR" :class="{'noIn':groupName.length==20}">{{groupName.length}}/20</span>
+									<input class="keyInput" type="text" maxlength="20" v-model="groupName"/>
+								</div>
+							</div>
+							<div class="li_div03">
+								<div class="icon_name icon_name01">团队描述</div>
+								<div class="titleT titleT02">
+									<span class="numR numR01" :class="{'noIn':teamDes.length==300}">{{teamDes.length}}/300</span>
+									<textarea class="keyInput keyArea" type="text" maxlength="300" v-model="teamDes"></textarea>
+								</div>
+							</div>
+							<div class="li_div04">
+								<div class="icon_name icon_name02">上传图片</div>
+								<div class="titleImg">
+									<div class="inImgList" v-for="photo in teamPhoto">
+										<img src="img/apply-no.png" class="removeImg" @click="deleteImg($index)">
+										<div class="inImg">
+											<img :src="photo"/>
+										</div>
+									</div>
+									<div class="addImg"><span>+</span></div>
+								</div>
+							</div>
+						</li>
+						<li class="team02 clear" v-for="applys in teamPartner">
+							<img src="img/apply-no.png" class="removeLi" @click="deleteApply($index)" v-if="$index==(teamPartner.length-1) && $index>2">
+							<div class="li_div01">
+								<p class="div_p01"><img src="img/content-box.png"/></p>
+								<p class="div_p02"><span>{{toRoman($index)}}<b class="p_b"></b></span></p>
+							</div>
+							<div class="personOne">
+								<div class="perOne">
+									<div class="li_div02">
+										<div class="icon_name icon_name03">姓名</div>
+										<div class="titleT title03">
+											<img src="img/login_no.png" class="removeInput" v-show="applys.userNameZh!=''" @click="clearTxt($index,'userNameZh')">
+											<input class="keyInput" type="text" v-model="applys.userNameZh"/>
+										</div>
+									</div>
+									<div class="li_div02">
+										<div class="icon_name icon_name04">学校</div>
+										<div class="titleT title03">
+											<img src="img/login_no.png" class="removeInput" v-show="applys.school!=''" @click="clearTxt($index,'school')">
+											<input class="keyInput" type="text" v-model="applys.school"/>
+										</div>
+									</div>
+									<div class="li_div02">
+										<div class="icon_name icon_name05">手机</div>
+										<div class="titleT title03">
+											<img src="img/login_no.png" class="removeInput" v-show="applys.tel!=''" @click="clearTxt($index,'tel')">
+											<input class="keyInput keyInput02" type="text" v-model="applys.tel" maxlength="11"/>
+										</div>
+									</div>
+									<div class="li_div02">
+										<div class="icon_name icon_name06">父/母姓名</div>
+										<div class="titleT title03">
+											<img src="img/login_no.png" class="removeInput" v-show="applys.parentName!=''" @click="clearTxt($index,'parentName')">
+											<input class="keyInput" type="text" v-model="applys.parentName"/>
+										</div>
+									</div>
+								</div>
+								<div class="perTwo">
+									<div class="li_div02">
+										<div class="icon_name icon_name03">英文名</div>
+										<div class="titleT title03">
+											<img src="img/login_no.png" class="removeInput"  v-show="applys.userNameEn!=''" @click="clearTxt($index,'userNameEn')">
+											<input class="keyInput" type="text" v-model="applys.userNameEn"/>
+										</div>
+									</div>
+									<div class="li_div02">
+										<div class="icon_name icon_name07">性别</div>
+										<div class="titleT title04">
+											<div class="perThree">
+												<span class="perSex"><b class="sexs" :class="{'onsel':applys.gender=='1'}" @click="addGender($index,'1')"></b>男</span><span class="perSex perSex01"><b class="sexs" :class="{'onsel':applys.gender=='0'}" @click="addGender($index,'0')"></b>女</span>
+											</div>
+											<div class="perFour">
+												<div class="li_div05">
+													<div class="icon_name icon_name08">年龄</div>
+													<div class="titleT title03">
+														<span class="span03">
+															<a class="span_a01" @click="addAge($index,1)"></a>
+															<a class="span_a01 span_a02" @click="addAge($index,-1)"></a>
+														</span>
+														<input class="keyInput keyInput01" type="text" v-model="applys.age" maxlength="3"/>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="li_div02">
+										<div class="icon_name icon_name09">邮箱</div>
+										<div class="titleT title03">
+											<img src="img/login_no.png" class="removeInput" v-show="applys.email!=''" @click="clearTxt($index,'email')">
+											<input class="keyInput" type="text" v-model="applys.email"/>
+										</div>
+									</div>
+									<div class="li_div02">
+										<div class="icon_name icon_name06">父/母手机</div>
+										<div class="titleT title03">
+											<img src="img/login_no.png" class="removeInput" v-show="applys.parentTel!=''" @click="clearTxt($index,'parentTel')">
+											<input class="keyInput keyInput02" type="text" v-model="applys.parentTel" maxlength="11"/>
+										</div>
+									</div>
+								</div>
+							</div>
+						</li>
+					</ul>
+					<div class="addPer" v-if="(teamPartner.length-1)<5">
+						<span @click="addApplaynum()">+</span>
+					</div>
+					<div class="sumitApplay">
+						<button class="btn_ap" @click="applayYes">提交</button>
+					</div>
+				</div>
+			</div>
+			<div class="applySuc" v-show="nextNum==2">
+				<p class="suc_p04"><span>家长同意书<b></b></span></p>
+				<p class="suc_p05 suc_p05_01">兹同意本人未成年子女参加PBIC 2020青少年公益创新国际挑战赛。</p>
+				<p class="suc_p05">A. 同意将参赛人的个人身份资料公布在PBIC国内及国际比赛相关网站；</p>
+				<p class="suc_p05">B. 同意将参赛人遵守国家相关网络及著作权法律，维护并遵守网络活动秩序，不散布任何反动或任何不健康的言论及内容；</p>
+				<p class="suc_p05">C. 同意将参赛人完成的作品（BP／PPT）在相关网站上进行展示；</p>
+				<p class="suc_p05">D. 参赛人拥有其所有内容作品著作权，参赛作品版权归大赛组委会所有。
+法定代理人（未成年参赛人家长或监护人）</p>
+				<p class="suc_p06"><span>家长签字</span></p>
+				<div class="wordPer">
+					<div class="wordWx">
+						<div class="code01" id="wxCode"></div>
+						<div class="code02">手机扫码签字</div>
+					</div>
+					<span class="wordOr">或</span>
+					<div class="wordBtn">
+						<button class="btn_ap" @click="toWord">屏幕签字</button>
+					</div>
+				</div>
+				<div id="gameback2" class="pcWord hideDive">
+					<div class="txtcon">
+						<div id="canvasDiv" class="noWord"></div>
+					</div>
+					<p class="suc_p07"><a id="btn_clear">重签</a></p>
+					<p class="suc_p03">
+						<button class="btn_ap btn_ap02 toFirst">上一步</button>
+						<button id="btn_submit" class="btn_ap">完成</button>
+					</p>
+				</div>
+				<div class="sucWord hideDive">
+					<img id="qmimg" class="canImg" src="img/apply-top-messageBox-icon-word.png" />
+					<p class="sucTxt">* 没有家长签字审核不通过</p>
+					<p class="suc_p03">
+						<button id="btn_clear2" class="btn_ap btn_ap02">重签</button>
+						<button class="btn_ap toEnd" @click="setNext(1)">下一步</button>
+					</p>
+				</div>
+			</div>
+			<div class="applySuc" v-show="nextNum==3">
+				<p><img src="img/applay-icon-success.png" /></p>
+				<p class="suc_p01">您已提交报名，请等待审核结果</p>
+				<p class="suc_p02">工作人员会在三天内审核完毕，审核结果将会在团队详情页里显示。</p>
+				<p class="suc_p03">
+					<a href="index.html"><button class="btn_ap btn_ap01">返回首页</button></a>
+					<button class="btn_ap" @click="setNext(4)">预览</button>
+				</p>
+			</div>
+			<div class="applyYl" v-show="nextNum==4">
+				<div class="button">
+					<button class="signupBtn-left">团队信息</button>
+				</div>
+				<div class="contentItem">
+					<div class="swiper-container myItem">
+						<div class="swiper-wrapper">
+							<div class="swiper-slide" v-for="pohto in teamPhoto">
+								<img :src="pohto" />
+							</div>
+						</div>
+						<div class="swiper-pagination"></div>
+					</div>
+				</div>
+				<div class="txtItem clear">
+					<p class="titleItem">{{groupName}} </p>
+					<p class="captain">队长:{{teamPartner[0].userNameZh}}</p>
+					<p class="member">队员:<span>{{teamPartner[1].userNameZh}}</span><span v-for="team in teamPartner" v-if="$index>1">，{{team.userNameZh}}</span></p>
+					<div class="contItem">{{teamDes}} </div>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script language="javascript">  
+        var canvasDiv = document.getElementById('canvasDiv');  
+        var canvas = document.createElement('canvas');  
+        var canvasWidth = 600, canvasHeight = 245;  
+        var point = {};  
+        point.notFirst = false;  
+      
+        canvas.setAttribute('width', canvasWidth);  
+        canvas.setAttribute('height', canvasHeight);  
+        canvas.setAttribute('id', 'canvas');  
+        canvasDiv.appendChild(canvas);  
+      
+        if (typeof G_vmlCanvasManager != 'undefined') {  
+      
+            canvas = G_vmlCanvasManager.initElement(canvas);  
+        }  
+        var context = canvas.getContext("2d");  
+      
+        canvas.addEventListener("mousedown", function(e) {  
+            var mouseX = e.pageX - this.offsetLeft;  
+            var mouseY = e.pageY - this.offsetTop;  
+            paint = true;  
+            addClick(e.pageX - this.offsetLeft, e.pageY - this.offsetTop);  
+            redraw();  
+        });  
+      
+        canvas.addEventListener("mousemove",function(e) {  
+            if (paint) {  
+                addClick(e.pageX - this.offsetLeft, e.pageY  
+                        - this.offsetTop, true);  
+                redraw();  
+            }  
+        });  
+      
+        canvas.addEventListener("mouseup", function(e) {  
+            paint = false;  
+        });  
+      
+        canvas.addEventListener("mouseleave", function(e) {  
+            paint = false;  
+        });  
+      
+        var clickX = new Array();  
+        var clickY = new Array();  
+        var clickDrag = new Array();  
+        var paint;  
+      
+        function addClick(x, y, dragging) {  
+            clickX.push(x);  
+            clickY.push(y);  
+            clickDrag.push(dragging);  
+        }  
+      
+        function redraw() {  
+        	document.getElementById("gameback2").style.background="url('')";
+            context.strokeStyle = "#000000";  
+            context.lineJoin = "round";  
+            context.lineWidth = 3;  
+      
+            while (clickX.length > 0) {  
+                point.bx = point.x;  
+                point.by = point.y;  
+                point.x = clickX.pop();  
+                point.y = clickY.pop();  
+                point.drag = clickDrag.pop();  
+                context.beginPath();  
+                if (point.drag && point.notFirst) {  
+                    context.moveTo(point.bx, point.by);  
+                } else {  
+                    point.notFirst = true;  
+                    context.moveTo(point.x - 1, point.y);  
+                }  
+                context.lineTo(point.x, point.y);  
+                context.closePath();  
+                context.stroke();  
+            }  
+        }  
+        var clear = document.getElementById("btn_clear");
+        var clear2= document.getElementById("btn_clear2");
+        var submit = document.getElementById("btn_submit");  
+        clear.addEventListener("click", function() {  
+            saveServerImg();
+            clearTimeout(tt);
+            canvas.width = canvas.width;
+            $(".pcWord").show();
+            $(".sucWord").hide();
+        });  
+      	clear2.addEventListener("click", function() { 
+      		canvas.width = canvas.width;
+      		$(".pcWord").hide();
+            $(".sucWord").hide();
+            $(".wordPer").show(); 
+            saveServerImg();
+            tt=setTimeout(getServerImg,1000);
+        });
+        submit.addEventListener("click", function() {  
+            //获取当前页面的信息，在当前页面的img下展示 
+           var dataUrl=canvas.toDataURL("image/png");
+           uploloadRecord(convertBase64UrlToBlob(dataUrl),function(url){
+				$(".pcWord").hide();
+           		$(".sucWord").show();
+				$("#qmimg").attr("src", url);
+				vm.agreeBookurl=url;
+		   },function(){
+		   	     showAlert("上传失败","请重新上传");
+		   });
+        });
+        //canvas图片上传
+		var xhr;
+		function uploloadRecord(blob, funcsuccess, funcerror){
+			var fd = new FormData();
+		    var imgName = encodeURIComponent('canvas_' + new Date().getTime() + '.png');  
+		    fd.append('mp3Name', imgName);  //只能是mp3Name
+		    fd.append('file', blob);
+		    xhr = new XMLHttpRequest();
+		    xhr.onreadystatechange = function () {
+		        if (xhr.readyState == 4 && xhr.status == 200) {
+		            var json = JSON.parse(xhr.responseText);
+		            if(json.code==0){
+		            	var recordurl = json.path+json.fileName;
+		            	// console.log("====== RECORDER: UPLOAD SUCCESS ======");
+		            	// console.log(recordurl);
+		            	if(funcsuccess!=undefined){
+		            		funcsuccess(recordurl);
+		            	}
+		            }else{
+		            	// console.log("====== RECORDER: UPLOAD ERROR ======");
+		            	if(funcerror!=undefined){
+		        			funcerror();
+		        		}
+		            }
+		        }else{
+		        	if(xhr.readyState == 4){
+		        		// console.log("====== RECORDER: UPLOAD ERROR ======");
+		        		if(funcerror!=undefined){
+		        			funcerror();
+		        		}
+		        	}
+		        }
+		    };
+		    var obj = {md5:"true", mp3Name:imgName, fileType:"png",fileExt:"png"};
+			var server_url = createURLStr("File", "upload", obj,1);
+		    xhr.open('POST', server_url);  
+		    xhr.send(fd);
+		    // console.log("====== RECORDER: UPLOAD START ======");
+		}
+		/**  
+		 * 将以base64的图片url数据转换为Blob  
+		 * @param urlData  
+		     用url方式表示的base64图片数据  
+		 */  
+		function convertBase64UrlToBlob(urlData){  
+		      
+		    var bytes=window.atob(urlData.split(',')[1]);        //去掉url的头，并转换为byte  
+		      
+		    //处理异常,将ascii码小于0的转换为大于0  
+		    var ab = new ArrayBuffer(bytes.length);  
+		    var ia = new Uint8Array(ab);  
+		    for (var i = 0; i < bytes.length; i++) {  
+		        ia[i] = bytes.charCodeAt(i);  
+		    }  
+		    return new Blob( [ab] , {type : 'image/png'});  
+		} 
+    </script>
+</html>

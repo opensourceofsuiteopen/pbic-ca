@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="default">
+		<meta name="format-detection" content="telephone=no">
+		<title>抽奖</title>
+		<link href="../css/weui.min.css" rel="stylesheet" type="text/css">
+		<link rel="stylesheet" href="../css/swiper-3.3.1.min.css" />
+		<link rel="stylesheet" type="text/css" href="../css/comman.css" />
+		<!-- JS -->
+		<script src="../js/jquery-1.12.0.min.js"></script>
+		<script src="../js/jquery-form.js"></script>
+		<script src="../js/jqmd5.js"></script>
+		<script src="../js/sha1.js"></script>
+		<script src="../js/weui.js"></script>
+		<script src="../js/vue.min.js"></script>
+		<script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+		<script src="../js/wxconfig.js"></script>
+		<script src="../js/comman.js"></script>
+		<script>
+			AppId = "wx208c001297a2f701";
+			baseShareURL = "http://www.pbic.com/";
+
+			openId = getCookie("openId");
+			unionId = getCookie("unionId");
+			jsapiTicket = getCookie("jsapiTicket");
+			accessToken = getCookie("accessToken");
+			wxName = getCookie("wxName");
+			wxPicurl = getCookie("wxPicurl");
+
+			if(is_weixn()) {
+	            var reaurl = "giftList.html";
+	            useWX(reaurl, 0);
+	        }
+
+			$(function(){
+				vm=new Vue({
+					el:"#giftData",
+					data:{
+						giftList:[],
+						myGift:null,
+						styleNum:1,
+						myName:'',
+						phone:'',
+						imgCode:'',
+						phoneCode:'',
+						isValid:false,
+						myPrize:null,
+						showNight:false,
+					},
+					methods:{
+						createCode:function(){//imgCode
+							$('.imgVerifica').text("加载中...");
+							$('.imgVerifica').css("background",'#f4f4f4');
+							request("PictureCode", "getPicCode", {}, function(data) {
+								$('.imgVerifica').text("");
+								if(data.code == 0) {
+									var url = data.picUrl;
+									$('.imgVerifica').css({
+										"background": "url('" + url + "')no-repeat top center",
+										"background-size": "100% 100%"
+									})
+								} else {
+									showAlert('图片验证码获取失败',data.msg);
+								}
+							});
+						},
+						Codenote:function(){
+							if(vm.phone==null || vm.phone==''){
+								showAlert("手机号不能为空");
+								return;
+							}
+							if(vm.imgCode==null || vm.imgCode==''){
+								showAlert("图片验证码不能为空");
+								return;
+							}
+							var upucode = vm.imgCode.toUpperCase();
+							showLoad('验证码发送中');
+							request("PhoneCode", "getPhoneCodeWithPic", {
+								phone: vm.phone,
+								picCode: upucode
+							},function(data){
+								hideLoad();
+								var phoneCodeTimer = function() {
+									timecount--;
+									$(".msgVerification01").text("还有" + timecount + "秒");
+									if(timecount == 0) {
+										$(".msgVerification01").text('发送验证码')
+										timecount = 60;
+										vm.isValid = false;
+									} else {
+										setTimeout(phoneCodeTimer, 1000);
+									}
+								}
+								var timecount = 60;
+								if(data.code == 0) {
+									showToast('验证码发送成功');
+									// console.log('已发送')
+									setTimeout(phoneCodeTimer, 1000);
+									vm.isValid = true;
+									vm.codeNote = true;
+								} else {
+									showAlert('发送验证码失败',data.msg);
+									vm.usercodeimg = '';//clearImgCode
+									vm.createCode();
+								}
+							})
+						},
+						getPrizes:function(){//领奖
+							if(vm.phone==null || vm.phone==''){
+								showAlert("手机号不能为空");
+								return;
+							}
+							if(vm.phoneCode==null || vm.phoneCode==''){
+								showAlert("短信验证码不能为空");
+								return;
+							}
+							showLoad('领取中');
+							var param = {
+								winId:vm.myGift.winId,//用户中奖id
+								openId:openId,
+								phone:vm.phone, //用户手号
+								trophyId:vm.myGift.id,//奖品id
+								phoneCode:vm.phoneCode,		  //手机验码
+								realName: vm.myName,//姓名
+							}
+							request("Lottery", "receivePrizes",param,function(data){
+								hideLoad();
+								if(data.code==0){
+									vm.myPrize=data;
+									vm.addOrder();
+								}else{
+									showAlert('领取失败',data.msg,'关闭');
+									vm.createCode();
+								}
+							})
+						},
+						addOrder: function(){
+					  		//字符串  id type num 传到后台
+					  	 	var goodsId=[];
+				  	 		var obj={goodsid:Number(vm.myPrize.receiveInfo.price),num:1,type:0};
+				  	 		goodsId[0]=obj;
+							var orderModelJson = JSON.stringify(goodsId);
+							showLoad("下单");
+							request("Order", "addOrder", {userId:vm.myPrize.userId,token:vm.myPrize.token,orderModelJson:orderModelJson}, function(data){
+								hideLoad();
+								if(data.code==0){
+									payNum(data.orderNumber,vm.myPrize.userId,vm.myPrize.token);
+								}else{
+									// console.log("生成订单失败", data.msg);
+								}
+							},"get",1);
+					 	},
+						removeName:function(){
+							vm.myName='';
+						},
+						removePh:function(){
+							vm.phone='';
+						},
+						toBack:function(){
+							history.back();
+						},
+						shutThank:function(){
+							$(".noGift").hide();
+						}
+					}
+				});
+				giftList();
+				$(".toGet").click(function(){
+					showLoad("抽奖");
+					request("Lottery", "drawing", {openId:openId}, function(data) {
+						hideLoad();
+						if(data.code == 0) {
+							vm.myGift=data;
+							if(vm.myGift.info==0){
+								$(".noGift").show();
+							}else{
+								vm.styleNum=2;
+								vm.createCode();
+							}
+						} else {
+							showAlert("抽奖失败",data.msg);
+						}
+					});
+				})
+				setTimeout(setBg,1000);
+			})
+			//获取奖品列表
+			function giftList(){
+				showLoad("获取奖品");
+				request("Lottery", "getTrophyList", {},function(data){
+					hideLoad();
+					vm.giftList=data.list;
+				})
+			}
+			//0元单付款
+			function payNum(orderNumber,userID,token) {
+				request("Pay", "goPayWeiXinOrAlipay", {
+					userId: userID,
+					orderNumber: orderNumber,
+					payType: 0,
+					token:token,
+				},
+				function(data) {
+					if(data.code == 0) {
+						if(data.isZero != undefined) {
+							// console.log("下单成功");
+							showLoad("领取成功");
+							history.back();
+						} else {
+							showNewAlert("奖品过期，请联系相关老师");
+						}
+					}
+				},"get",1);
+			}
+			function setBg(){
+				vm.showNight=!vm.showNight;
+				setTimeout(setBg,700);
+			}
+		</script>
+		<style>
+			html,body{
+				background: #e5233e;
+			}
+			.gifts{
+				width: 100%;
+				height: auto;
+				position: relative;
+			}
+			.gifts .back_body{
+				width: 100%;
+				display: block;
+			}
+			.back_index{
+				position: absolute;
+				top: 0;
+				left: 0;
+				display: block;
+				width: 40px;
+				height: 44px;
+				background: url(img/back-gift.png) no-repeat center center;
+				background-size: 10px;
+				z-index: 1;
+			}
+			.gift_con{
+				font-size: 10px;
+				color: #FFFFFF;
+				text-align: center;
+				position: absolute;
+				top: 78%;
+				left: 0;
+				width: 100%;
+				overflow: hidden;
+			}
+			.toGet{
+				display: block;
+				width: 43.6%;
+				height: 45px;
+				line-height: 45px;
+				text-align: center;
+				color: #FFFFFF;
+				font-size: 18px;
+				position: absolute;
+				top: 83.5%;
+				left: 50%;
+				transform: translateX(-50%);
+				border-radius: 3px;
+				background: #f3c349;
+			}
+			.bg01,.bg02{
+				width: 75.6%;
+				height: 43.8948%;
+				position: absolute;
+				top: 31.7%;
+				left: 50%;
+				transform: translateX(-50%);
+				z-index: 1;
+			}
+			.giftLists{
+				width: 71.2%;
+				height: 41.269%;
+				position: absolute;
+				top: 32.95%;
+				left: 50%;
+				transform: translateX(-50%);
+				z-index: 2;
+			}
+			.giftLists ul{
+				width: 100%;
+				height: 100%;
+			}
+			.giftLists ul li{
+				width: 33.3333%;
+				height: 33.3333%;
+				float: left;
+				padding: 2.5px;
+				box-sizing: border-box;
+			}
+			.giftLists .img_div{
+				width: 100%;
+				height: 100%;
+				border-radius: 4px;
+				background: #FFFFFF;
+				overflow: hidden;
+			}
+			.img_div img{
+				width: 100%;
+			}
+			.login_ppic{
+				width: 100%;
+				height: 100%;
+				position: relative;
+			}
+			.tologinR{
+				width: 100%;
+				height: 100%;
+				padding: 0px 12px;
+				margin: auto;  
+            	position: absolute;  
+            	top: 0; 
+            	left: 0; 
+            	bottom: 0; 
+            	right: 0; 
+				background: #FFFFFF;
+				box-sizing: border-box;
+			}
+			.login_logo{
+				width: 100%;
+				padding: 0px 13px;
+				box-sizing: border-box;
+				text-align: center;
+				margin-top: 22%;
+				margin-bottom: 19%;
+			}
+			.login_logo img{
+				width: 100%;
+			}
+			.psw_phone{
+				position: relative;
+		    	height: 40px;
+		    	padding:0px 40px 0px 40px;
+		    	border: 1px solid #cccccc;
+		    	box-sizing: border-box;
+		    	margin-top: 8px;
+		    	border-radius: 4px;
+		    	background:#FFFFFF url(../img/login_phone.png) no-repeat 16px center;
+		    	background-size: 9px;
+		    }
+		    .psw_phone02{
+		    	width: 61%;
+		    	background:#FFFFFF url(../img/login_img.png) no-repeat 14px center;
+		    	background-size: 14px;
+		    }
+		    .psw_phone03{
+		    	width: 61%;
+		    	background:#FFFFFF url(../img/login_email.png) no-repeat 14px center;
+		    	background-size: 14px;
+		    }
+		    .psw_phone04{
+		    	background:#FFFFFF url(../img/login_name.png) no-repeat 14px center;
+		    	background-size: 14px;
+		    }
+		    .psw_input{
+		    	width: 100%;
+		    	height: 100%;
+		    	font-size: 14px;
+		    	border:none;
+		    	outline: none;
+		    	color: #666666;
+		    	background: transparent;
+		    }
+		    .removePhone{
+		    	display: block;
+		    	width: 40px;
+		    	height: 40px;
+		    	text-align: center;
+		    	line-height: 48px;
+		    	position: absolute;
+		    	right: 0;
+		    	top: 0;
+		    	cursor: pointer;
+		    }
+		    input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+			    color: #999999; 
+			} 
+			input::-moz-placeholder { /* Mozilla Firefox 19+ */
+			    color: #999999; 
+			}
+			input:-ms-input-placeholder{
+			    color: #999999;
+			}
+			
+			input::-webkit-input-placeholder{
+			    color: #999999;
+			}
+			.code_phone{
+		    	position: relative;
+		    }
+		    .imgVerifica{
+		    	position: absolute;
+		    	right: 0;
+		    	top: 0;
+		    	width: 35%;
+		    	line-height: 40px;
+		    	height: 40px;
+		    	background: #f4f4f4;
+		    	border-radius: 4px;
+		    	text-align: center;
+		    	cursor: pointer;
+		    }
+		    .msgVerification01{
+		    	position: absolute;
+		    	right: 0;
+		    	top: 0;
+		    	width: 35%;
+		    	line-height: 40px;
+		    	height: 40px;
+		    	color: #FFFFFF;
+		    	background:#333333;
+		    	border-radius: 4px;
+		    	text-align: center;
+		    	cursor: pointer;
+		    }
+		    .msgClick{
+		    	color: #333333;
+		    	background: #f4f4f4;
+		    	pointer-events: none;
+		    }
+		    .psw_toLogin .login_btn{
+		    	background: #f3c349;
+		    	width: 100%;
+		    	height: 40px;
+		    	line-height: 40px;
+		    	text-align: center;
+		    	border: none;
+		    	border-radius: 4px;
+		    	margin-top: 30px;
+		    	font-size: 16px;
+		    	color: #fefefe;
+		    	outline: none;
+		    	cursor: pointer;
+		    }
+		    .pg_01{
+		    	font-size: 21px;
+		    	color: #FFFFFF;
+		    	text-align: center;
+		    	margin-top: 60px;
+		    	margin-bottom: 23px;
+		    }
+		    .pg_02{
+		    	text-align: center;
+		    	margin-bottom: 35px;
+		    }
+		    .p_img{
+		    	height: 50px;
+		    	width: 100%;
+		    	position: relative;
+		    }
+		    .pg_02 .div_img{
+		    	width: 85px;
+		    	height: 85px;
+		    	margin: 0 auto;
+		    	position: relative;
+		    	background: #FFFFFF;
+		    	overflow: hidden;
+		    }
+		    .pg_02 .div_img img{
+		    	width: 100%;
+		    }
+		    .pg_03,.pg_04{
+		    	font-size: 15px;
+		    	text-align: center;
+		    	color: #FFFFFF;
+		    }
+		    .pg_04{
+		    	margin: 5px 0px 22px 0px;
+		    }
+		    .noGift{
+		    	display: none;
+		    }
+		    .back_gift{
+		    	position: fixed;
+			    z-index: 1000000;
+			    width: 100%;
+			    height: 100%;
+			    top: 0;
+			    left: 0;
+			    background: rgba(0,0,0,.6);
+		    }
+		    .no_div{
+			    position: fixed;
+			    z-index: 1000001;
+			    width:274px;
+			    height: 163px;
+			    top: 50%;
+			    left: 50%;
+			    -webkit-transform: translate(-50%,-50%);
+			    transform: translate(-50%,-50%);
+			    background-color: #fafafc;
+			    text-align: center;
+			    border-radius: 3px;
+			    max-width: 450px;
+			    text-align: center;
+			}
+			.shut_p{
+				position: absolute;
+				width: 30px;
+				height: 30px;
+				right: 0;
+				top: 0;
+				background: url(img/shut.png) no-repeat 12px 8px;
+				background-size: 12px;
+			}
+			.no_img{
+				position: absolute;
+				width: 32px;
+				left: 121px;
+				top: -16px;
+			}
+			.no_p2{
+				font-size: 18px;
+				color: #e5233e;
+				margin-top: 38px;
+			}
+			.no_p3{
+				font-size: 16px;
+				margin-top: 16px;
+			}
+			.no_a{
+				display: block;
+				position: absolute;
+				bottom: -1px;
+				left: 0;
+				width: 100%;
+				height: 42px;
+				line-height: 42px;
+				font-size: 16px;
+				color: #FFFFFF;
+				background: #333333;
+			}
+		</style>
+	</head>
+	<body id="giftData">
+		<!--<span class="back_index" @click="toBack"></span>-->
+		<div class="gifts" v-show='styleNum==1'>
+			<img class="back_body" src="img/gift_back.png" />
+			<img v-show="!showNight" class="bg01" src="img/giftList_bg01.png" />
+			<img v-show="showNight" class="bg02" src="img/giftList_bg02.png" />
+			<div class="giftLists">
+				<ul>
+					<li v-for="gift in giftList">
+						<div class="img_div">
+							<img :src="gift.ico" />
+						</div>
+					</li>
+				</ul>
+			</div>
+			<p class="gift_con">*奖品由Special A 特优生爱心提供</p>
+			<a class="toGet">立即抽奖</a>
+		</div>
+		<div class="noGift">
+			<div class="back_gift"></div>
+			<div class="no_div">
+				<img class="no_img" src="img/pop2.png">
+				<p class="shut_p" @click="shutThank"></p>
+				<p class="no_p2">谢谢参与</p>
+				<p class="no_p3">明天再来投票抽奖吧~</p>
+				<a class="no_a" @click="toBack">我知道了</a>
+			</div>
+		</div>
+		<div class="login_ppic" v-show="styleNum==2">
+			<div class="tologinR">
+				<div class="giftTxt">
+					<p class="pg_01">恭喜您已获得</p>
+					<div class="pg_02">
+						<div class="div_img">
+							<img :src="myGift.ico" />
+						</div>
+					</div>
+					<p class="pg_03">工作人员将在三个工作日内联系您</p>
+					<p class="pg_04">请填写联系方式且保持电话畅通</p>
+				</div>
+				<div class="psw_phone psw_phone04">
+					<span class="removePhone" v-show="myName!=''" @click="removeName"><img src="../img/login_no.png"/></span>
+					<input class="psw_input" type="text" maxlength="11" placeholder="姓名" v-model="myName"/>
+				</div>
+				<div class="psw_phone">
+					<span class="removePhone" v-show="phone!=''" @click="removePh"><img src="../img/login_no.png"/></span>
+					<input class="psw_input" type="text" maxlength="11" placeholder="手机号" v-model="phone"/>
+				</div>
+				<div class="code_phone">
+					<div class="psw_phone psw_phone02">
+						<input class="psw_input" type="text" placeholder="图片验证码" v-model="imgCode"/>
+					</div>
+					<div class="imgVerifica" @click='createCode()'>加载中...</div>
+				</div>
+				<div class="code_phone">
+					<div class="psw_phone psw_phone03">
+						<input class="psw_input" type="text" placeholder="发送验证码" v-model="phoneCode"/>
+					</div>
+					<div class='msgVerification01' @click='Codenote()' :class="{'msgClick':isValid}">获取验证码</div>
+				</div>
+				<div class="psw_toLogin">
+					<button class="login_btn" @click="getPrizes">领取</button>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

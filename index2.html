@@ -1,0 +1,4622 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>PBIC2018</title>
+  <link href="css/weui.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="css/swiper-3.3.1.min.css"/>
+  <link rel="stylesheet" type="text/css" href="css/comman.css"/>
+
+  <!-- JS -->
+  <script src="js/jquery-1.12.0.min.js"></script>
+  <script src="js/jqmd5.js"></script>
+  <script src="js/sha1.js"></script>
+  <script src="js/weui.js"></script>
+  <script src="js/vue.min.js"></script>
+ 
+  <script src="js/swiper.js" type="text/javascript" charset="utf-8"></script>
+
+  <script src="js/comman2.js"></script>
+  <script>
+    hasloadRight = false;
+    // if (isMobile) {
+    //   location.href = "app/index2.html";
+    // }
+  </script>
+  <script>
+    // if (isMobile) {
+    //   location.href = "app/index.html";
+    // }
+    var numIndex = 0;
+    $(function () {
+      $("header").load("header.html?v=104");
+      $("footer").load("footer.html?v=104");
+      vm = new Vue({
+        el: '#body',
+        data: {
+          //导师团队
+          advisorTeam: [{
+            picUrl: "img/tutorPic/tutor_bg.png",
+            name: "Brett Gamboa",
+            university: "达特茅斯学院",
+            job: "达特茅斯学院英语语言教授",
+            intro: "研究“莎士比亚第一人”",
+            info: "研究“莎士比亚第一人”",
+          }
+          , {
+            picUrl: "img/tutorPic/tutor_rl.png",
+            name: "Robert Lyon",
+            university: "纽约大学Stern商学院",
+            job: "纽约大学Stern商学院顶级教授",
+            intro: "曾从事出版管理，创意项目管理，商业沟通顾问自由撰稿人",
+            info: "曾从事出版管理，创意项目管理，<br/>商业沟通顾问自由撰稿人",
+          },
+          {
+            picUrl: "img/tutorPic/tutor_jg.png",
+            name: "Jerome Game",
+            university: "哥伦比亚大学",
+            job: "哥伦比亚大学炙手可热的电影学教授",
+            intro: "剑桥大学国王学院博士",
+            info: "剑桥大学国王学院博士",
+          },
+          {
+            picUrl: "img/tutorPic/tutor_Bill.png",
+            name: "Bill Nace",
+            university: "麻省理工大学",
+            job: "麻省理工大学HKN顾问",
+            intro: "研究数码设计，FPGA毕业项目，分布系统以及网络基础",
+            info: "研究数码设计，FPGA毕业项目<br/>分布系统以及网络基础",
+          }, 
+          {
+            picUrl: "img/tutorPic/tutor_gdc.png",
+            name: "G . Daniel Cohen",
+            university: "莱斯大学",
+            job: "莱斯大学历史系主任",
+            intro: "奥地利维也纳人类历史研究项目成员",
+            info: "奥地利维也纳人类历史研究项目成员",
+          },
+          {
+            picUrl: "img/tutorPic/tutor_bt.png",
+            name: "Brandon Tilley",
+            university: "哈佛大学",
+            job: "哈佛大学",
+            intro: "精通英语、西班牙语、法语、拉丁语等多门语言",
+            info: "精通英语、西班牙语、法语、<br/>拉丁语等多门语言",
+          },
+          {
+            picUrl: "img/tutorPic/tutor_Catherine-Sozi.jpg",
+            name: "Catherine Sozi",
+            university: "联合国艾滋病规划署东南非21国区域代表",
+            job: "",
+            intro: "",
+            info: "联合国艾滋病规划署<br/>东南非21国区域代表"
+          }
+          ,
+           {
+            picUrl: "img/tutorPic/tutor_rpa.png",
+            name: "Richard Payne",
+            university: "芝加哥大学",
+            job: "芝加哥大学历史系教授",
+            intro: "剑桥大学三一学院研究员",
+            info: "剑桥大学三一学院研究员",
+          },
+          {
+            picUrl: "img/tutorPic/tutor_zhangyan.png",
+            name: "张琰",
+            university: "联合国儿童基金会项目官员",
+            job: "",
+            intro: "",
+       			info:"联合国儿童基金会项目官员"
+           }
+         ,
+           {
+            picUrl: "img/tutorPic/tutor_wangyalin.png",
+            name: "王亚琳",
+            university: "联合国开发计划署项目官员",
+            job: "",
+            intro: "",
+            info: "联合国开发计划署项目官员"
+          },
+           {
+            picUrl: "img/tutorPic/tutor_zhengchunling.png",
+            name: "郑春玲",
+            university: "北京市志愿服务文化推广师、五星志愿者",
+            job: "",
+            intro: "",
+            info: "北京市志愿服务文化推广师、五星志愿者"
+          },
+          
+           {
+            picUrl: "img/tutorPic/tutor_wanggeng.png",
+            name: "王耕",
+            university: "美国麦肯锡咨询公司项目经理，哈佛大学研究生",
+            job: "",
+            intro: "",
+            info: "麦肯锡咨询公司项目经理"
+          },
+          {
+            picUrl: "img/tutorPic/tutor_yedawei.png",
+            name: "叶大伟",
+            university: "姚基金执行总监",
+            job: "",
+            intro: "",
+            info:" 姚基金执行总监"
+           }
+           , 
+           {
+            picUrl: "img/tutorPic/tutor_lilianxing.png",
+            name: "李连星",
+            job: "",
+            intro: "",
+            university: "清华大学对外传播研究中心中非报道项目组秘书长",
+            info: "清华大学对外传播研究中心<br/>中非报道项目组秘书长"
+            
+          },
+          {
+            picUrl: "img/tutorPic/tutor_lucuicui.png",
+            name: "卢翠翠",
+            university: "印第安纳大学Kelly商学院助理教授 ",
+            job: "",
+            intro: "",
+            info: "印第安纳大学Kelly商学院助理教授"
+          },
+           {
+            picUrl: "img/tutorPic/tutor_Manuel-Ortega.jpg",
+            name: "Manuel Ortega",
+            university: "约翰霍普金斯大学访问学者",
+            job: "",
+            intro: "",
+            info: "约翰霍普金斯大学访问学者"
+          },  
+//        
+//        {
+//          picUrl: "img/tutorPic/tutor_mk.png",
+//          name: "Matthew Kaliner",
+//          university: "哈佛大学",
+//          job: "哈佛大学社会学系教授",
+//          intro: "社会学理论专家·文化社会学家",
+//          info: "社会学理论专家·文化社会学家",
+//        }, {
+//          picUrl: "img/tutorPic/tutor_rk.png",
+//          name: "Robert Kurzban",
+//          university: "宾夕法尼亚大学",
+//          job: "宾夕法尼亚大学心理系教授",
+//          intro: "加州大学圣芭芭拉分校心理学博士",
+//          info: "加州大学圣芭芭拉分校心理学博士",
+//        }, {
+//          picUrl: "img/tutorPic/tutor_gon.png",
+//          name: "Ian Gonsher",
+//          university: "布朗大学",
+//          job: "布朗大学工程学院教授·研究员",
+//          intro: "机器人研发领域大亨",
+//          info: "机器人研发领域大亨",
+//        }, {
+//          picUrl: "img/tutorPic/tutor_sf.png",
+//          name: "Steven Fischer",
+//          university: "西北大学",
+//          job: "西北大学电影制作教授",
+//          intro: "艾美奖最佳提名制作人",
+//          info: "艾美奖最佳提名制作人",
+//        }, {
+//          picUrl: "img/tutorPic/tutor_nm.png",
+//          name: "Neel Mukherjee",
+//          university: "哈佛大学",
+//          job: "哈佛大学文学系教授",
+//          intro: "2014年获得布克奖",
+//          info: "2014年获得布克奖",
+//        }, {
+//          picUrl: "img/tutorPic/tutor_rv.png",
+//          name: "Richard Vinograd",
+//          university: "斯坦福大学",
+//          job: "斯坦福大学艺术与艺术史系教授",
+//          intro: "出版作品：新理解明和清绘",
+//          info: "出版作品：新理解明和清绘",
+//        },  {
+//          picUrl: "img/tutorPic/tutor_kbm.png",
+//          name: "Katrina Bell McDonald",
+//          university: "翰霍普金斯大学",
+//          job: "约翰霍普金斯大学社会学院教授",
+//          intro: "2006年获得终身职教",
+//          info: "2006年获得终身职教",
+//        }, {
+//          picUrl: "img/tutorPic/tutor_JJ.png",
+//          name: "John Jannotti",
+//          university: "布朗大学",
+//          job: "布朗大学计算机系教授",
+//          intro: "致力研究无线协议,操作系统的灵活性和传感网络",
+//          info: "致力研究无线协议,操作系统的灵活性和传感网络",
+//        },  {
+//          picUrl: "img/tutorPic/tutor_lb.png",
+//          name: " Luca Bossi",
+//          university: "宾夕法尼亚大学",
+//          job: "宾夕法尼亚大学经济学教授",
+//          intro: "最受欢迎的经济学教授",
+//          info: "最受欢迎的经济学教授",
+//        },  {
+//          picUrl: "img/tutorPic/tutor_fb.png",
+//          name: "Faiza Bellounis",
+//          university: "康奈尔大学",
+//          job: "",
+//          intro: "",
+//          info: "毕业于哥伦比亚大学，曾任哥伦比亚大学研究生顾问M. A. program coordinator ，前常青藤名校哥伦比亚大学、宾夕法尼亚大学招生官，哥伦比亚大学知名学术顾问，精通于处理各类大学申请案例。任教于Special A 常春藤国际暑期学校项目，为学生带来精彩的课程，学生喜欢上她的课，在她的课上能够尽情的释放自己，而她的课程设置上也是专门针对SA的学生每周固定时间安排学生进行“演讲”PK。"
+//        }, {
+//          picUrl: "img/tutorPic/tutor_sukailin.png",
+//          name: "苏凯琳",
+//          university: "联合国艾滋病规划署东南非区域代表",
+//          job: "",
+//          intro: "",
+//          info: "名学术顾问，精通于处理各类大学申请案例。任教于Special A 常春藤国际暑期学校项目，为学生带来精彩的课程，学生喜欢上她的课，在她的课上能够尽情的释放自己，而她的课程设置上也是专门针对SA的学生每周固定时间安排学生进行“演讲”PK。"
+//        }, 
+//        {
+//          picUrl: "img/tutorPic/tutor_chenguang.png",
+//          name: "陈光",
+//          university: "北京市志愿服务联合会副秘书长",
+//          job: "",
+//          intro: "",
+//          info: "毕业于哥伦比亚大学，曾任哥伦比亚大学研究生顾问M. A. program coordinator ，前常青藤名校哥伦比亚大学、宾夕法尼亚大学招生官，哥伦比亚大学知名学术顾问，精通于处理各类大学申请案例。任教于Special A 常春藤国际暑期学校项目，为学生带来精彩的课程，学生喜欢上她的课，在她的课上能够尽情的释放自己，而她的课程设置上也是专门针对SA的学生每周固定时间安排学生进行“演讲”PK。"
+//        }, {
+//          picUrl: "img/tutorPic/tutor_manuer.png",
+//          name: "马努尔",
+//          university: "中非民间商会国际联络助理秘书长",
+//          job: "",
+//          intro: "",
+//          info: "待定..."
+//        },
+//        
+          ],
+//			newAdvisorTeam:[ ]
+        },
+        methods: {
+          toOtherHref: function () {
+            window.open("http://www.sohu.com/a/167154814_549700");
+          }
+        }
+      });
+      $(".pb_h").click(function () {
+        var has = $(this).hasClass("h_active");
+        $(".pb_h").removeClass("h_active");
+        $(".h_p").hide();
+        if (has) {
+          $(this).removeClass("h_active");
+        } else {
+          $(this).addClass("h_active");
+          $(this).parent().find(".h_p").show();
+        }
+
+      })
+      //				setwid();
+      window.onresize = function () {
+        //					setwid();
+      }
+      $(".imgA").click(function () {
+        var index = $(this).index() - 1;
+        var mythis = $(this);
+        var hasShow = mythis.hasClass("myShow");
+        var myNow = $(".imgList");
+        if (hasShow) {
+          $(".imgA").removeClass("myShow");
+          myNow.animate({
+            height: 0
+          }, 'slow', function () {
+
+          });
+        } else {
+          $(".imgA").removeClass("myShow");
+          mythis.addClass("myShow");
+          $(".specification_paragraph").hide();
+          $(".specification_paragraph").eq(index).show();
+          myNow.animate({
+            height: 920
+          }, 'slow', function () {
+
+          });
+        }
+      });
+      $(".cen_second").hover(function () {
+        $(this).find(".p_sp01").hide();
+        $(this).find(".left_txt").hide();
+        $(this).find(".show_left").show();
+      }, function () {
+        $(this).find(".p_sp01").show();
+        $(this).find(".left_txt").show();
+        $(this).find(".show_left").hide();
+      });
+    })
+
+    function setwid() {
+      setTimeout(setImgA, 3000);
+      var wIn01 = $(window).innerWidth();
+      if (wIn01 < 1200) {
+        wIn01 = 1200;
+      }
+      var w01 = wIn01 * 0.72;
+      var h01 = (w01 / 1386) * 650;
+      $(".swiperTop01").css("max-height", h01);
+
+      var heg = (h01 + 110) / 3;
+      $(".swiperTop02").css("height", heg);
+
+      if (numIndex != 1 && numIndex != 7) {
+        $(".page01").css("padding-top", "38px");
+        $(".pbicT").text("2017PBIC决赛现场");
+      } else {
+        var widIn = $(window).innerWidth();
+        if (widIn > 1338) {
+          $(".page01").css("padding-top", "25px");
+        } else {
+          $(".page01").css("padding-top", "12px");
+        }
+        $(".pbicT").text("你，青春年少、爱心飞扬，有创意、有憧憬、有担当，或许你参加过商赛，参加过社会倡导，参加过公益募捐，但公益挑战则是一项全新的赛事");
+      }
+
+      var wids = $(window).innerWidth();
+      if (wids < 1480 && wids >= 1200) {
+        $(".div_03").css("width", wids);
+        $(".right_pb").css("width", wids - 590);
+
+        var pbH = ((wids - 590) / 891) * 530;
+        $(".swiperPb").css("max-height", pbH);
+
+        $(".myTeachers .swiper-container").css("width", 1200);
+        $(".myTeachers .swiper-slide img").css("width", 300);
+        $(".myTeachers .swiper-slide img").css("height", 300);
+        $(".myTeachers").css("background-size", "auto 600px");
+      } else if (wids >= 1480) {
+        $(".right_pb").css("width", "60%");
+        $(".div_03").css("width", 1480);
+
+        $(".myTeachers .swiper-container").css("width", 1480);
+        $(".myTeachers .swiper-slide img").css("width", "370px");
+        $(".myTeachers .swiper-slide img").css("height", "370px");
+        $(".myTeachers").css("background-size", "auto 740px");
+      }
+    }
+
+    function setImgA() {
+      var imgA = $(".div_top08").height();
+      $(".imgA").css("line-height", imgA + "px");
+    }
+  </script>
+  <style>
+    body {
+      /*min-width: 1200px;*/
+     overflow-x: hidden;
+    }
+
+    .index_div {
+      width: 960px;
+      margin: 0 auto;
+    }
+
+    .index_div01 {
+      /*width: 960px;*/
+      margin: 0 auto;
+    }
+
+    .div_title {
+      text-align: center;
+      height: 245px;
+    }
+
+    .div_title img {
+      margin-top: 65px;
+    }
+
+    .div_title01,
+    .div_title02 {
+      text-align: center;
+    }
+
+    .div_title01 img {
+      margin: 105px 0px 80px 0px;
+    }
+
+    .div_title02 img {
+      margin: 75px 0px 65px 0px;
+    }
+
+    .txt_01 {
+      font-size: 31px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .txt_02 {
+      font-size: 18px;
+      color: #666666;
+      margin-top: 15px;
+    }
+
+    .txt_02 a:hover,
+    .txt_01 a:hover {
+      color: #e5233e;
+    }
+
+    .txt_a {
+      padding-right: 18px;
+      border-right: 1px solid #ebebeb;
+    }
+
+    .txt_b {
+      padding: 0px 13px;
+      border-right: 1px solid #ebebeb;
+    }
+
+    .txt_c {
+      padding-left: 9px;
+    }
+
+    .div_vedio {
+      min-height: 280px;
+    }
+
+    .div_vedio {
+      margin-top: 35px;
+    }
+
+    .vedio_left {
+      float: left;
+      width: 51%;
+      padding-right: 20px;
+      box-sizing: border-box;
+      cursor: pointer;
+    }
+
+    .vedio_right {
+      float: left;
+      width: 49%;
+    }
+
+    .p_title {
+      font-size: 22px;
+      margin-bottom: 8px;
+      padding-left: 10px;
+      font-weight: bold;
+      border-left: 4px solid #e5233e;
+    }
+
+    .p_con {
+      font-size: 18px;
+      line-height: 31.5px;
+    }
+
+    .p_con01 {
+      text-indent: 35px
+    }
+
+    .p_end {
+      font-size: 14px;
+      color: #888888;
+      text-align: right;
+      padding-right: 28px;
+      margin-top: 5px;
+      box-sizing: border-box;
+    }
+
+    /*.endTop02 img {
+      width: 100%;
+      display: block;
+    }*/
+
+    .swiperTop01 {
+      box-sizing: border-box;
+    }
+
+    .swiperTop01 img {
+      width: 100%;
+      display: block;
+      float: left;
+    }
+
+    .page01 .swiper-button-prev {
+      right: 60px;
+      left: auto;
+      height: 110px;
+      width: 60px;
+    }
+
+    .page01 .swiper-button-next {
+      right: 0px;
+      height: 110px;
+      width: 60px;
+    }
+
+    .page01 .swiper-button-next.swiper-button-white,
+    .page01 .swiper-container-rtl .swiper-button-prev.swiper-button-white {
+      background-size: 16px;
+    }
+
+    .page01 .swiper-button-prev.swiper-button-white,
+    .page01 .swiper-container-rtl .swiper-button-next.swiper-button-white {
+      background-size: 16px;
+    }
+
+    .swiperTop01 {
+      overflow: hidden;
+    }
+
+    .pre01,
+    .pre02 {
+      position: absolute;
+      right: 58px;
+      top: 0;
+      display: block;
+      width: 1px;
+      height: 130px;
+      background: #484848;
+    }
+
+    .pre01 {
+      right: 120px;
+    }
+
+    .pageNum {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 130px;
+      height: 110px;
+      background: url(img/nums_back.png) no-repeat 50px center;
+    }
+
+    .nums1 {
+      position: absolute;
+      top: 10px;
+      left: 12px;
+      font-size: 88px;
+      line-height: 88px;
+      color: #e5233e;
+    }
+
+    .nums2 {
+      position: absolute;
+      bottom: 10px;
+      right: 35px;
+      font-size: 42px;
+      line-height: 42px;
+      color: #FFFFFF;
+    }
+
+    .addBorder01 {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: block;
+      box-sizing: border-box;
+      background: rgba(0, 0, 0, .6);
+      cursor: pointer;
+    }
+
+    .addBorder {
+      background: rgba(0, 0, 0, .4);
+      border: 4px solid #e5233e;
+      box-sizing: border-box;
+    }
+
+    .leftR02 {
+      width: 50%;
+      float: right;
+    }
+
+    .index_div03 {
+      /*background: url(img/pb03_back.png) no-repeat bottom left;*/
+    }
+
+    .div_03 {
+      width: 1480px;
+      margin: 0 auto;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .left_pb {
+      float: left;
+      width: 590px;
+      height: 100%;
+      padding: 0px 10px;
+      box-sizing: border-box;
+      position: relative;
+    }
+
+    .right_pb {
+      float: right;
+      width: 60%;
+    }
+
+    .pb {
+      padding-left: 38px;
+      margin-bottom: 25px;
+      font-size: 18px;
+      box-sizing: border-box;
+      background: url(img/index_icon_pb01.png) no-repeat left top;
+    }
+
+    .h_p {
+      line-height: 30px;
+      margin-top: 5px;
+      display: none;
+    }
+
+    .pb_h {
+      font-size: 22px;
+      line-height: 30px;
+      color: #666666;
+      cursor: pointer;
+    }
+
+    .pb02 {
+      background: url(img/index_icon_pb02.png) no-repeat left top;
+    }
+
+    .pb03 {
+      background: url(img/index_icon_pb03.png) no-repeat left top;
+    }
+
+    .pb04 {
+      background: url(img/index_icon_pb04.png) no-repeat left top;
+    }
+
+    .pb05 {
+      background: url(img/index_icon_pb05.png) no-repeat left top;
+    }
+
+    .h_active {
+      font-weight: bold;
+    }
+
+    .swiperPb {
+      max-height: 528px;
+      overflow: hidden;
+    }
+
+    .swiperPb img {
+      width: 100%;
+      display: block;
+    }
+
+    .right_pb .swiper-button-next,
+    .right_pb .swiper-button-prev {
+      width: 48px;
+      height: 48px;
+      line-height: 48px;
+      text-align: center;
+      bottom: 0 !important;
+      top: auto !important;
+      color: #FFFFFF;
+      font-size: 32px;
+      background: #333333;
+    }
+
+    .right_pb .swiper-button-next {
+      right: 0 !important;
+    }
+
+    .right_pb .swiper-button-prev {
+      right: 48px !important;
+    }
+
+    .right_pb .swiper-button-disabled {
+      opacity: 1 !important;
+      color: #888888;
+    }
+
+    .toPbDeatil {
+      width: 220px;
+      height: 50px;
+      line-height: 50px;
+      text-align: center;
+      display: block;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      border-radius: 4px;
+      background: #e5233e;
+      color: #FFFFFF;
+      font-size: 18px;
+    }
+
+    .myTeachers {
+      /*background: url(img/index_top04_back.jpg) no-repeat top center;
+      background-size: auto 740px;*/
+      margin-top: 25px;
+    }
+
+    .myTeachers .swiper-container {
+      width: 960px;
+      padding-bottom: 90px;
+    }
+
+    .myTeachers .swiper-slide {
+      margin: 0px !important;
+      line-height: 0px;
+    }
+
+    .myTeachers .swiper-slide img {
+      width: 240px;
+      height: 195px;
+      float: left;
+      margin: 0 !important;
+      display: block;
+    }
+
+    .teacher_pre {
+      height: 90px;
+      width: 100%;
+      bottom: 0;
+      left: 0;
+      position: absolute;
+    }
+
+    .swiper-button-next,
+    .swiper-button-prev {
+      color: #e5233e;
+      font-size: 68px;
+      height: auto;
+      width: 45px;
+      top: 22px;
+    }
+
+    .teacher_pre .swiper-button-next,
+    .teacher_pre .swiper-button-prev {
+      color: #333333;
+      font-size: 44px;
+    }
+
+    .teacher_pre .swiper-button-next:hover,
+    .teacher_pre .swiper-button-prev:hover {
+      color: #e5233e;
+    }
+	.teacher_pre .swiper-button-prev{
+		width: 50px;
+		height: 50px;
+		background: url(img/tip_left_gray.png) center center no-repeat;
+	}
+	.teacher_pre .swiper-button-prev:hover{
+		
+		background: url(img/tip_left.png) center center no-repeat;
+	}
+	.teacher_pre .swiper-button-next{
+		width: 50px;
+		height: 50px;
+		background: url(img/tip_right_gray.png) center center no-repeat;
+	}
+	.teacher_pre .swiper-button-next:hover{
+	
+		background: url(img/tip_right.png) center center no-repeat;
+	}
+    .swiper-button-next {
+      right: 0px;
+    }
+
+    .swiper-button-prev {
+      right: 70px;
+      left: auto;
+    }
+
+    .index_div05 {
+      /*background: url(img/pb05_back.jpg) no-repeat bottom left;*/
+      background-size: 100%;
+      padding-bottom: 205px;
+    }
+
+    .myVideo {
+      width: 960px;
+      margin: 0 auto;
+    }
+
+    .video_p_content {
+      width: 960px;
+      height: 653px;
+    }
+
+    .vidList {
+      width: 100%;
+      margin-top: 40px;
+    }
+
+    .vidList ul {
+      /*width: 100%;*/
+      overflow: hidden;
+      margin: 0 auto;
+    }
+
+    .vidList ul li {
+      width: 280px;
+      height: 200px;
+      float: left;
+      display: block;
+      font-size: 18px;
+      line-height: 0px;
+      margin-bottom: 15px;
+      border: 2px solid transparent;
+      box-sizing: border-box;
+      position: relative;
+    }
+
+    .vidList .li_cen {
+      margin: 0px 54px 15px 54px;
+    }
+
+    .vidList .vid_title {
+      line-height: 40px;
+      box-sizing: border-box;
+      position: relative;
+    }
+
+    .vidList .onTitle {
+      padding-left: 12px;
+    }
+
+    .vidList ul li img {
+      width: 276px;
+      cursor: pointer;
+    }
+
+    .vidList .left_bor {
+      display: block;
+      height: 18px;
+      width: 2px;
+      top: 12px;
+      left: 0;
+      position: absolute;
+      background: #e5233e;
+      display: none;
+    }
+
+    .active_div {
+      position: relative;
+    }
+
+    .active_div .active_vid {
+      width: 100%;
+      height: 100%;
+      line-height: 157px;
+      text-align: center;
+      color: #FFFFFF;
+      font-size: 24px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      background: rgba(0, 0, 0, .4);
+      box-sizing: border-box;
+      border: 2px solid #e5233e;
+      display: none;
+    }
+
+    .active_div .onActive,
+    .vidList .onBor {
+      display: block;
+    }
+
+    .now_vid {
+      margin-top: -4px;
+      font-size: 24px;
+      color: #FFFFFF;
+      height: 44px;
+      padding: 2px 0px;
+      box-sizing: border-box;
+      background: #242424;
+    }
+
+    .now_vid p {
+      padding-left: 18px;
+      line-height: 32px;
+      margin-top: 5px;
+      border-left: 8px solid #E5233E;
+      box-sizing: border-box;
+    }
+
+    .div_top05 {
+      text-align: center;
+    }
+
+    .div_top06 {
+      text-align: center;
+      margin-top: 90px;
+    }
+
+    .div_top07 {
+      text-align: center;
+      margin-top: 80px;
+      margin-bottom: 40px;
+    }
+
+    .top08_img {
+      max-width: 1419px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .top08_img img {
+      width: 100%;
+      display: block;
+    }
+
+    .img01,
+    .img02,
+    .img03,
+    .img04 {
+      width: 25%;
+      height: 100%;
+      font-size: 24px;
+      text-align: center;
+      color: #FFFFFF;
+      position: absolute;
+      top: 0;
+      left: 0;
+      cursor: pointer;
+      /* Firefox */
+      display: -moz-box;
+      -moz-box-pack: center;
+      -moz-box-align: center;
+      /* Safari、Opera 以及 Chrome */
+      display: -webkit-box;
+      -webkit-box-pack: center;
+      -webkit-box-align: center;
+      /* Internet Explorer 10 */
+      display: -ms-flexbox;
+      -ms-flex-pack: center;
+      -ms-flex-align: center;
+      /* W3C */
+      display: box;
+      box-pack: center;
+      box-align: center;
+    }
+
+    .imgA:hover {
+      color: #e5233e;
+    }
+
+    .myShow {
+      color: #e5233e;
+    }
+
+    .img02 {
+      left: 25%;
+    }
+
+    .img03 {
+      left: 50%;
+    }
+
+    .img04 {
+      left: 75%;
+    }
+
+    /*赛制说明
+ */
+
+    .imgList {
+      width: 1000px;
+      margin: 0 auto;
+      font-size: 18px;
+      height: 0;
+      overflow: hidden;
+    }
+
+    .imgList .specification_paragraph {
+      margin: 0 auto;
+      display: none;
+    }
+
+    .specification_paragraph {
+      position: relative;
+      width: 100%;
+      padding: 71px 0 71px 0;
+      border-top: 1px solid #FFC9D1;
+    }
+
+    .specification_paragraph h3 {
+      font-size: 24px;
+      color: #E5233E;
+      text-align: center;
+      font-weight: bold;
+      margin-bottom: 24px;
+    }
+
+    .specification_paragraph p {
+      text-align: left;
+      text-indent: 36px;
+    }
+
+    .specification_paragraph_title {
+      margin-top: 19px;
+      text-align: center !important;
+      font-weight: bold;
+      text-indent: 0 !important;
+    }
+
+    .specification_paragraph_div {
+      position: relative;
+      width: 922px;
+      border: 1px dashed #bebebe;
+      margin: 16px auto 0 auto;
+      padding: 27px 36px 27px 62px;
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+    }
+
+    .specification_paragraph_div p {
+      text-align: left;
+      text-indent: 36px;
+    }
+
+    .specification_paragraph_div ul {
+      position: relative;
+    }
+
+    .specification_paragraph_div ul li {
+      list-style-type: disc !important;
+      line-height: 32px;
+    }
+
+    .specification_paragraph_table {
+      position: relative;
+      width: 680px;
+      margin: auto;
+    }
+
+    .specification_paragraph_table tr {
+      height: 40px;
+    }
+
+    .specification_paragraph_table .row1 {
+      width: 320px;
+    }
+
+    .specification_paragraph_table .row2 {
+      width: 160px;
+    }
+
+    .specification_paragraph_table .row3 {
+    }
+
+    .paragraphType1 {
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+      padding: 71px 39px 71px 39px;
+    }
+
+    .tableDiv {
+      position: relative;
+      width: 100%;
+      height: 182px;
+      margin-top: 30px;
+    }
+
+    .tableDiv p {
+      text-indent: 0;
+    }
+
+    .tableTitle {
+      position: relative;
+      float: left;
+      width: 129px;
+      height: 100%;
+      border: 1px solid #ebebeb;
+      background-color: #f8f8f8;
+      padding: 40px 0 35px 0;
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+    }
+
+    .tableTitle p {
+      text-align: center;
+    }
+
+    .tableContent {
+      position: relative;
+      float: left;
+      height: 100%;
+      width: 790px;
+      border: 1px solid #ebebeb;
+      border-left: none;
+      padding: 10px 30px 10px 30px;
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+    }
+
+    .div-title {
+      font-weight: bold;
+    }
+
+    .panelsDiv {
+      position: relative;
+      margin-top: 49px;
+      width: 100%;
+      height: 600px;
+      padding-left: 40px;
+    }
+
+    .panelsDiv h4 {
+      text-align: center;
+      font-size: 22px;
+      font-weight: bold;
+      margin-bottom: 21px;
+    }
+
+    .panelsDiv p {
+      text-align: left;
+      text-indent: 0;
+    }
+
+    .panelDiv {
+      position: relative;
+      width: 360px;
+      height: 290px;
+      border-bottom: 1px solid #EBEBEB;
+      float: left;
+      margin-bottom: 55px;
+    }
+
+    .panelDiv_row2 {
+      position: relative;
+      width: 360px;
+      height: 190px;
+      float: left;
+    }
+
+    .panelDiv_line {
+      position: relative;
+      float: left;
+      width: 1px;
+      height: 190px;
+      background-color: #EBEBEB;
+      margin: 0 65px 0 65px;
+      top: 34px;
+    }
+
+    .projectRating {
+      text-align: center;
+    }
+
+    .projectRating img {
+      margin-top: 29px;
+      margin-bottom: 50px;
+    }
+
+    .projectRating_div {
+      text-align: left;
+      border: 1px dashed #BEBEBE;
+      padding: 13px 30px 13px 62px;
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+      margin-top: 20px;
+    }
+
+    .projectRating_div ul li {
+      list-style-type: disc;
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+
+    .matchProgress img {
+      margin-top: 54px;
+      width: 100%;
+    }
+
+    .importantClause {
+      padding: 71px 39px 6px 39px;
+    }
+
+    .importantClause p {
+      text-align: center;
+      text-indent: 0;
+    }
+
+    /*参赛细则结束
+ */
+	
+    .index_div07 {
+      width: 100%;
+      height: 900px;
+      margin-top: 120px;
+      background: url(img/index08_back.jpg) no-repeat center center;
+      background-size: cover;
+    }
+
+    .div_con {
+      width: 1000px;
+      margin: 0 auto;
+    }
+
+    .con_p {
+      text-align: center;
+      padding-top: 100px;
+    }
+
+    .con_cen {
+      width: 1000px;
+      height: 460px;
+      margin-top: 100px;
+    }
+
+    .cen_left,
+    .cen_right {
+      width: 460px;
+      height: 460px;
+      float: left;
+      background: #120f0d;
+      opacity: 0.7;
+      position: relative;
+      cursor: pointer;
+    }
+
+    .cen_right {
+      float: right;
+    }
+
+    .left_txt {
+      width: 100%;
+      font-size: 18px;
+      color: #FFFFFF;
+      position: absolute;
+      bottom: 25px;
+      left: 0;
+      text-align: center;
+    }
+
+    .p_sp01 {
+      font-size: 32px;
+      color: #e5233e;
+      text-align: center;
+      position: relative;
+    }
+
+    .sp_t01 {
+      font-size: 72px;
+      position: absolute;
+      top: 172px;
+      left: 160px;
+    }
+
+    .sp_t02 {
+      position: absolute;
+      top: 200px;
+      left: 230px;
+    }
+
+    .show_left {
+      text-align: left;
+      padding: 55px 0px 0px 60px;
+      box-sizing: border-box;
+      color: #FFFFFF;
+      font-size: 18px;
+      position: relative;
+      display: none;
+    }
+
+    .left_one {
+      font-size: 32px;
+      color: #e5233e;
+      margin-bottom: 65px;
+    }
+
+    .left_child {
+      margin-bottom: 50px;
+    }
+
+    .p_b01 {
+      position: absolute;
+      width: 20px;
+      height: 2px;
+      background: #E5233E;
+      top: 115px;
+      left: 60px;
+    }
+
+    .teaDiv {
+      position: relative;
+      float: left;
+      cursor: pointer;
+      width: 240px;
+      height: 195px;
+      perspective: 480px;
+    }
+	.teaDiv .teacherDetail,.teaDiv .teaImgBox{
+		 width: 240px;
+      height: 195px;
+      position: absolute;
+      top:0;
+      transition: all 1s;
+	}
+    .teacherDetail {
+      background: rgba(155, 18, 35, 1);
+			z-index: 0;
+			transform-origin: left;
+			left: 240px;
+			transform: rotateY(90deg);
+    }
+
+    .teaDiv:hover .teacherDetail {
+      transform: rotateY(0deg);
+			left: 0;
+			z-index: 1;
+    }
+    .teaDiv .teaImgBox {
+    	background-size: cover;
+      z-index: 1;
+      left: 0;
+			transform-origin: right;
+			background-repeat: no-repeat;
+    }
+
+    .teaDiv:hover .teaImgBox {
+    	transform: rotateY(-90deg);
+			left: -240px;
+			z-index: 0;
+			
+    }
+
+    .div_wz {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 100%;
+      height: auto;
+      transform: translate(-50%, -50%);
+    }
+
+    .tdetal01 {
+      font-size: 20px;
+      line-height: 45px;
+      color: #FFFFFF;
+      overflow: hidden;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .tdetal01 span {
+      display: inline-block;
+      border-bottom: 2px solid #cb6570;
+    }
+
+    .tdetal02 {
+      font-size: 12px;
+      line-height:18px;
+      color: #FFFFFF;
+      text-align: center;
+      overflow: hidden;
+      /*width: 200px;*/
+    	/*margin: 0 auto;*/
+    }
+  </style>
+  <style>
+    body {
+      font-family: "Microsoft YaHei", sans-serif;
+    }
+
+    .pbic2008_title_txt {
+      font-size: 24px;
+      /*font-family: "Microsoft YaHei,sans-serif";*/
+      color: #333333;
+      margin-bottom: 25px;
+    }
+
+    .pbic2008_title_txt span {
+      display: inline-block;
+      width: 4px;
+      height: 32px;
+      background: #e5233e;
+      margin-bottom: -7px;
+      margin-right: 10px;
+    }
+
+    .pbic_content_left {
+      float: left;
+      width: 630px;
+      /*黑体*/
+      /*font-family: "Microsoft YaHei,sans-serif";*/
+      font-size: 17px;
+      text-indent: 2em;
+      line-height: 1.8em;
+      color: #333333;
+      /*letter-spacing:-1px*/
+    }
+
+    .letter_spacing {
+      word-spacing: -2px;
+    }
+
+    .pbic_content_right {
+      float: right;
+      width: 300px;
+      height: 200px;
+      border: 1px solid #B3B3B3;
+      background: url(img/index_pb_lb02.jpg) center center no-repeat;
+      background-size: cover;
+    }
+
+    .look_more {
+      color: #e8485b;
+      float: right;
+    }
+
+    .activity_banner {
+      width: 960px;
+      height: 330px;
+      background: url(img/activity_banner.png) center no-repeat;
+      margin-top: 90px;
+    }
+
+    .activity_banner_content {
+      width: 50%;
+      height: 330px;
+      text-align: center;
+      color: #fff;
+      overflow: hidden;
+    }
+
+    .activity_banner_content p {
+      font-size: 18px;
+      margin-top: 17px;
+    }
+
+    .activity_banner_content .title_h1 {
+      font-size: 32px;
+    }
+
+    .activity_banner_content .title_h1_01 {
+      margin-top: 102px;
+      margin-bottom: 37px;
+    }
+
+    .activity_banner_content .title_h1_02 {
+      margin-top: 70px;
+      margin-bottom: 37px;
+    }
+
+    .part_title {
+      font-size: 22px;
+      padding-left: 80px;
+      position: relative;
+      font-weight: bold;
+    }
+
+    .part_p_txt {
+      text-indent: 80px;
+      font-size: 18px;
+      color: #888888;
+      line-height: 30px;
+    }
+
+    .part_title img {
+      position: absolute;
+      left: -10px;
+      top: 2px;
+    }
+
+    .teach_list_content {
+      margin-top: 23px;
+    }
+
+    .teach_llist {
+      cursor: pointer;
+      width: 240px;
+      height: 195px;
+      overflow: hidden;
+      float: left;
+    }
+
+    .teach_llist a {
+      display: block;
+      width: 240px;
+      height: 195px;
+    }
+
+    .teach_llist a img {
+      width: 240px;
+      height: 195px;
+      margin: 0 auto;
+      display: block;
+    }
+
+    .teach_llist .teach_llist_bgCon {
+      width: 0;
+      height: 195px;
+      margin: 0 auto;
+      background: #ac0b22;
+      color: #ffffff;
+      text-align: center;
+    }
+
+    .teach_llist .teach_llist_bgCon p {
+      margin: 0 auto;
+    }
+
+    .teach_llist_p1 {
+      font-size: 21px;
+      font-weight: bold;
+      padding-top: 75px;
+    }
+
+    .teach_llist .teach_llist_bgCon .teach_llist_p2 {
+      height: 2px;
+      width: 150px;
+      background: #c55565;
+      margin: 3px auto 6px auto;
+    }
+
+    .teach_llist_p3 {
+      width: 150px;
+      font-size: 12px;
+    }
+
+    .part_list_martop {
+      margin-top: 68px;
+    }
+
+    .part_list_marbottom {
+      margin-bottom: 95px;
+      position: relative;
+    }
+	.bg_cion_2018{
+		position: absolute;
+		left: -460px;
+    	top: -38px;
+		z-index: -1;
+	}
+    .part_title_self img {
+      left: 3px;
+      top: 0px
+    }
+
+    .certificate_img {
+      width: 456px;
+      /*height: 254px;*/
+      margin-top: 25px;
+      border: 1px solid #B3B3B3;
+      /*background: url(img/zs_01.png) center center no-repeat;*/
+      background-size: cover;
+    }
+
+    .certificate_img img {
+      width: 456px;
+      /*width: 100%;*/
+      /*height: 100%;*/
+    }
+
+    .video_style {
+      margin-top: 28px;
+    }
+
+    /*往期回顾 轮播 start*/
+
+    .lb01 {
+      position: relative;
+      line-height: 0;
+      width: 960px;
+      /*height: 640px;*/
+      max-width: 960px;
+      max-height: 640px;
+    }
+
+    .lb02 {
+      margin-top: 20px;
+      line-height: 0;
+    }
+
+    .page01 {
+      width: 100%;
+      height: 110px;
+      background: rgba(51, 51, 51, 0.8);
+      color: #FFFFFF;
+      font-size: 22px;
+      line-height: 30px;
+      padding: 15px 130px 0px 130px;
+      box-sizing: border-box;
+      position: relative;
+    }
+
+    .page01_content {
+      width: 960px;
+      z-index: 999;
+      position: absolute;
+      left: 0;
+      bottom: 0;
+    }
+
+    .div_lb_review {
+      margin-top: 30px;
+    }
+
+    .leftR01 {
+      width: 3000px;
+      height: 155px;
+      /*display:table-cell;*/
+      /*vertical-align:middle;
+overflow: hidden;*/
+      /*float: left;*/
+    }
+
+    .swiperTop02 {
+      margin: 0;
+      /*overflow: hidden;*/
+      position: absolute;
+      width: 210px;
+      height: 140px;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      margin: auto;
+    }
+
+    .swiperTop02 img {
+      height: 100%;
+      width: auto;
+      display: inline-block;
+    }
+
+    .gallery-right {
+      width: 906px;
+      margin: 0 auto;
+      overflow: hidden;
+      height: 155px;
+    }
+
+    .swiperTop02_auto {
+      width: 233px;
+      height: 155px;
+    }
+
+    .swiperAutoPosition {
+      position: relative;
+      float: left;
+      width: 233px;
+      height: 155px;
+    }
+
+    .csAction > a {
+      background: #000000;
+    }
+
+    .lunbo_content {
+      width: 100%;
+      position: relative;
+      margin-top: 35px;
+      /*height: 500px;*/
+      /*background: gray;*/
+    }
+
+    /*往期回顾 轮播 end*/
+    /*赛制说明 start*/
+
+    .saizhi_content {
+      padding-bottom: 50px;
+      border-bottom: 1px solid #ffc9d1;
+    }
+
+    .saizhi_content img {
+      margin-left: 69px;
+    }
+
+    /*赛制说明 end*/
+    /*比赛形式 start*/
+
+    .cehua_p {
+      font-size: 18px;
+      text-indent: 2em;
+      line-height: 30px;
+    }
+
+    .mx_martop {
+      margin-top: 90px;
+      padding-bottom: 100px;
+      border-bottom: 1px solid #ffc9d1;
+    }
+
+    /*比赛形式 end*/
+    /*比赛进程*/
+
+    .process_content {
+      margin-top: 70px;
+      margin-bottom: 16px;
+    }
+
+    .line_process_top {
+      width: 100%;
+      height: 2px;
+      background: #ebebeb;
+      position: relative;
+    }
+
+    .line_process_top span {
+      display: block;
+      position: absolute;
+    }
+
+    .line_span {
+      width: 6px;
+      height: 6px;
+      border: 2px solid #ebebeb;
+      border-radius: 50%;
+      top: -4px;
+      background: #ffffff;
+      z-index: 1;
+    }
+
+     .line_span.line_top_01 {
+      left: 0px;
+      top:0px;
+      border:none;
+       border-radius: 0;
+       width: 45px;
+      height: 2px;
+      background: #ebebeb;
+    }
+
+    .line_top_02 {
+      left: 39px;
+    }
+
+    .line_top_03 {
+      left: 479px;
+    }
+
+    .line_top_04 {
+      left: 792px;
+    }
+
+    .line_top_05 {
+      left: 958px;
+    }
+
+    .line_span_red_01 {
+      border: 2px solid #e5233e;
+    }
+
+    .line_span_red_02 {
+      border: 2px solid #e5233e;
+      background: #e5233e;
+    }
+
+    .position_line_red {
+      width: 0;
+      height: 2px;
+      background: #e5233e;
+    }
+
+    .match_duel {
+      width: 87px;
+      height: 53px;
+      font-size: 24px;
+      font-weight: bold;
+      text-align: center;
+      line-height: 40px;
+      top: -60px;
+      background: url(img/tip_gray.png);
+    }
+
+    .match_duel_red {
+      color: #ffffff;
+      background: url(img/tip_red.png);
+    }
+
+    .match_start {
+      left: 0px;
+    }
+
+    .match_center {
+      left: 440px;
+    }
+
+    .match_end {
+      left: 753px;
+    }
+
+    .match_process {
+      margin-bottom: 80px;
+    }
+
+    .cansai_content {
+      display: inline-block;
+      font-size: 18px;
+      color: #888888;
+      margin-left: 55px;
+      position: relative;
+      line-height: 28px
+    }
+
+    .cansai_content .cansai_date_title {
+      color: #333333;
+      font-size: 22px;
+      font-weight: bold;
+      margin-top: 9px;
+    }
+
+    .cansai_content .cansai_date_title_red {
+      color: #e5233e;
+    }
+
+    /*竖线进度设置 start*/
+
+    .cansai_line {
+      position: absolute;
+      width: 2px;
+      background: #ebebeb;
+      left: -15px;
+      top: 20px;
+    }
+
+    .cansai_line_left {
+      height: 220px;
+    }
+
+    .cansai_line_center {
+      height: 190px;
+    }
+
+    .cansai_line_end {
+      height: 100px;
+    }
+
+    .cansai_line_all {
+      width: 2px;
+      background: red;
+    }
+
+    .cansai_line_01 {
+    }
+
+    /*竖线上面的小圆点设置*/
+
+    .sice_content {
+      /*background: red;*/
+      height: 100%;
+      width: 100%;
+      position: relative;
+    }
+
+    .sice_content span {
+      position: absolute;
+      display: block;
+      width: 6px;
+      height: 6px;
+      background: #bebebe;
+      border-radius: 50%;
+      left: -2px;
+    }
+
+    .sice_content_left_01 {
+      top: 0px;
+    }
+
+    .sice_content_left_02 {
+      top: 94px;
+    }
+
+    .cansai_center .sice_content_left_02 {
+      top: 119px;
+    }
+
+    .sice_content_left_03 {
+      bottom: 0;
+    }
+
+    .sice_content .sice_content_left_red {
+      background: #e5233e;
+    }
+
+    /*竖线进度设置 end*/
+    /*比赛进程*/
+    /*选手风采设置 start*/
+
+    .index_div04 {
+      /*width: 1920px;*/
+      height: 1282px;
+      /*background: url(img/player_bg_img.jpg) center no-repeat;*/
+    }
+
+    .index_div04_content {
+      width: 960px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .index_div04_content .index_div04_content_img {
+      position: absolute;
+      z-index: -1;
+      left: -490px;
+    }
+
+    .player_list_vodeo_content {
+      width: 100%;
+      position: relative;
+      margin-left: 14px;
+    }
+
+    .player_list_vodeo {
+      width: 825px;
+      height: 166px;
+      margin: 0 auto;
+      /*padding: 0 80px;*/
+      position: relative;
+      overflow: hidden;
+      margin-top: 55px;
+    }
+
+    .player_list_vodeo_content .player_vodeo_tip_span {
+      display: block;
+      position: absolute;
+      top: 70px;
+      cursor: pointer;
+      width: 14px;
+      height: 27px;
+    }
+
+    .player_vodeo_tip_left {
+      left: 16px;
+      background: url(img/tip_left.png);
+    }
+
+    .player_vodeo_tip_right {
+      right: 38px;
+      background: url(img/tip_right.png);
+    }
+
+    .player_list_vodeo ul {
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+
+    .player_list_vodeo ul li {
+      padding-top: 3px;
+      padding-left: 3px;
+      width: 240px;
+      height: 160px;
+      float: left;
+      padding-right: 40px;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .player_list_vodeo ul li img {
+      width: 100%;
+      height: 100%;
+    }
+
+    .player_vodeo_bk {
+      width: 240px;
+      height: 160px;
+      line-height: 160px;
+      position: absolute;
+      text-align: center;
+      color: #ffffff;
+      background: rgba(0, 0, 0, 0.7);
+      font-size: 18px;
+      display: none;
+    }
+
+    .player_vodeo_history {
+      width: 246px;
+      height: 166px;
+      position: absolute;
+      background: url(img/play_history.png) center no-repeat;
+      background-color: rgba(0, 0, 0, 0.7);
+      left: 0px;
+      top: 0px;
+      /*display: none;*/
+    }
+
+    .player_vodeo_ing {
+      background: url(img/play_ing.png) center no-repeat;
+      background-color: rgba(0, 0, 0, 0.7);
+    }
+
+    /*选手风采设置 end*/
+    .vedio_right_tip {
+      margin-top: -4px;
+      font-size: 24px;
+      color: #FFFFFF;
+      height: 38px;
+      padding: 2px 0px;
+      box-sizing: border-box;
+      background: #242424;
+    }
+
+    .vedio_right_tip p {
+      padding-left: 18px;
+      border-left: 8px solid #E5233E;
+      box-sizing: border-box;
+    }
+
+    /*名师评审 轮播css start*/
+    .swiper_teach_list .swiper-button-prev, .swiper_teach_list .swiper-button-next {
+      width: 100px;
+      height: 100px;
+    }
+
+    .lunbo_container_con {
+      height: 500px;
+      background: gainsboro;
+    }
+
+    .swiper-pagination_style {
+      /*width: 100px !important;*/
+    }
+
+ 
+
+    /*名师评审 css end*/
+   
+/*特优勉励  start*/
+.courage_tip_top{
+	position: absolute;
+	left: 90px;
+	top:-30px;
+	opacity: 0;
+}
+.courage_bottom_opcity{
+	width: 210px;
+	height: 140px;
+	position: absolute;
+	z-index: 99;
+	background: rgba(0,0,0,0);
+	color: #ffffff;
+	text-align: center;
+	line-height: 140px;
+	font-size: 18px;
+	left: 7px;
+}
+.lunbo_content .courage_bottom .swiper-slide-active .courage_tip_top{
+	opacity: 1;
+}
+.lunbo_content .courage_bottom .swiper-slide-active .courage_bottom_opcity{
+	background: rgba(0,0,0,0.6);
+		border: 2px solid #e5233e;
+}
+.lunbo_content .courage_bottom{
+	/*padding: 0 10px;*/
+	
+	/*width: 930px;*/
+	margin: 0 auto;
+	/*box-sizing: border-box;*/
+	/*margin-left: 37px;*/
+	width: 900px;
+	padding: 0 30px;
+	padding-top: 25px;
+	
+}
+.courage_bottom .swiper-wrapper{
+	width: 960px;
+	height: 150px;
+	margin: 0 auto;
+	
+}
+.lunbo_content .courage_bottom .swiper-slide{
+	box-sizing: border-box;
+	text-align: center;
+
+}
+.lunbo_content .courage_bottom .swiper-slide:hover .courage_bottom_opcity{
+		background: rgba(0,0,0,0.6);
+		/*border: 2px solid #e5233e;*/
+}
+.lunbo_content .courage_bottom .courage_bottom_img {
+	width: 210px;
+	height: 140px;
+	margin: 0 auto;
+}
+.lunbo_content .courage_bottom .courage_bottom_img01 {
+
+ background: url(img/index_img_new_01.jpg) center center no-repeat;
+ background-size: cover;
+}
+
+.lunbo_content .courage_bottom .courage_bottom_img02 {
+ background: url(img/index_img_new_02.jpg) center center no-repeat;
+ background-size: cover;
+}
+.lunbo_content .courage_bottom .courage_bottom_img03{
+ background: url(img/index_img_new_03.jpg) center center no-repeat;
+ background-size: cover;
+}
+.lunbo_content .courage_bottom .courage_bottom_img04{
+ background: url(img/index_img_new_04.jpg) center center no-repeat;
+ background-size: cover;
+}
+.lunbo_content .courage_bottom .courage_bottom_img05{
+ background: url(img/index_img_new_05.jpg) center center no-repeat;
+ background-size: cover;
+}
+.lunbo_content .courage_bottom .courage_bottom_img06{
+ background: url(img/index_img_new_06.jpg) center center no-repeat;
+ background-size: cover;
+}
+.lunbo_content .courage_bottom .courage_bottom_img07{
+ background: url(img/index_img_new_07.jpg) center center no-repeat;
+ background-size: cover;
+}
+.courage_top{
+	width: 960px;
+	height: 650px;
+	position: relative;
+	
+}
+.courage_top_txt{
+	width: 960px;
+	height: 110px;
+	position: absolute;
+	left: 0;
+	bottom:0;
+	background: rgba(0,0,0,0.7);
+	z-index: 99;
+	color: #ffffff;
+	
+}
+.courage_top_txt .line_xie{
+	
+	width: 45px;
+	height: 94px;
+	position: relative;
+	background: url(img/line_xie.png) center center no-repeat;
+	z-index: 99;
+	margin-left: 50px;
+	margin-top: 10px;
+}
+.courage_top_txt .line_xie .line_s1{
+	position: absolute;
+	font-size: 70px;
+	color: #e5233e;
+	left: -35px;
+  top: -10px;
+}
+.courage_top_txt .line_xie .line_s2{
+	position: absolute;
+	font-size: 34px;
+	color: #ffffff;
+	left: 29px;
+    top: 42px;
+}
+.part_list_martop .swiper-container{
+	padding-bottom: 60px;
+}
+..zs_certificate{
+	position: relative;
+	padding-bottom: 60px;
+}
+.zs_certificate_tip{
+	/*position: absolute;*/
+	/*bottom: 0px;*/
+	z-index: 99;
+}
+.zs_certificate_tip .swiper-button-next, .zs_certificate_tip .swiper-button-prev{
+	bottom: -670px;
+	
+}
+.zs_certificate_tip .swiper-button-prev{
+	background: url(img/tip_left_gray.png) center center no-repeat;
+}
+.zs_certificate_tip .swiper-button-prev:hover{
+	background: url(img/tip_left.png) center center no-repeat;
+}
+.zs_certificate_tip .swiper-button-next{
+	background: url(img/tip_right_gray.png) center center no-repeat;
+}
+.zs_certificate_tip .swiper-button-next:hover{
+	background: url(img/tip_right.png) center center no-repeat;
+}
+.courage_top_right{
+	width: 766px;
+    padding-top: 35px;
+    /* margin-left: 25px; */
+    font-size: 22px;
+    padding-left: 25px;
+    word-break: break-word;
+}
+
+.index_img_new{
+	width: 960px;
+	height: 650px;
+}
+.index_img_new_01{
+	 
+	 background: url(img/index_img_new_01.jpg) center center no-repeat;
+	 background-size: cover;
+}
+.index_img_new_02{
+	 background: url(img/index_img_new_02.jpg) center center no-repeat;
+	 background-size: cover;
+}
+.index_img_new_03{
+	 background: url(img/index_img_new_03.jpg) center center no-repeat;
+	 background-size: cover;
+}
+.index_img_new_04{
+	 background: url(img/index_img_new_04.jpg) center center no-repeat;
+	 background-size: cover;
+}
+.index_img_new_05{
+	 background: url(img/index_img_new_05.jpg) center center no-repeat;
+	 background-size: cover;
+}
+.index_img_new_06{
+	 background: url(img/index_img_new_06.jpg) center center no-repeat;
+	 background-size: cover;
+}
+.index_img_new_07{
+	 background: url(img/index_img_new_07.jpg) center center no-repeat;
+	 background-size: cover;
+}
+
+/*特优勉励 end*/
+
+/*选手风采  start*/
+  .gallery-top .swiper-container {
+    width: 960px;
+    height: 650px;
+    margin-left: auto;
+    margin-right: auto;
+    /*position: relative;*/
+  }
+
+  .gallery-top .swiper-slide {
+    background-size: cover;
+    background-position: center;
+    text-align: center;
+  }
+
+  .gallery-top {
+    height: 650px;
+    width: 960px;
+    border: 1px solid gainsboro;
+  }
+
+  .gallery-thumbs_new {
+    /*height: 20%;*/
+    width: 860px;
+
+    height: 165px;
+    box-sizing: border-box;
+    margin-top: 60px;
+
+    /*padding: 10px 0;*/
+  }
+
+  .gallery-thumbs_new .swiper-wrapper {
+    width: 840px !important;
+  }
+
+  .gallery-thumbs_new .swiper-slide {
+    /*height:50px;*/
+    /*width: 240px;*/
+    opacity: 1;
+    text-align: center;
+    cursor: pointer;
+    /*margin: 0 10px;*/
+  }
+.gallery-thumbs_new .swiper-slide:hover .gry_opcity{
+	 background: rgba(0,0,0,0.6);
+     /*border: 2px solid red;*/
+}
+  .gallery-thumbs_new .swiper-slide img {
+    height: 160px;
+    width: 240px;
+    opacity: 1;
+    text-align: center;
+  }
+
+  .gallery-thumbs_new .swiper-slide-active img {
+    opacity: 1;
+    /*border: 2px solid red;*/
+  }
+.gry_opcity{
+	position: absolute;
+	height: 160px;
+    width: 240px;
+    background: rgba(0,0,0,0);
+    left: 24px;
+    top:0px
+}
+.gallery-thumbs_new .swiper-slide-active .gry_opcity {
+    background: rgba(0,0,0,0.6);
+     border: 2px solid red;
+  }
+
+  .gallery-thumbs_new .swiper-button-next, .swiper-button-prev {
+    font-size: 18px;
+  }
+
+  #swiper-button-next {
+    right: -18px;
+    top: 70px;
+    width: 50px;
+    height: 50px;
+    background: url(img/tip_right_gray.png) center center no-repeat;
+  }
+ #swiper-button-next:hover{
+ 	background: url(img/tip_right.png) center center no-repeat;
+ }
+  #swiper-button-prev {
+    left: -18px;
+    top: 70px;
+    width: 50px;
+    height: 50px;
+    background: url(img/tip_left_gray.png) center center no-repeat;
+  }
+  #swiper-button-prev:hover{
+  	 background: url(img/tip_left.png) center center no-repeat;
+  }
+  
+  
+   #swiper-button-next_01 {
+    right: -18px;
+    top: 30px;
+    width: 50px;
+    height: 160px;
+    background: url(img/tip_right_gray.png) center center no-repeat;
+    background-color: #fafafa;
+  }
+   #swiper-button-next_01:hover{
+   	background: url(img/tip_right.png) center center no-repeat;
+   	background-color: #fafafa;
+   }
+  #swiper-button-prev_01{
+  	left: -18px;
+    top: 30px;
+    width: 50px;
+    height: 160px;
+    background: url(img/tip_left_gray.png) center center no-repeat;
+    background-color: #fafafa;
+  }
+   #swiper-button-prev_01:hover{
+   	background: url(img/tip_left.png) center center no-repeat;
+   	background-color: #fafafa;
+   }
+  
+  .gallery-top-imgBg {
+    width: 960px;
+    height: 650px;
+
+  }
+
+  .gallery-top-imgBg-01 {
+    background: url(img/index_team01_big.png) center center no-repeat;
+    background-size: cover;
+  }
+
+  .gallery-top-imgBg-02 {
+    background: url(img/index_team02_big.png) center center no-repeat;
+    background-size: cover;
+  }
+
+  .gallery-top-imgBg-03 {
+    background: url(img/index_team03_big.png) center center no-repeat;
+    background-size: cover;
+  }
+
+  .gallery-top-imgBg-04 {
+    background: url(img/index_team04_big.png) center center no-repeat;
+    background-size: cover;
+  }
+
+  .gallery-top-imgBg-05 {
+    background: url(img/index_team05_big.png) center center no-repeat;
+    background-size: cover;
+  }
+
+  .gallery-top-imgBg-06 {
+    background: url(img/index_team06_big.png) center center no-repeat;
+    background-size: cover;
+  }
+  .gallery_thumbs_small{
+  	width: 240px;
+  	height: 160px;
+  	margin-left: 24px;
+  }
+  .gallery_thumbs_small_01{
+  	background: url(img/index_team01_big.png) center center no-repeat;
+  	background-size: cover;
+  }
+    .gallery_thumbs_small_02{
+  	background: url(img/index_team02_big.png) center center no-repeat;
+  	background-size: cover;
+  }
+    .gallery_thumbs_small_03{
+  	background: url(img/index_team03_big.png) center center no-repeat;
+  	background-size: cover;
+  }
+    .gallery_thumbs_small_04{
+  	background: url(img/index_team04_big.png) center center no-repeat;
+  	background-size: cover;
+  }
+    .gallery_thumbs_small_05{
+  	background: url(img/index_team05_big.png) center center no-repeat;
+  	background-size: cover;
+  }
+    .gallery_thumbs_small_06{
+  	background: url(img/index_team06_big.png) center center no-repeat;
+  	background-size: cover;
+  }
+   .gallery-thumbs_new .swiper-slide-active .gallery_thumbs_small {
+    opacity: 1;
+   
+  }
+  /*选手风采 end*/
+ 	/*往期回顾 start*/
+	.index_div06{
+		/*height: 600px;*/
+	}
+		.review_img_item{
+		width: 227px;
+		height: 184px;
+		float: left;
+		margin-right: 13px;
+		margin-bottom: 10px;
+		cursor: pointer;
+		position: relative;
+		}
+	.review_item_img{
+		width: 227px;
+		height: 184px;
+		float: left;
+		margin-right: 13px;
+		margin-bottom: 10px;
+		cursor: pointer;
+		position: relative;
+	}
+	.review_mask{
+		width: 227px;
+		height: 184px;
+		background: rgba(0,0,0,0.2);
+		position: absolute;
+		cursor: pointer;
+	}
+	.review_mask:hover{
+		background: none;
+	}
+	.review_ck{
+		position: absolute;
+		display: block;
+		width: 24px;
+		height: 24px;
+		bottom: 0;
+		right: 0;
+	}
+	.review_img_item:hover .review_ck{
+		background: url(img/review_ck_icon.png);
+		background-position: center no-repeat;
+	}
+	.item_img_1_01{
+		background: url(img/review_1_01.jpg) center no-repeat;
+	}
+	.item_img_1_02{
+		background: url(img/review_1_02.jpg) center no-repeat;
+	}
+	.item_img_1_03{
+		background: url(img/review_1_03.jpg) center no-repeat;
+	}
+	.item_img_1_04{
+		background: url(img/review_1_04.jpg) center no-repeat;
+	}
+	.item_img_1_05{
+		background: url(img/review_1_05.jpg) center no-repeat;
+	}
+	.item_img_1_06{
+		background: url(img/review_1_06.jpg) center no-repeat;
+	}
+	.item_img_1_07{
+		background: url(img/review_1_07.jpg) center no-repeat;
+	}
+	.item_img_1_08{
+		background: url(img/review_1_08.jpg) center no-repeat;
+	}
+	.item_img_1_09{
+		background: url(img/review_1_09.jpg) center no-repeat;
+	}
+	.item_img_1_10{
+		background: url(img/review_1_10.jpg) center no-repeat;
+	}
+	.item_img_1_11{
+		background: url(img/review_1_11.jpg) center no-repeat;
+	}
+	.item_img_1_12{
+		background: url(img/review_1_12.jpg) center no-repeat;
+	}
+	.item_img_2_01{
+		background: url(img/review_2_01.jpg) center no-repeat;
+	}
+	.item_img_2_02{
+		background: url(img/review_2_02.jpg) center no-repeat;
+	}
+	.item_img_2_03{
+		background: url(img/review_2_03.jpg) center no-repeat;
+	}
+	.item_img_2_04{
+		background: url(img/review_2_04.jpg) center no-repeat;
+	}
+	.item_img_2_05{
+		background: url(img/review_2_05.jpg) center no-repeat;
+	}
+	.item_img_2_06{
+		background: url(img/review_2_06.jpg) center no-repeat;
+	}
+	.item_img_2_07{
+		background: url(img/review_2_07.jpg) center no-repeat;
+	}
+	.item_img_2_08{
+		background: url(img/review_2_08.jpg) center no-repeat;
+	}
+	.item_img_2_09{
+		background: url(img/review_2_09.jpg) center no-repeat;
+	}
+	.item_img_2_10{
+		background: url(img/review_2_10.jpg) center no-repeat;
+	}
+	.item_img_2_11{
+		background: url(img/review_2_11.jpg) center no-repeat;
+	}
+	.item_img_2_12{
+		background: url(img/review_2_12.jpg) center no-repeat;
+	}
+	.item_img_2_13{
+		background: url(img/review_2_13.jpg) center no-repeat;
+	}
+	.item_img_2_14{
+		background: url(img/review_2_14.jpg) center no-repeat;
+	}
+	.item_img_2_15{
+		background: url(img/review_2_15.jpg) center no-repeat;
+	}
+	.item_img_2_16{
+		background: url(img/review_2_16.jpg) center no-repeat;
+	}
+	.item_img_2_17{
+		background: url(img/review_2_17.jpg) center no-repeat;
+	}
+	.item_img_2_18{
+		background: url(img/review_2_18.jpg) center no-repeat;
+	}
+	.item_img_2_19{
+		background: url(img/review_2_19.jpg) center no-repeat;
+	}
+	.item_img_2_20{
+		background: url(img/review_2_20.jpg) center no-repeat;
+	}
+	.item_img_2_21{
+		background: url(img/review_2_21.jpg) center no-repeat;
+	}
+	.item_img_2_22{
+		background: url(img/review_2_22.jpg) center no-repeat;
+	}
+	
+	.item_img_3_01{
+		background: url(img/review_3_01.jpg) center no-repeat;
+	}
+	.item_img_3_02{
+		background: url(img/review_3_02.jpg) center no-repeat;
+	}
+	.item_img_3_03{
+		background: url(img/review_3_03.jpg) center no-repeat;
+	}
+	.item_img_3_04{
+		background: url(img/review_3_04.jpg) center no-repeat;
+	}
+	.item_img_3_05{
+		background: url(img/review_3_05.jpg) center no-repeat;
+	}
+	.item_img_3_06{
+		background: url(img/review_3_06.jpg) center no-repeat;
+	}
+	.item_img_3_07{
+		background: url(img/review_3_07.jpg) center no-repeat;
+	}
+	.item_img_3_08{
+		background: url(img/review_3_08.jpg) center no-repeat;
+	}
+	.item_img_3_09{
+		background: url(img/review_3_09.jpg) center no-repeat;
+	}
+	.item_img_3_10{
+		background: url(img/review_3_10.jpg) center no-repeat;
+	}
+	.item_img_3_11{
+		background: url(img/review_3_11.jpg) center no-repeat;
+	}
+	.item_img_3_12{
+		background: url(img/review_3_12.jpg) center no-repeat;
+	}
+	.item_img_3_13{
+		background: url(img/review_3_13.jpg) center no-repeat;
+	}
+	
+	.item_img_4_01{
+		background: url(img/review_4_01.jpg) center no-repeat;
+	}
+	.item_img_4_02{
+		background: url(img/review_4_02.jpg) center no-repeat;
+	}
+	.item_img_4_03{
+		background: url(img/review_4_03.jpg) center no-repeat;
+	}
+	.item_img_4_04{
+		background: url(img/review_4_04.jpg) center no-repeat;
+	}
+	.item_img_4_05{
+		background: url(img/review_4_05.jpg) center no-repeat;
+	}
+	.item_img_4_06{
+		background: url(img/review_4_06.jpg) center no-repeat;
+	}
+	.item_img_4_07{
+		background: url(img/review_4_07.jpg) center no-repeat;
+	}
+	.item_img_4_08{
+		background: url(img/review_4_08.jpg) center no-repeat;
+	}
+	
+	
+	
+	.img_back_cover{
+		background-size:cover ;
+	}
+	.review_title{
+		width: 840px;
+		margin: 0 auto;
+		position: relative;
+		margin-bottom: 40px;
+		z-index: 10;
+	}
+	.review_title_line{
+		position: absolute;
+		height: 2px;
+		background: #ebebeb;
+		width: 650px;
+	  left: 77px;
+    top: 11px;
+    z-index: -1;
+	}
+	.review_title_d{
+		float: left;
+		width: 150px;
+		text-align: center;
+		margin-right: 67px;
+		font-size: 18px;
+		cursor: pointer;
+	}
+	.review_title_d:hover{
+		color: #e5233e;
+	}
+	.review_title_d:hover span{
+		background: #e5233e;
+	}
+	.review_title_d p{
+		margin-top: 10px;
+	}
+	.review_title_d .review_red_p{
+		margin: 0 auto;
+		margin-top: 10px;
+		width: 115px;
+	}
+	.review_title_d span{
+		display: block;
+		width: 23px;
+		height: 23px;
+		line-height: 23px;
+		font-size: 20px;
+		border-radius: 50%;
+		background: #333333;
+		color: #ffffff;
+		text-align: center;
+			margin: 0 auto;
+	}
+	.review_title_d.review_red{
+		color: #e5233e;
+	}
+	.review_title_d.review_red span{
+		background: #e5233e;
+	}
+	.review_img_swiper{
+		height:470px;
+	}
+	.review_img_swiper_none{
+		display: none;
+	}
+	.review_big_img{
+		position: fixed;
+		width: 100%;
+		height: 100%;
+		background: rgba(0,0,0,0.5);
+		top:0;
+		left: 0;
+		z-index: 99;
+		display: none;
+		text-align: center;
+	}
+	.review_big_box{
+		width: 960px;
+		height: 640px;
+		position: relative;
+		margin: 0 auto;
+		margin-top: 150px;
+	}
+	.review_big_box span{
+		display: block;
+		position: absolute;
+		width: 50px;
+		height: 300px;
+		cursor: pointer;
+	}
+	.review_big_box .review_colose{
+		background:#000000 url(img/colose_logo.png) center no-repeat;
+		right:0px;
+		top:0px;
+		width: 40px;
+		height: 40px;
+		background-size: 50% 50%;
+	}
+	.review_big_left{
+		left: -45px;
+		top:162px;
+		background: url(img/tip_left.png) center no-repeat;
+	}
+	.review_big_right{
+		right: -45px;
+		top:162px;
+			background: url(img/tip_right.png) center no-repeat;
+	}
+	.review_big_img img{
+		
+	}
+	/*往期回顾 end*/ 
+  </style>
+</head>
+
+<body id="body">
+<header></header>
+<div class="myIndex">
+  <div id="index01" class="index_div index_div01">
+    <div class="div_title">
+      <img src="img/pbic2008_title.png"/>
+    </div>
+    <p class="pbic2008_title_txt"><span></span>项目介绍</p>
+    <div class="pbic_2018_content clearfloat">
+      <div class="pbic_content_left">
+        <p><span class="letter_spacing">Public Benefit International Challenge for Youth (PBIC)</span>青少年公益创新国际挑战赛是由中非民间商会和中华社会救助基金会联合发起的，得到联合国艾滋病规划署和非洲第一夫人抗艾联合会大力支持的社会公益类比赛。
+        </p>
+        <p>本次比赛积极响应“联合国可持 续发展目标”中的“消除饥饿”、 “良好健康与福祉”、 “优质教育”3个课题， 以“帮助非洲受贫困和艾滋影响的妇女儿童” 为目标，旨在鼓励青少年发挥创意，提出解决方案，设计公益项目，为改善非洲受艾滋和贫困影响儿童的医疗、营养和教育条件贡献力量。
+          <a href="project_introduction.html" target="_blank" class="look_more">查看更多>></a>
+        </p>
+      </div>
+      <div class="pbic_content_right">
+        <!--<img src="" alt="" />-->
+      </div>
+    </div>
+    <div class="activity_banner clearfloat">
+      <div class="activity_banner_content activity_banner_left  float_left">
+        <p class="title_h1 title_h1_01">活动主题</p>
+        <p>创新·实践·帮助</p>
+        <p>非洲受贫困和艾滋影响的妇女儿童</p>
+      </div>
+      <div class="activity_banner_content activity_banner_right  float_right">
+        <p class="title_h1 title_h1_02">活动宗旨</p>
+        <p>拓宽青少年国际视野，启蒙参与全球社会治理；</p>
+        <p>培养发现与解决问题的能力；</p>
+        <p>拓展创新思维，提升职业规划意识；</p>
+        <p>培养世界公民的公益精神与人文关怀。</p>
+      </div>
+    </div>
+  </div>
+<div style="background: #fafafa;padding-bottom: 100px;margin-top: 100px;">
+	<div id="index02" class="index_div index_div02 clear">
+    <div class="div_title01">
+      <!--核心优势-->
+      <img src="img/advantage_title.png"/>
+    </div>
+    <div>
+      <div class="part_title">
+        <img src="img/part_01.png" alt=""/> 名师评审
+      </div>
+      <p class="part_p_txt">
+        邀请哈佛大学、宾夕法尼亚大学、哥伦比亚大学、纽约大学、莱斯大学、达特茅斯学院等美国常春藤名校教授担任评审和导师，对参赛队伍予以指导；邀请联合国机构、国际组织、500强企业、投资基金、公益机构等专业人士、公共关系传播专家等加入评审团，在不同比赛阶段对参赛选手进行针对性指导。</p>
+    </div>
+    <div class="myTeachers">
+      <div class="swiper-container teachersList">
+
+        <div class="swiper-wrapper">
+          <div class="swiper-slide">
+            <div class="topTeacher clear">
+              <div class="teaDiv" v-for="tutors in advisorTeam" v-if="$index<4">
+                <div class="teaImgBox" style="background-image:url({{tutors.picUrl}})"></div>
+              
+                <div class="teacherDetail">
+                  <div class="div_wz">
+                    <p class="tdetal01"><span>{{tutors.name}}</span></p>
+                    <p class="tdetal02"><span>{{tutors.job}}</span></p>
+                    <p class="tdetal02"><span v-html="tutors.info"></span></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="botTeacher clear">
+              <div class="teaDiv" v-for="tutors in advisorTeam" v-if="$index<8 && $index>3">
+                <div class="teaImgBox" style="background-image:url({{tutors.picUrl}})"></div>
+               
+                <div class="teacherDetail">
+                  <div class="div_wz">
+                    <p class="tdetal01"><span>{{tutors.name}}</span></p>
+                    <p class="tdetal02"><span>{{tutors.job}}</span></p>
+                    <p class="tdetal02"><span v-html="tutors.info"></span></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+         
+         <div class="swiper-slide">
+            <div class="topTeacher clear">
+              <div class="teaDiv" v-for="tutors in advisorTeam" v-if="$index>7 && $index<12">
+                <div class="teaImgBox" style="background-image:url({{tutors.picUrl}})"></div>
+               
+                <div class="teacherDetail">
+                  <div class="div_wz">
+                    <p class="tdetal01"><span>{{tutors.name}}</span></p>
+                    <p class="tdetal02"><span>{{tutors.job}}</span></p>
+                    <p class="tdetal02"><span v-html="tutors.info"></span></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="botTeacher clear">
+              <div class="teaDiv" v-for="tutors in advisorTeam" v-if="$index>11 && $index<16">
+                <div class="teaImgBox" style="background-image:url({{tutors.picUrl}})"></div>
+               
+                <div class="teacherDetail">
+                  <div class="div_wz">
+                    <p class="tdetal01"><span>{{tutors.name}}</span></p>
+                    <p class="tdetal02"><span>{{tutors.job}}</span></p>
+                    <p class="tdetal02"><span v-html="tutors.info"></span></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          
+          <!--<div class="swiper-slide">
+            <div class="topTeacher clear">
+              <div class="teaDiv">
+                <div class="teaImgBox" style="background-image:url({{advisorTeam[advisorTeam.length-1].picUrl}})"></div>
+               
+                <div class="teacherDetail">
+                  <div class="div_wz">
+                    <p class="tdetal01"><span>{{advisorTeam[advisorTeam.length-1].name}}</span></p>
+                    <p class="tdetal02"><span>{{advisorTeam[advisorTeam.length-1].job}}</span></p>
+                    <p class="tdetal02"><span>{{advisorTeam[advisorTeam.length-1].info}}</span></p>
+                  </div>
+                </div>
+              </div>
+              <div class="teaDiv" v-for="tutors in advisorTeam" v-if="$index<3">
+                <div class="teaImgBox" style="background-image:url({{tutors.picUrl}})"></div>
+               
+                <div class="teacherDetail">
+                  <div class="div_wz">
+                    <p class="tdetal01"><span>{{tutors.name}}</span></p>
+                    <p class="tdetal02"><span>{{tutors.job}}</span></p>
+                    <p class="tdetal02"><span>{{tutors.info}}</span></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="botTeacher clear">
+              <div class="teaDiv" v-for="tutors in advisorTeam" v-if="$index<7 && $index>2">
+                <div class="teaImgBox" style="background-image:url({{tutors.picUrl}})"></div>
+               
+                <div class="teacherDetail">
+                  <div class="div_wz">
+                    <p class="tdetal01"><span>{{tutors.name}}</span></p>
+                    <p class="tdetal02"><span>{{tutors.job}}</span></p>
+                    <p class="tdetal02"><span>{{tutors.info}}</span></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>-->
+    
+    
+    <!--<div class="swiper-slide">
+            <div class="topTeacher clear">
+              <div class="teaDiv" v-for="tutors in advisorTeam" v-if="$index<11 && $index>6 ">
+                <div class="teaImgBox" style="background-image:url({{tutors.picUrl}})"></div>
+               
+                <div class="teacherDetail">
+                  <div class="div_wz">
+                    <p class="tdetal01"><span>{{tutors.name}}</span></p>
+                    <p class="tdetal02"><span>{{tutors.job}}</span></p>
+                    <p class="tdetal02"><span>{{tutors.info}}</span></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="botTeacher clear">
+              <div class="teaDiv" v-for="tutors in advisorTeam" v-if="$index<15 && $index>10">
+                <div class="teaImgBox" style="background-image:url({{tutors.picUrl}})"></div>
+               
+                <div class="teacherDetail">
+                  <div class="div_wz">
+                    <p class="tdetal01"><span>{{tutors.name}}</span></p>
+                    <p class="tdetal02"><span>{{tutors.job}}</span></p>
+                    <p class="tdetal02"><span>{{tutors.info}}</span></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>-->
+        
+        
+           <!--<div class="swiper-slide">
+            <div class="topTeacher clear">
+              <div class="teaDiv" v-for="tutors in newAdvisorTeam" v-if="$index<4">
+                <div class="teaImgBox" style="background-image:url({{tutors.picUrl}})"></div>
+               
+                <div class="teacherDetail">
+                  <div class="div_wz">
+                    <p class="tdetal01"><span>{{tutors.name}}</span></p>
+                    <p class="tdetal02"><span>{{tutors.job}}</span></p>
+                    <p class="tdetal02"><span>{{tutors.info}}</span></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="botTeacher clear">
+              <div class="teaDiv" v-for="tutors in newAdvisorTeam" v-if="$index<9 && $index>3">
+                <div class="teaImgBox" style="background-image:url({{tutors.picUrl}})"></div>
+                
+                <div class="teacherDetail">
+                  <div class="div_wz">
+                    <p class="tdetal01"><span>{{tutors.name}}</span></p>
+                    <p class="tdetal02"><span>{{tutors.job}}</span></p>
+                    <p class="tdetal02"><span>{{tutors.info}}</span></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        -->
+        
+        
+        
+        
+        </div>
+        <div class="teacher_pre">
+          <div class="swiper-button-next swiper-button-white"></div>
+          <div class="swiper-button-prev swiper-button-white"></div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="part_list_martop">
+      <div class="part_title">
+        <img src="img/part_02.png" alt=""/> 权威认证
+      </div>
+      <p class="part_p_txt">
+        组委会将为获奖队伍和选手颁发国际公益荣誉奖项以及志愿服务证书。同时，对在比赛过程中表现突出并做出优异贡献的选手，授予“优秀倡导者”、“校园先行者”、“积极贡献者”等各种荣誉奖项。证书和相关奖项由组委会和国际组织机构人士签发，记录青少年成长和公益足迹。</p>
+      <div class="swiper-container zs_certificate">
+
+        <div class="swiper-wrapper">
+          <div class="swiper-slide">
+            <div class="certificate_content clearfloat">
+
+              <div class="certificate_img float_left">
+                <img src="img/zs_01.png" alt=""/>
+              </div>
+              <div class="certificate_img float_right">
+                <img src="img/zs_02.png" alt=""/>
+              </div>
+
+
+            </div>
+
+          </div>
+          <div class="swiper-slide">
+            <div class="certificate_content clearfloat">
+
+              <div class="certificate_img float_left">
+                <img src="img/zs_03.png" alt=""/>
+              </div>
+              <div class="certificate_img float_right">
+                <img src="img/zs_04.png" alt=""/>
+              </div>
+
+
+            </div>
+
+          </div>
+          <div class="swiper-slide">
+            <div class="certificate_content clearfloat">
+
+              <div class="certificate_img float_left">
+                <img src="img/zs_05.png" alt=""/>
+              </div>
+              <div class="certificate_img float_right">
+                <img src="img/zs_06.png" alt=""/>
+              </div>
+
+
+            </div>
+
+          </div>
+          <div class="swiper-slide">
+            <div class="certificate_content clearfloat">
+
+              <div class="certificate_img float_left">
+                <img src="img/zs_07.png" alt=""/>
+              </div>
+              <div class="certificate_img float_right">
+                <img src="img/zs_08.png" alt=""/>
+              </div>
+
+
+            </div>
+          </div>
+          <div class="swiper-slide">
+            <div class="certificate_content clearfloat">
+
+              <div class="certificate_img float_left">
+                <img src="img/zs_09.png" alt=""/>
+              </div>
+              <div class="certificate_img float_right">
+                <img src="img/zs_10.png" alt=""/>
+              </div>
+
+
+            </div>
+          </div>
+
+
+          <div class="swiper-slide">
+            <div class="certificate_content clearfloat">
+
+              <div class="certificate_img float_left">
+                <img src="img/hj_01.png" alt=""/>
+              </div>
+              <div class="certificate_img float_right">
+                <img src="img/hj_02.png" alt=""/>
+              </div>
+
+
+            </div>
+          </div>
+
+
+          <div class="swiper-slide">
+            <div class="certificate_content clearfloat">
+
+              <div class="certificate_img float_left">
+                <img src="img/hj_03.png" alt=""/>
+              </div>
+              <div class="certificate_img float_right">
+                <img src="img/hj_04.png" alt=""/>
+              </div>
+
+
+            </div>
+          </div>
+
+          <div class="swiper-slide">
+            <div class="certificate_content clearfloat">
+
+              <div class="certificate_img float_left">
+                <img src="img/hj_05.png" alt=""/>
+              </div>
+              <div class="certificate_img float_right">
+                <img src="img/hj_06.png" alt=""/>
+              </div>
+
+
+            </div>
+          </div>
+
+          <div class="swiper-slide">
+            <div class="certificate_content clearfloat">
+
+              <div class="certificate_img float_left">
+                <img src="img/hj_07.png" alt=""/>
+              </div>
+              <div class="certificate_img float_right">
+                <img src="img/hj_08.png" alt=""/>
+              </div>
+
+
+            </div>
+          </div>
+
+          <div class="swiper-slide">
+            <div class="certificate_content clearfloat">
+
+              <div class="certificate_img float_left">
+                <img src="img/hj_09.png" alt=""/>
+              </div>
+ 							<div class="certificate_img float_right">
+                <img src="img/hj_05.png" alt=""/>
+              </div>
+
+            </div>
+          </div>
+
+
+        </div>
+
+		<div class="zs_certificate_tip">
+			 <div class="swiper-button-prev"> </div>
+    		<div class="swiper-button-next"> </div>
+		</div>
+
+      </div>
+
+    </div>
+
+    <div class="part_list_martop  part_list_marbottom">
+    	<img src="img/bg_cion_2018.png" alt=""  class="bg_cion_2018"/>
+      <div class="part_title part_title_self">
+        <img src="img/part_03.png" alt=""/> 媒体传播
+      </div>
+      <p class="part_p_txt">
+        为保证赛事的公开、透明，本次比赛将通过微信、微博、官方网站进行全方位报道，相关门户网站公益频道将报道比赛，记录参赛队伍和选手；组委会将推荐获奖和优秀方案入选北京大学、清华大学等研究机构传播案例库；本次赛事将有来自北京、上海、广州、深圳、沈阳、成都、香港以及美国、英国、德国、澳大利亚、非洲等国家地区的选手参赛，增强对外传播、扩大国际影响。</p>
+    </div>
+
+    <div class="part_list_martop">
+      <div class="part_title">
+        <img src="img/part_04.png" alt=""/> 明星助力
+      </div>
+      <p class="part_p_txt">
+        黄晓明、Angelababy、黄渤、TFBoys等中国明星助力“携手中非，爱加艾减”国际公益。本次赛事，组委会将邀请相关文体明星为进入决赛阶段的队伍加油助力，带动更多爱心人士关注非洲发展、关心非洲公益。</p>
+      <p class="video_style" style="width: 960px;">
+     
+         <script
+            src="https://p.bokecc.com/player?vid=D0A7876F7446E7B39C33DC5901307461&siteid=D2E655881C30EDCB&autoStart=false&width=960&height=605&playerid=E14196B7EDDC235F&playertype=1"
+            type="text/javascript"></script>
+      </p>
+    </div>
+
+    <div class="part_list_martop">
+      <div class="part_title">
+        <img src="img/part_05.png" alt=""/> 特优勉励
+      </div>
+      <p class="part_p_txt">
+        青少年是推动实现联合国可持续发展目标的决定力量。组委会将组织获奖队伍参访驻京联合国机构、非洲驻华使馆等，与联合国和非洲官员进行面对面交流；同时，获奖选手有机会随组织方公益访问团出访非洲，实地考察项目，拜访公益机构以及赴联合国总部参加相关国际会议。</p>
+    </div>
+    <div class="lunbo_content">
+
+	<div class="swiper-container courage_top">
+		<div class="courage_top_txt clearfloat">
+			<div class="line_xie float_left">
+				<span class="line_s1"></span>
+				<span class="line_s2"></span>
+			</div>
+			<p class="courage_top_right  float_left">
+				<!--你，青春年少、爱心飞扬，有创意、有憧憬、有担当，或许你参加过商赛，参加过社会倡导，参加过公益募捐，但公益挑战则是一项全新的赛事。-->
+				 </p>
+		</div>
+          <div class="swiper-wrapper">
+            <div class="swiper-slide swiper-no-swiping index_img_new index_img_new_01">
+             
+            </div>
+            <div class="swiper-slide swiper-no-swiping index_img_new index_img_new_02">
+             
+            </div>
+            <div class="swiper-slide swiper-no-swiping index_img_new index_img_new_03">
+           
+            </div>
+            <div class="swiper-slide swiper-no-swiping index_img_new index_img_new_04">
+              
+            </div>
+            <div class="swiper-slide swiper-no-swiping index_img_new index_img_new_05">
+           
+            </div>
+            <div class="swiper-slide swiper-no-swiping index_img_new index_img_new_06">
+            
+            </div>
+              <div class="swiper-slide swiper-no-swiping index_img_new index_img_new_07">
+            
+            </div>
+          </div>
+          <!-- Add Arrows -->
+
+        </div>
+        <div class="swiper-container courage_bottom">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide swiper-no-swiping">
+              <div class="courage_bottom_opcity"></div>
+              <img src="img/tip_top_s.png" alt="" class="courage_tip_top"/>
+              <div class="courage_bottom_img courage_bottom_img01"></div>
+            </div>
+            <div class="swiper-slide swiper-no-swiping">
+              <div class="courage_bottom_opcity"></div>
+              <img src="img/tip_top_s.png" alt="" class="courage_tip_top"/>
+             <div class="courage_bottom_img courage_bottom_img02"></div>
+            </div>
+            <div class="swiper-slide swiper-no-swiping">
+            <div class="courage_bottom_opcity"></div>
+              <img src="img/tip_top_s.png" alt="" class="courage_tip_top"/>
+             <div class="courage_bottom_img courage_bottom_img03"></div>
+            </div>
+            <div class="swiper-slide swiper-no-swiping">
+             <div class="courage_bottom_opcity"></div>
+              <img src="img/tip_top_s.png" alt="" class="courage_tip_top"/>
+            <div class="courage_bottom_img courage_bottom_img04"></div>
+            </div>
+            <div class="swiper-slide swiper-no-swiping">
+             <div class="courage_bottom_opcity"></div>
+              <img src="img/tip_top_s.png" alt="" class="courage_tip_top"/>
+              <div class="courage_bottom_img courage_bottom_img05"></div>
+            </div>
+            <div class="swiper-slide swiper-no-swiping">
+             <div class="courage_bottom_opcity"></div>
+              <img src="img/tip_top_s.png" alt="" class="courage_tip_top"/>
+              <div class="courage_bottom_img courage_bottom_img06"></div>
+            </div>
+             <div class="swiper-slide swiper-no-swiping">
+             <div class="courage_bottom_opcity"></div>
+              <img src="img/tip_top_s.png" alt="" class="courage_tip_top"/>
+              <div class="courage_bottom_img courage_bottom_img07"></div>
+            </div>
+          </div>
+          <div class="swiper-button-prev swiper-button-white" id="swiper-button-prev_01"></div>
+          <div class="swiper-button-next swiper-button-white" id="swiper-button-next_01"></div>
+
+        </div>
+			
+
+    </div>
+
+
+  </div>
+
+</div>
+  
+
+
+  <div id="index03" class="index_div index_div03">
+    <div class="div_title02">
+      <img src="img/saizhi_title.jpg"/>
+    </div>
+    <div class="saizhi_content clearfloat">
+      <img src="img/saizhi_banner.jpg" alt=""/>
+      <!--<div class="saizhi_ saizhi_left float_left"></div>
+<div class="saizhi_ saizhi_right float_right"></div>-->
+    </div>
+    <!--比赛形式 start-->
+    <div class="div_title02">
+      <img src="img/bisai_style.png">
+    </div>
+    <div>
+      <img src="img/cehua_icon.png" alt=""/>
+      <p class="cehua_p">
+        每支参赛队伍需要首先从“联合国可持续发展目标”中的“消除饥饿”、“良好健康与福祉”、“优质教育”3个课题中选取其一，以“帮助非洲受艾滋病影响儿童”为支持目标，然后通过查找资料、研究分析，发挥创造力，设计商业类、科技类项目或设计线上线下活动方案发起直接筹款募捐来帮助他们。
+        <a href="plan_case.html" target="_blank" class="look_more">查看更多>></a>
+      </p>
+    </div>
+    <div class="mx_martop">
+      <img src="img/mx_icon.png" alt=""/>
+      <p class="cehua_p">
+        每组设计手绘明信片并官网提交电子版，明信片主题及设计要求会在4月于比赛官网发布。经官网投票选出的最受欢迎的10张明信片将被制作成册，作为中非民间交流官方礼物。（注：明信片投票结果不会影响是否进入复赛及决赛）
+      </p>
+    </div>
+    <!--比赛形式 end-->
+    <!--参赛进程 start-->
+    <div class="div_title02">
+      <img src="img/process.png">
+    </div>
+    <div class="process_content">
+      <div class="line_process_top">
+        <div class="position_line_red"></div>
+        <span class="line_span line_top_01 "></span>
+        <span class="line_span line_top_02"></span>
+        <span class="line_span line_top_03"></span>
+        <span class="line_span line_top_04"></span>
+        <!--<span class="line_span line_top_05"></span>-->
+        <span class="match_duel match_start match_duel_red">初赛</span>
+        <span class="match_duel match_center">复赛</span>
+        <span class="match_duel match_end">决赛</span>
+      </div>
+    </div>
+
+    <div class="match_process clearfloat">
+      <div class="cansai_content cansai_left float_left">
+        <p class="cansai_date_title cansai_date_title_red">4月至6月</p>
+        <p>
+        	比赛报名<br/>
+						初赛准备开启
+				</p>
+        <p class="cansai_date_title">6月7日</p>
+        <!--<p>报名截止</p>-->
+        <p>线上投票开启</p>
+        <p>初赛BP+手绘明信片提交开始</p>
+        <p class="cansai_date_title">7月8日</p>
+        <p>初赛BP+手绘明信片提交截止</p>
+
+        <!--竖线设置-->
+        <div class="cansai_line cansai_line_left">
+          <div class="sice_content">
+            <span class="sice_content_left_01 sice_content_left_red"></span>
+            <span class="sice_content_left_02"></span>
+            <span class="sice_content_left_03"></span>
+            <div class="cansai_line_all cansai_line_01">
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="cansai_content cansai_center float_left" style="margin-left: 200px;">
+        <p class="cansai_date_title">7月12日</p>
+        <p>晋级复赛20强公布</p>
+        <p>复赛开始</p>
+        <p>分配导师参与指导</p>
+         <p class="cansai_date_title">7月13日</p>
+         <p>复活赛开始</p>
+        <p class="cansai_date_title">7月22日</p>
+        <p>复赛结束</p>
+        <p>晋级决赛12强公布</p>
+        <!--竖线设置-->
+        <div class="cansai_line cansai_line_center">
+
+          <div class="sice_content">
+            <!--小圆圈-->
+            <span class="sice_content_left_01"></span>
+            <span class="sice_content_left_02"></span>
+            <span class="sice_content_left_03"></span>
+            <!--红线进度-->
+            <div class="cansai_line_all cansai_line_02">
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="cansai_content cansai_right float_right">
+        <p class="cansai_date_title">7月22日</p>
+        <p>决赛开始</p>
+        <p class="cansai_date_title">8月4日</p>
+        <p>总决赛及颁奖典礼</p>
+        <!--竖线设置-->
+        <div class="cansai_line cansai_line_end">
+
+          <div class="sice_content">
+            <span class="sice_content_left_01"></span>
+            <span class="sice_content_left_02"></span>
+            <div class="cansai_line_all cansai_line_03">
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <!--参赛进程 end-->
+  </div>
+	<div style="background: #fafafa;">	
+		<div id="index06" class="index_div index_div06">
+			
+		
+		  <div class="div_title02">
+        <img src="img/to_review.png" style="margin-top: 125px;"/>
+      </div>
+      
+      <div class="review_title clearfloat">
+      	
+      	<div class="review_title_line"></div>
+      	
+      	<div class="review_title_d review_red">
+      		<span>1</span>
+      		<p class="review_red_p">评委、嘉宾、选手签到入场  </p>
+      	</div>
+      	<div class="review_title_d">
+      		<span>2</span>
+      		<p>十支决赛队伍展示</p>
+      	</div>
+      	<div class="review_title_d">
+      		<span>3</span>
+      		<p>颁奖仪式</p>
+      	</div>
+      	<div class="review_title_d" style="margin-right: 0;">
+      		<span>4</span>
+      		<p>比赛后续</p>
+      	</div>
+      	
+      </div>
+						
+			<div class="review_img">
+						<div class="review_big_img">
+							<div class="review_big_box">
+								<span class="review_colose"></span>
+								<span class="review_big_left"></span>
+								<span class="review_big_right"></span>
+								<img src="" alt="" />
+							</div>
+							
+						</div>
+					<div class="swiper-container review_img_swiper  review_img_swiper01">
+					
+					  <div class="swiper-wrapper">
+					    <div class="swiper-slide">
+					    	<div class="review_img_item">
+					    		<div class="review_item_img item_img_1_01 img_back_cover" data-imgSrc="img/review_1_01.jpg"></div>
+					    		<div class="review_mask"></div>
+					    		<span class="review_ck"></span>
+					    	</div>
+					    	<div class="review_img_item">
+					    		<div class="review_item_img item_img_1_02 img_back_cover" data-imgSrc="img/review_1_02.jpg"></div>
+					    		<div class="review_mask"></div>
+					    		<span class="review_ck"></span>
+					    	</div>
+					    	<div class="review_img_item">
+					    		<div class="review_item_img item_img_1_03 img_back_cover" data-imgSrc="img/review_1_03.jpg"></div>
+					    			<div class="review_mask"></div>
+					    		<span class="review_ck"></span>
+					    	</div>
+					    	<div class="review_img_item">
+					    		<div class="review_item_img item_img_1_04 img_back_cover" data-imgSrc="img/review_1_04.jpg"></div>
+					    		<div class="review_mask"></div>
+					    		<span class="review_ck"></span>
+					    	</div>
+					    	<div class="review_img_item">
+					    		<div class="review_item_img item_img_1_05 img_back_cover" data-imgSrc="img/review_1_05.jpg"></div>
+					    		<div class="review_mask"></div>
+					    		<span class="review_ck"></span>
+					    	</div>
+					    	<div class="review_img_item">
+					    		<div class="review_item_img item_img_1_06 img_back_cover" data-imgSrc="img/review_1_06.jpg"></div>
+					    		<div class="review_mask"></div>
+					    		<span class="review_ck"></span>
+					    	</div>
+					    	<div class="review_img_item">
+					    		<div class="review_item_img item_img_1_07 img_back_cover" data-imgSrc="img/review_1_07.jpg"></div>
+					    			<div class="review_mask"></div>
+					    		<span class="review_ck"></span>
+					    	</div>
+					    	<div class="review_img_item">
+					    		<div class="review_item_img item_img_1_08 img_back_cover" data-imgSrc="img/review_1_08.jpg"></div>
+					    			<div class="review_mask"></div>
+					    		<span class="review_ck"></span>
+					    	</div>
+					    </div>
+					
+					    <div class="swiper-slide">
+					    	 	<div class="review_img_item">
+						    		<div class="review_item_img item_img_1_09 img_back_cover" data-imgSrc="img/review_1_09.jpg"></div>
+						    			<div class="review_mask"></div>
+					    		<span class="review_ck"></span>
+					    		</div>
+					    		<div class="review_img_item">
+						    		<div class="review_item_img item_img_1_10 img_back_cover" data-imgSrc="img/review_1_10.jpg"></div>
+						    			<div class="review_mask"></div>
+					    		<span class="review_ck"></span>
+					    		</div>
+					    		<div class="review_img_item">
+						    		<div class="review_item_img item_img_1_11 img_back_cover" data-imgSrc="img/review_1_11.jpg"></div>
+						    			<div class="review_mask"></div>
+					    		<span class="review_ck"></span>
+					    		</div>
+					    		<div class="review_img_item">
+						    		<div class="review_item_img item_img_1_12 img_back_cover" data-imgSrc="img/review_1_12.jpg"></div>
+						    			<div class="review_mask"></div>
+					    		<span class="review_ck"></span>
+					    		</div>
+					    		
+					    			<div class="review_img_item">
+						    		<div class="review_item_img item_img_1_01 img_back_cover" data-imgSrc="img/review_1_01.jpg"></div>
+						    			<div class="review_mask"></div>
+					    		<span class="review_ck"></span>
+					    		</div>
+					    			<div class="review_img_item">
+						    		<div class="review_item_img item_img_1_02 img_back_cover" data-imgSrc="img/review_1_02.jpg"></div>
+						    			<div class="review_mask"></div>
+					    		<span class="review_ck"></span>
+					    		</div>
+					    			<div class="review_img_item">
+						    		<div class="review_item_img item_img_1_03 img_back_cover" data-imgSrc="img/review_1_03.jpg"></div>
+						    			<div class="review_mask"></div>
+					    		<span class="review_ck"></span>
+					    		</div>
+					    			<div class="review_img_item">
+						    		<div class="review_item_img item_img_1_04 img_back_cover" data-imgSrc="img/review_1_04.jpg"></div>
+						    			<div class="review_mask"></div>
+					    		<span class="review_ck"></span>
+					    		</div>
+					    </div>
+					    
+					    
+					      <div class="swiper-slide">
+					    	 	<div class="review_img_item">
+						    		<div class="review_item_img item_img_1_05 img_back_cover" data-imgSrc="img/review_1_05.jpg"></div>
+						    			<div class="review_mask"></div>
+					    		<span class="review_ck"></span>
+					    		</div>
+					    		<div class="review_img_item">
+						    		<div class="review_item_img item_img_1_06 img_back_cover" data-imgSrc="img/review_1_06.jpg"></div>
+						    			<div class="review_mask"></div>
+					    		<span class="review_ck"></span>
+					    		</div>
+					    		<div class="review_img_item">
+						    		<div class="review_item_img item_img_1_07 img_back_cover" data-imgSrc="img/review_1_07.jpg"></div>
+						    			<div class="review_mask"></div>
+					    		<span class="review_ck"></span>
+					    		</div>
+					    		<div class="review_img_item">
+						    		<div class="review_item_img item_img_1_08 img_back_cover" data-imgSrc="img/review_1_08.jpg"></div>
+						    			<div class="review_mask"></div>
+					    		<span class="review_ck"></span>
+					    		</div>
+					    		
+					    			<div class="review_img_item">
+						    		<div class="review_item_img item_img_1_09 img_back_cover" data-imgSrc="img/review_1_09.jpg"></div>
+						    			<div class="review_mask"></div>
+					    		<span class="review_ck"></span>
+					    		</div>
+					    			<div class="review_img_item">
+						    		<div class="review_item_img item_img_1_10 img_back_cover" data-imgSrc="img/review_1_10.jpg"></div>
+						    			<div class="review_mask"></div>
+					    		<span class="review_ck"></span>
+					    		</div>
+					    			<div class="review_img_item">
+						    		<div class="review_item_img item_img_1_11 img_back_cover" data-imgSrc="img/review_1_11.jpg"></div>
+						    			<div class="review_mask"></div>
+					    		<span class="review_ck"></span>
+					    		</div>
+					    			<div class="review_img_item">
+						    		<div class="review_item_img item_img_1_12 img_back_cover" data-imgSrc="img/review_1_12.jpg"></div>
+						    			<div class="review_mask"></div>
+					    		<span class="review_ck"></span>
+					    		</div>
+					    </div>
+					    
+					    
+					  </div>
+					
+						   <div class="teacher_pre">
+			          <div class="swiper-button-next swiper-button-white"></div>
+			          <div class="swiper-button-prev swiper-button-white"></div>
+			        </div>
+					
+					</div>
+			
+			
+			
+			
+				<div class="swiper-container review_img_swiper review_img_swiper_none review_img_swiper02">
+					
+					  <div class="swiper-wrapper">
+					    <div class="swiper-slide">
+					    	<div class="review_img_item">
+					    		<div class="review_item_img item_img_2_01 img_back_cover" data-imgSrc="img/review_2_01.jpg"></div>
+					    		<div class="review_mask"></div>
+					    		<span class="review_ck"></span>
+					    	</div>
+					    	<div class="review_img_item">
+					    		<div class="review_item_img item_img_2_02 img_back_cover" data-imgSrc="img/review_2_02.jpg"></div>
+					    		<div class="review_mask"></div>
+					    		<span class="review_ck"></span>
+					    	</div>
+					    	<div class="review_img_item">
+					    		<div class="review_item_img item_img_2_03 img_back_cover" data-imgSrc="img/review_2_03.jpg"></div>
+					    			<div class="review_mask"></div>
+					    		<span class="review_ck"></span>
+					    	</div>
+					    	<div class="review_img_item">
+					    		<div class="review_item_img item_img_2_04 img_back_cover" data-imgSrc="img/review_2_04.jpg"></div>
+					    		<div class="review_mask"></div>
+					    		<span class="review_ck"></span>
+					    	</div>
+					    	<div class="review_img_item">
+					    		<div class="review_item_img item_img_2_05 img_back_cover" data-imgSrc="img/review_2_05.jpg"></div>
+					    		<div class="review_mask"></div>
+					    		<span class="review_ck"></span>
+					    	</div>
+					    	<div class="review_img_item">
+					    		<div class="review_item_img item_img_2_06 img_back_cover" data-imgSrc="img/review_2_06.jpg"></div>
+					    		<div class="review_mask"></div>
+					    		<span class="review_ck"></span>
+					    	</div>
+					    	<div class="review_img_item">
+					    		<div class="review_item_img item_img_2_07 img_back_cover" data-imgSrc="img/review_2_07.jpg"></div>
+					    			<div class="review_mask"></div>
+					    		<span class="review_ck"></span>
+					    	</div>
+					    	<div class="review_img_item">
+					    		<div class="review_item_img item_img_2_08 img_back_cover" data-imgSrc="img/review_2_08.jpg"></div>
+					    			<div class="review_mask"></div>
+					    		<span class="review_ck"></span>
+					    	</div>
+					    </div>
+							
+							 <div class="swiper-slide">
+					    	<div class="review_img_item">
+					    		<div class="review_item_img item_img_2_09 img_back_cover" data-imgSrc="img/review_2_09.jpg"></div>
+					    		<div class="review_mask"></div>
+					    		<span class="review_ck"></span>
+					    	</div>
+					    	<div class="review_img_item">
+					    		<div class="review_item_img item_img_2_10 img_back_cover" data-imgSrc="img/review_2_10.jpg"></div>
+					    		<div class="review_mask"></div>
+					    		<span class="review_ck"></span>
+					    	</div>
+					    	<div class="review_img_item">
+					    		<div class="review_item_img item_img_2_11 img_back_cover" data-imgSrc="img/review_2_11.jpg"></div>
+					    			<div class="review_mask"></div>
+					    		<span class="review_ck"></span>
+					    	</div>
+					    	<div class="review_img_item">
+					    		<div class="review_item_img item_img_2_12 img_back_cover" data-imgSrc="img/review_2_12.jpg"></div>
+					    		<div class="review_mask"></div>
+					    		<span class="review_ck"></span>
+					    	</div>
+					    	<div class="review_img_item">
+					    		<div class="review_item_img item_img_2_13 img_back_cover" data-imgSrc="img/review_2_13.jpg"></div>
+					    		<div class="review_mask"></div>
+					    		<span class="review_ck"></span>
+					    	</div>
+					    	<div class="review_img_item">
+					    		<div class="review_item_img item_img_2_14 img_back_cover" data-imgSrc="img/review_2_14.jpg"></div>
+					    		<div class="review_mask"></div>
+					    		<span class="review_ck"></span>
+					    	</div>
+					    	<div class="review_img_item">
+					    		<div class="review_item_img item_img_2_15 img_back_cover" data-imgSrc="img/review_2_15.jpg"></div>
+					    			<div class="review_mask"></div>
+					    		<span class="review_ck"></span>
+					    	</div>
+					    	<div class="review_img_item">
+					    		<div class="review_item_img item_img_2_16 img_back_cover" data-imgSrc="img/review_2_16.jpg"></div>
+					    			<div class="review_mask"></div>
+					    		<span class="review_ck"></span>
+					    	</div>
+					    </div>
+					    
+					     <div class="swiper-slide">
+					    	<div class="review_img_item">
+					    		<div class="review_item_img item_img_2_17 img_back_cover" data-imgSrc="img/review_2_17.jpg"></div>
+					    		<div class="review_mask"></div>
+					    		<span class="review_ck"></span>
+					    	</div>
+					    	<div class="review_img_item">
+					    		<div class="review_item_img item_img_2_18 img_back_cover" data-imgSrc="img/review_2_18.jpg"></div>
+					    		<div class="review_mask"></div>
+					    		<span class="review_ck"></span>
+					    	</div>
+					    	<div class="review_img_item">
+					    		<div class="review_item_img item_img_2_19 img_back_cover" data-imgSrc="img/review_2_19.jpg"></div>
+					    			<div class="review_mask"></div>
+					    		<span class="review_ck"></span>
+					    	</div>
+					    	<div class="review_img_item">
+					    		<div class="review_item_img item_img_2_20 img_back_cover" data-imgSrc="img/review_2_20.jpg"></div>
+					    		<div class="review_mask"></div>
+					    		<span class="review_ck"></span>
+					    	</div>
+					    	<div class="review_img_item">
+					    		<div class="review_item_img item_img_2_21 img_back_cover" data-imgSrc="img/review_2_21.jpg"></div>
+					    		<div class="review_mask"></div>
+					    		<span class="review_ck"></span>
+					    	</div>
+					    	<div class="review_img_item">
+					    		<div class="review_item_img item_img_2_22 img_back_cover" data-imgSrc="img/review_2_22.jpg"></div>
+					    		<div class="review_mask"></div>
+					    		<span class="review_ck"></span>
+					    	</div>
+					 
+					 			  	<div class="review_img_item">
+					    		<div class="review_item_img item_img_2_09 img_back_cover" data-imgSrc="img/review_2_09.jpg"></div>
+					    		<div class="review_mask"></div>
+					    		<span class="review_ck"></span>
+					    	</div>
+					    	  	<div class="review_img_item">
+					    		<div class="review_item_img item_img_2_10 img_back_cover" data-imgSrc="img/review_2_10.jpg"></div>
+					    		<div class="review_mask"></div>
+					    		<span class="review_ck"></span>
+					    	</div>
+					 		
+					    </div>
+					 	
+					 
+					  </div>
+					
+						   <div class="teacher_pre">
+			          <div class="swiper-button-next swiper-button-white"></div>
+			          <div class="swiper-button-prev swiper-button-white"></div>
+			        </div>
+					
+					</div>
+			
+			
+				<div class="swiper-container review_img_swiper review_img_swiper_none review_img_swiper03">
+					
+					  <div class="swiper-wrapper">
+					    <div class="swiper-slide">
+					    	<div class="review_img_item">
+					    		<div class="review_item_img item_img_3_01 img_back_cover" data-imgSrc="img/review_3_01.jpg"></div>
+					    		<div class="review_mask"></div>
+					    		<span class="review_ck"></span>
+					    	</div>
+					    	<div class="review_img_item">
+					    		<div class="review_item_img item_img_3_02 img_back_cover" data-imgSrc="img/review_3_02.jpg"></div>
+					    		<div class="review_mask"></div>
+					    		<span class="review_ck"></span>
+					    	</div>
+					    	<div class="review_img_item">
+					    		<div class="review_item_img item_img_3_03 img_back_cover" data-imgSrc="img/review_3_03.jpg"></div>
+					    			<div class="review_mask"></div>
+					    		<span class="review_ck"></span>
+					    	</div>
+					    	<div class="review_img_item">
+					    		<div class="review_item_img item_img_3_04 img_back_cover" data-imgSrc="img/review_3_04.jpg"></div>
+					    		<div class="review_mask"></div>
+					    		<span class="review_ck"></span>
+					    	</div>
+					    	<div class="review_img_item">
+					    		<div class="review_item_img item_img_3_05 img_back_cover" data-imgSrc="img/review_3_05.jpg"></div>
+					    		<div class="review_mask"></div>
+					    		<span class="review_ck"></span>
+					    	</div>
+					    	<div class="review_img_item">
+					    		<div class="review_item_img item_img_3_06 img_back_cover" data-imgSrc="img/review_3_06.jpg"></div>
+					    		<div class="review_mask"></div>
+					    		<span class="review_ck"></span>
+					    	</div>
+					    	<div class="review_img_item">
+					    		<div class="review_item_img item_img_3_07 img_back_cover" data-imgSrc="img/review_3_07.jpg"></div>
+					    			<div class="review_mask"></div>
+					    		<span class="review_ck"></span>
+					    	</div>
+					    	<div class="review_img_item">
+					    		<div class="review_item_img item_img_3_08 img_back_cover" data-imgSrc="img/review_3_08.jpg"></div>
+					    			<div class="review_mask"></div>
+					    		<span class="review_ck"></span>
+					    	</div>
+					    </div>
+					
+							<div class="swiper-slide">
+					    	<div class="review_img_item">
+					    		<div class="review_item_img item_img_3_09 img_back_cover" data-imgSrc="img/review_3_09.jpg"></div>
+					    		<div class="review_mask"></div>
+					    		<span class="review_ck"></span>
+					    	</div>
+					    	<div class="review_img_item">
+					    		<div class="review_item_img item_img_3_10 img_back_cover" data-imgSrc="img/review_3_10.jpg"></div>
+					    		<div class="review_mask"></div>
+					    		<span class="review_ck"></span>
+					    	</div>
+					    	<div class="review_img_item">
+					    		<div class="review_item_img item_img_3_11 img_back_cover" data-imgSrc="img/review_3_11.jpg"></div>
+					    			<div class="review_mask"></div>
+					    		<span class="review_ck"></span>
+					    	</div>
+					    	<div class="review_img_item">
+					    		<div class="review_item_img item_img_3_12 img_back_cover" data-imgSrc="img/review_3_12.jpg"></div>
+					    		<div class="review_mask"></div>
+					    		<span class="review_ck"></span>
+					    	</div>
+					    	<div class="review_img_item">
+					    		<div class="review_item_img item_img_3_13 img_back_cover" data-imgSrc="img/review_3_13.jpg"></div>
+					    		<div class="review_mask"></div>
+					    		<span class="review_ck"></span>
+					    	</div>
+								 	<div class="review_img_item">
+					    		<div class="review_item_img item_img_3_01 img_back_cover" data-imgSrc="img/review_3_01.jpg"></div>
+					    		<div class="review_mask"></div>
+					    		<span class="review_ck"></span>
+					    	</div>
+					    	 	<div class="review_img_item">
+					    		<div class="review_item_img item_img_3_02 img_back_cover" data-imgSrc="img/review_3_02.jpg"></div>
+					    		<div class="review_mask"></div>
+					    		<span class="review_ck"></span>
+					    	</div>
+					    	 	<div class="review_img_item">
+					    		<div class="review_item_img item_img_3_03 img_back_cover" data-imgSrc="img/review_3_03.jpg"></div>
+					    		<div class="review_mask"></div>
+					    		<span class="review_ck"></span>
+					    	</div>
+					    </div>
+								
+								
+								<div class="swiper-slide">
+					    	<div class="review_img_item">
+					    		<div class="review_item_img item_img_3_04 img_back_cover" data-imgSrc="img/review_3_04.jpg"></div>
+					    		<div class="review_mask"></div>
+					    		<span class="review_ck"></span>
+					    	</div>
+					    	<div class="review_img_item">
+					    		<div class="review_item_img item_img_3_05 img_back_cover" data-imgSrc="img/review_3_05.jpg"></div>
+					    		<div class="review_mask"></div>
+					    		<span class="review_ck"></span>
+					    	</div>
+					    	<div class="review_img_item">
+					    		<div class="review_item_img item_img_3_06 img_back_cover" data-imgSrc="img/review_3_06.jpg"></div>
+					    			<div class="review_mask"></div>
+					    		<span class="review_ck"></span>
+					    	</div>
+					    	<div class="review_img_item">
+					    		<div class="review_item_img item_img_3_07 img_back_cover" data-imgSrc="img/review_3_07.jpg"></div>
+					    		<div class="review_mask"></div>
+					    		<span class="review_ck"></span>
+					    	</div>
+					    	<div class="review_img_item">
+					    		<div class="review_item_img item_img_3_08 img_back_cover" data-imgSrc="img/review_3_08.jpg"></div>
+					    		<div class="review_mask"></div>
+					    		<span class="review_ck"></span>
+					    	</div>
+								 	<div class="review_img_item">
+					    		<div class="review_item_img item_img_3_09 img_back_cover" data-imgSrc="img/review_3_09.jpg"></div>
+					    		<div class="review_mask"></div>
+					    		<span class="review_ck"></span>
+					    	</div>
+					    	 	<div class="review_img_item">
+					    		<div class="review_item_img item_img_3_10 img_back_cover" data-imgSrc="img/review_3_10.jpg"></div>
+					    		<div class="review_mask"></div>
+					    		<span class="review_ck"></span>
+					    	</div>
+					    	 	<div class="review_img_item">
+					    		<div class="review_item_img item_img_3_11 img_back_cover" data-imgSrc="img/review_3_11.jpg"></div>
+					    		<div class="review_mask"></div>
+					    		<span class="review_ck"></span>
+					    	</div>
+					    </div>
+								
+								
+							
+					
+					  </div>
+					
+						   <div class="teacher_pre">
+			          <div class="swiper-button-next swiper-button-white"></div>
+			          <div class="swiper-button-prev swiper-button-white"></div>
+			        </div>
+					
+					</div>
+					
+					
+					
+			<div class="swiper-container review_img_swiper review_img_swiper_none review_img_swiper04">
+					
+					  <div class="swiper-wrapper">
+					    <div class="swiper-slide">
+					    	<div class="review_img_item">
+					    		<div class="review_item_img item_img_4_01 img_back_cover" data-imgSrc="img/review_4_01.jpg"></div>
+					    		<div class="review_mask"></div>
+					    		<span class="review_ck"></span>
+					    	</div>
+					    	<div class="review_img_item">
+					    		<div class="review_item_img item_img_4_02 img_back_cover" data-imgSrc="img/review_4_02.jpg"></div>
+					    		<div class="review_mask"></div>
+					    		<span class="review_ck"></span>
+					    	</div>
+					    	<div class="review_img_item">
+					    		<div class="review_item_img item_img_4_03 img_back_cover" data-imgSrc="img/review_4_03.jpg"></div>
+					    			<div class="review_mask"></div>
+					    		<span class="review_ck"></span>
+					    	</div>
+					    	<div class="review_img_item">
+					    		<div class="review_item_img item_img_4_04 img_back_cover" data-imgSrc="img/review_4_04.jpg"></div>
+					    		<div class="review_mask"></div>
+					    		<span class="review_ck"></span>
+					    	</div>
+					    	<div class="review_img_item">
+					    		<div class="review_item_img item_img_4_05 img_back_cover" data-imgSrc="img/review_4_05.jpg"></div>
+					    		<div class="review_mask"></div>
+					    		<span class="review_ck"></span>
+					    	</div>
+					    	<div class="review_img_item">
+					    		<div class="review_item_img item_img_4_06 img_back_cover" data-imgSrc="img/review_4_06.jpg"></div>
+					    		<div class="review_mask"></div>
+					    		<span class="review_ck"></span>
+					    	</div>
+					    	<div class="review_img_item">
+					    		<div class="review_item_img item_img_4_07 img_back_cover" data-imgSrc="img/review_4_07.jpg"></div>
+					    			<div class="review_mask"></div>
+					    		<span class="review_ck"></span>
+					    	</div>
+					    	 	<div class="review_img_item">
+					    		<div class="review_item_img item_img_4_08 img_back_cover" data-imgSrc="img/review_4_08.jpg"></div>
+					    			<div class="review_mask"></div>
+					    		<span class="review_ck"></span>
+					    	</div>
+					    </div>
+					
+					
+					  </div>
+					
+						   <div class="teacher_pre">
+			          <div class="swiper-button-next swiper-button-white"></div>
+			          <div class="swiper-button-prev swiper-button-white"></div>
+			        </div>
+					
+					</div>
+			
+			
+			
+			</div>
+			
+	</div>
+	</div>
+	
+
+	
+  <div id="index04" class="index_div index_div04 clear">
+    <div class="index_div04_content">
+
+      <img src="img/player_bg_img.jpg" alt="" class="index_div04_content_img"/>
+      <div class="div_title02">
+        <img src="img/player_style_title.png"/>
+      </div>
+
+      <div class="play_style_img">
+        <div class="swiper-container gallery-top">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide swiper-no-swiping">
+              <div class="gallery-top-imgBg gallery-top-imgBg-01"></div>
+           
+            </div>
+            <div class="swiper-slide swiper-no-swiping">
+              <div class="gallery-top-imgBg gallery-top-imgBg-02"></div>
+              
+            </div>
+            <div class="swiper-slide swiper-no-swiping">
+              <div class="gallery-top-imgBg gallery-top-imgBg-03"></div>
+            
+            </div>
+            <div class="swiper-slide swiper-no-swiping">
+              <div class="gallery-top-imgBg gallery-top-imgBg-04"></div>
+            
+            </div>
+            <div class="swiper-slide swiper-no-swiping">
+              <div class="gallery-top-imgBg gallery-top-imgBg-05"></div>
+          
+            </div>
+            <div class="swiper-slide swiper-no-swiping">
+              <div class="gallery-top-imgBg gallery-top-imgBg-06"></div>
+            
+            </div>
+          </div>
+          <!-- Add Arrows -->
+
+        </div>
+        <div class="swiper-container gallery-thumbs_new">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide swiper-no-swiping">
+              <div class="gry_opcity"></div>
+              <div class="gallery_thumbs_small gallery_thumbs_small_01"></div>
+             <!--<img src="img/index_team01.png" alt=""/>-->
+            </div>
+            <div class="swiper-slide swiper-no-swiping">
+              <div class="gry_opcity"></div>
+              <div class="gallery_thumbs_small gallery_thumbs_small_02"></div>
+              <!--<img src="img/index_team02.png" alt=""/>-->
+            </div>
+            <div class="swiper-slide swiper-no-swiping">
+              <div class="gry_opcity"></div>
+              <div class="gallery_thumbs_small gallery_thumbs_small_03"></div>
+              <!--<img src="img/index_team03.png" alt=""/>-->
+            </div>
+            <div class="swiper-slide swiper-no-swiping">
+              <div class="gry_opcity"></div>
+              <div class="gallery_thumbs_small gallery_thumbs_small_04"></div>
+              <!--<img src="img/index_team04.png" alt=""/>-->
+            </div>
+            <div class="swiper-slide swiper-no-swiping">
+              <div class="gry_opcity"></div>
+              <div class="gallery_thumbs_small gallery_thumbs_small_05"></div>
+              <!--<img src="img/index_team05.png" alt=""/>-->
+            </div>
+            <div class="swiper-slide swiper-no-swiping">
+              <div class="gry_opcity"></div>
+              <div class="gallery_thumbs_small gallery_thumbs_small_06"></div>
+              <!--<img src="img/index_team06.png" alt=""/>-->
+            </div>
+          </div>
+          <div class="swiper-button-prev swiper-button-white" id="swiper-button-prev"></div>
+          <div class="swiper-button-next swiper-button-white" id="swiper-button-next"></div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <div id="index05" class="index_div index_div05 clear">
+    <div class="div_title02" style="margin-top: 38px;">
+      <img src="img/news_title.png"/>
+    </div>
+    <p class="txt_01">
+      <a href="http://hunan.ifeng.com/a/20170828/5947454_0.shtml"
+         target="_blank">联合国副秘书长米歇尔先生高度赞扬PBIC青少年公益创新国际挑战赛</a>
+    </p>
+    <p class="txt_02">
+      <a class="txt_a" href="http://www.sohu.com/a/167154814_549700"
+         target="_blank">首届“青少年公益创新国际挑战赛(PBIC)”圆满成功</a>
+      <a class="txt_b" href="https://v.qq.com/x/page/u0526tc5lqi.html" target="_blank">采访PBIC公益挑战赛心路历程</a>
+      <a class="txt_c" href="https://www.meipian.cn/o9qhix9" target="_blank">参赛选手A&C筑梦队 义卖活动</a>
+    </p>
+    <div class="div_vedio">
+      <div class="vedio_left" @click="toOtherHref">
+        <p class="p_title"><span>首届“青少年公益创新国际挑战赛”圆满成功</span></p>
+        <p class="p_con p_con01">
+          挑战赛主题为“创新·实践·公益非洲”，以“拓宽青少年国际视野，启蒙参与全球社会治理，为宗旨，通过创新思维和方式实践国际公益，展现中国青少年世界公民的学业能力、人文情怀和青年领导力”。</p>
+        <p class="p_con p_con01">
+          由中非民间商会和中华社会救助基金会联合主办，北京外国语大学国际商学院和北京外国语大学校友会协办，北京仁德嘉华国际教育科技有限公司、爱加艾减公益基金、特优生创始人团队共同承办，得到了包括联合国艾滋病规划署中国办公室、北京市...</p>
+        <p class="p_end">（来自搜狐）</p>
+      </div>
+      <div class="vedio_right">
+        <p>
+          <script
+            src="https://p.bokecc.com/player?vid=E01F178228839B4C9C33DC5901307461&siteid=D2E655881C30EDCB&autoStart=false&width=470&height=275&playerid=E14196B7EDDC235F&playertype=1"
+            type="text/javascript"></script>
+        </p>
+        <div class="vedio_right_tip">
+          <p>CCTV报道</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+<footer></footer>
+<script>
+  //比赛进程 进度条计算 start
+  lineCountProcess();
+
+  function lineCountProcess() {
+    var startTime = new Date("2018-3-1 00:00:00").getTime(); //开始时间
+    var nowTime = new Date().getTime(); //当前时间
+    var endTime = new Date("2018-8-4 23:59:59").getTime(); //结束时间
+    var betweenTime = endTime - startTime; //开始时间 和结束时间差
+    var curBetweenTime = nowTime - startTime; //开始时间和当前时间差
+    var percentageWidth = Math.ceil(curBetweenTime / betweenTime * 100) //计算进度条长度所占比例
+    if (percentageWidth >= 100) {
+      percentageWidth = 100;
+    }
+    $('.position_line_red').width(percentageWidth + '%') //设置进度条长度
+    //获取3月1号的时间戳
+    var time301 = new Date("2018-3-1 00:00:00").getTime();
+    //获取7月12号的时间戳
+    var time712 = new Date("2018-7-12 00:00:00").getTime();
+    //获取7月22号时间戳
+    var time722 = new Date("2018-7-22 00:00:00").getTime();
+    //获取8月4号时间戳
+    var time804 = new Date("2018-8-4 23:59:59").getTime();
+    if (nowTime >= time301) {
+      $('.line_top_02').addClass('line_span_red_02');
+    }
+    if (nowTime >= time712) {
+      $('.line_top_03').addClass('line_span_red_02');
+      $('.match_center').addClass('match_duel_red')
+    }
+    if (nowTime >= time722) {
+      $('.line_top_04').addClass('line_span_red_02');
+      $('.match_end').addClass('match_duel_red')
+    }
+    if (nowTime >= time804) {
+      $('.line_top_05').addClass('line_span_red_02');
+    }
+  }
+
+  //比赛进程 进度条计算 end
+  //比赛日期时间轴计算 start
+  //3月1号 --7月8号 设置
+  timeProcess(new Date("2018-3-1 00:00:00").getTime(), new Date("2018-7-8 23:59:59").getTime(), new Date().getTime(), function (x) {
+    $('.cansai_line_left .cansai_line_01').height(x + '%') //设置进度条长度
+    var nowTime = new Date().getTime();
+    var time606 = new Date("2018-6-7 00:00:00").getTime();
+    var time708 = new Date("2018-7-8 23:59:59").getTime();
+    if (nowTime >= time606) {
+      $('.cansai_left .sice_content_left_02').addClass('sice_content_left_red')
+    }
+    if (nowTime >= time708) {
+      $('.cansai_left .sice_content_left_03').addClass('sice_content_left_red')
+    }
+  })
+  //7月12日 --7月22号设置
+
+  timeProcess(new Date("2018-7-12 00:00:00").getTime(), new Date("2018-7-22 23:59:59").getTime(), new Date().getTime(), function (x) {
+    $('.cansai_line_02').height(x + '%') //设置进度条长度
+    var nowTime = new Date().getTime();
+    var time712 = new Date("2018-7-12 00:00:00").getTime();
+    var time713 = new Date("2018-7-13 00:00:00").getTime();
+    var time722 = new Date("2018-7-22 23:59:59").getTime();
+    if (nowTime >= time712) {
+      $('.cansai_center .sice_content_left_01').addClass('sice_content_left_red')
+    }
+      if (nowTime >= time713) {
+      $('.cansai_center .sice_content_left_02').addClass('sice_content_left_red')
+    }
+    if (nowTime >= time722) {
+      $('.cansai_center .sice_content_left_03').addClass('sice_content_left_red')
+    }
+  })
+  //	7月22日--8月4日 设置
+  timeProcess(new Date("2018-7-22 00:00:00").getTime(), new Date("2018-8-4 23:59:59").getTime(), new Date().getTime(), function (x) {
+    $('.cansai_line_03').height(x + '%') //设置进度条长度
+    var nowTime = new Date().getTime();
+    var time722 = new Date("2018-7-22 00:00:00").getTime();
+    var time804 = new Date("2018-8-4 23:59:59").getTime();
+    if (nowTime >= time722) {
+      $('.cansai_right .sice_content_left_01').addClass('sice_content_left_red')
+    }
+    if (nowTime >= time804) {
+      $('.cansai_right .sice_content_left_02').addClass('sice_content_left_red')
+    }
+  })
+
+  function timeProcess(startTime, endTime, nowTime, collBack) {
+    var betweenTime = endTime - startTime; //开始时间 和结束时间差
+    var curBetweenTime = nowTime - startTime; //开始时间和当前时间差
+    var percentageWidth = Math.ceil(curBetweenTime / betweenTime * 100) //计算进度条长度所占比例
+    if (percentageWidth >= 100) {
+      percentageWidth = 100;
+    }
+    collBack(percentageWidth)
+  }
+  //比赛日期时间轴计算 end
+  //轮播 数字变化 start
+  var listBoxLi = $('.listBox ul li').length
+  $('.count_1').text(1)
+  $('.count_2').text(listBoxLi)
+  //轮播数字变化end
+
+  //点击选手风采 缩略图  加载对应视频
+
+  $(document).on('click', '.player_list_vodeo ul li', function () {
+    var thisVideo = $(this).attr('data-video');
+    $(this).find('.player_vodeo_bk').hide();
+    $('.player_vodeo_bk').hide();
+    $(this).find('.player_vodeo_bk').show();
+    if ($(this).hasClass('hasPlayIng')) {
+      return;
+    }
+    $('.player_list_vodeo ul li').removeClass('hasPlayIng')
+    $(this).addClass('hasPlayIng');
+    $('.video_p_content').load(thisVideo);
+    $(this).addClass('hasPlayIng');
+    //TODO 切换视频
+  })
+
+  $('.player_list_vodeo ul li').hover(function () {
+    if ($(this).hasClass('hasPlayIng')) {
+      return
+    }
+    $(this).find('.player_vodeo_bk').show()
+  }, function () {
+    if ($(this).hasClass('hasPlayIng')) {
+      return
+    }
+    $(this).find('.player_vodeo_bk').hide()
+  })
+
+  //选手风采 end
+
+  //监听页面滚动 改变nav字体颜色start
+
+  $(window).scroll(function () {
+    $('.bannerMenu ul li').find('a').removeClass('bannerOn')
+    var scrollArr = []
+    var index_div = $('.index_div').eq(1).offset().top;
+    $('.index_div').each(function (index, item) {
+      scrollArr.push($(item).offset().top)
+    })
+    var winScrillTop = $(window).scrollTop()
+    for (i = 0; i < scrollArr.length; i++) {
+      if (winScrillTop >= scrollArr[i] - 200) {
+        $('.bannerMenu ul li').eq(i).find('a').addClass('bannerOn')
+        $('.bannerMenu ul li').eq(i - 1).find('a').removeClass('bannerOn')
+      }
+    }
+
+  })
+  
+  //点击导航 平滑过渡到指定位置
+$(document).on('click','.bannerMenu ul li',function(){
+	var scrollArr = [];
+	var _this=$(this)
+	$('.index_div').each(function (index, item) {
+      scrollArr.push($(item).offset().top)
+   })
+	 $("html,body").stop().animate({scrollTop:scrollArr[_this.index()]-100}, 500);
+})
+  //监听页面滚动 改变nav字体颜色end
+
+  $('.csPager.cSGallery').appendTo('cSGallery_content')
+  var d = 1;
+  var swiper1 = new Swiper('.gallery-thumbs', {
+    autoplay: 8000,
+    speed: 2000,
+    loop: true,
+    autoplayDisableOnInteraction: false,
+    nextButton: '.swiper-button-next',
+    prevButton: '.swiper-button-prev',
+    pagination: '.swiper-pagination',
+    paginationType: 'bullets',
+    observer: true, //修改swiper自己或子元素时，自动初始化swiper
+    observeParents: false, //修改swiper的父元素时，自动初始化swiper
+    onSlideChangeStart: function (swiper) {
+      var num = swiper.activeIndex;
+      numIndex = num;
+      if (num != 1 && num != 7) {
+        $(".page01").css("padding-top", "38px");
+        $(".pbicT").text("2017PBIC决赛现场");
+      } else {
+        var wid = $(window).innerWidth();
+        if (wid > 1338) {
+          $(".page01").css("padding-top", "25px");
+        } else {
+          $(".page01").css("padding-top", "12px");
+        }
+        $(".pbicT").text("你，青春年少、爱心飞扬，有创意、有憧憬、有担当，或许你参加过商赛，参加过社会倡导，参加过公益募捐，但公益挑战则是一项全新的赛事");
+      }
+      $(".nums1").text(num);
+      var str = "#add0" + num;
+      var lb = $(str);
+      $(".addBorder01").removeClass("addBorder");
+      lb.addClass("addBorder");
+      var dd = Math.ceil(num / 3);
+      if (num == 7) {
+        $(".nums1").text(1);
+        $(".addBorder01").removeClass("addBorder");
+        $("#add01").addClass("addBorder");
+      }
+    }
+  });
+
+  $(".addBorder01").click(function () {
+    var id = $(this).attr("id");
+    $(".addBorder01").removeClass("addBorder");
+    $(this).addClass("addBorder")
+    var ids = id.substr(id.length - 1, 1);
+    $(".nums1").text(ids);
+    $('.swiperTop02').removeClass('swiperTop02_auto')
+    $(this).parent('.swiperTop02').addClass('swiperTop02_auto')
+    swiper1.slideTo(ids, 2000, false); //切换到第一个slide，速度为1秒
+
+  })
+  var swiper3 = new Swiper('.pbicYs', {
+    autoplay: 8000,
+    speed: 2000,
+    loop: false,
+    autoplayDisableOnInteraction: false,
+    nextButton: '.swiper-button-next',
+    prevButton: '.swiper-button-prev',
+//      pagination: '.swiper-pagination',
+    paginationType: 'bullets',
+    observer: true, //修改swiper自己或子元素时，自动初始化swiper
+    observeParents: false, //修改swiper的父元素时，自动初始化swiper
+    onSlideChangeStart: function (swiper) {
+      var num = swiper.activeIndex;
+    }
+  });
+
+  var swiper4 = new Swiper('.teachersList', {
+  		autoplay: {
+	    delay: 3000,
+	    stopOnLastSlide: false,
+	    disableOnInteraction: false,
+    },
+//  autoplay: 3000,
+//  speed: 3000,
+    loop: true,
+             navigation: {
+			    nextEl: '.swiper-button-next',
+			    prevEl: '.swiper-button-prev',
+			  },
+//  nextButton: '.swiper-button-next',
+//  prevButton: '.swiper-button-prev',
+    autoplayDisableOnInteraction: false,
+    pagination: '.swiper-pagination',
+    paginationType: 'bullets',
+    observer: true, //修改swiper自己或子元素时，自动初始化swiper
+    observeParents: false, //修改swiper的父元素时，自动初始化swiper
+    onSlideChangeStart: function (swiper) {
+      var num = swiper.activeIndex;
+    }
+  });
+	$('.swiper-slide').mouseenter(function () {
+   swiper4.autoplay.stop();
+})
+$('.swiper-slide').mouseleave(function () {
+   swiper4.autoplay.start();
+})
+	
+
+  //cc视频API
+  function getSWF(swfID) {
+    if (window.document[swfID]) {
+      return window.document[swfID];
+    }
+    else if (navigator.appName.indexOf("Microsoft") == -1) {
+      if (document.embeds && document.embeds[swfID]) {
+        return document.embeds[swfID];
+      }
+    } else {
+      return document.getElementById(swfID);
+    }
+  }
+  ;
+
+  var zs_certificate = new Swiper('.zs_certificate', {
+  	autoplay: {
+	    delay: 3000,
+	    stopOnLastSlide: false,
+	    disableOnInteraction: false,
+    },
+//  autoplay: true,
+//  speed: 2000,
+    loop: true,
+    navigation: {
+			 nextEl: '.swiper-button-next',
+			 prevEl: '.swiper-button-prev',
+	},
+    autoplayDisableOnInteraction: false,
+    pagination: '.swiper-pagination',
+    paginationType: 'bullets',
+    observer: true, //修改swiper自己或子元素时，自动初始化swiper
+    observeParents: false, //修改swiper的父元素时，自动初始化swiper
+    transitionEnd: function () {
+      zs_certificate.autoplay.start()
+    }
+
+  });
+  $('.swiper-slide').mouseenter(function () {
+   zs_certificate.autoplay.stop();
+})
+$('.swiper-slide').mouseleave(function () {
+   zs_certificate.autoplay.start();
+})
+</script>
+<script>
+  var galleryTop = new Swiper('.gallery-top', {
+    autoplay: true,
+    spaceBetween: 10,
+    loop: true,
+    loopedSlides: 5, //looped slides should be the same
+
+  });
+  var galleryThumbs = new Swiper('.gallery-thumbs_new', {
+//    autoplay:true,
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
+    },
+
+//    spaceBetween: 10,
+    slidesPerView: 3,
+    touchRatio: 0.2,
+    loop: true,
+    loopedSlides: 5, //looped slides should be the same
+    slideToClickedSlide: true,
+    noSwiping: false,
+
+    transitionEnd: function () {
+      galleryThumbs.autoplay.start()
+    }
+  });
+  galleryTop.controller.control = galleryThumbs;
+  galleryThumbs.controller.control = galleryTop;
+
+  var courage_top = new Swiper('.courage_top', {
+    autoplay: true,
+    spaceBetween: 10,
+    loop: true,
+    loopedSlides: 5, //looped slides should be the same
+
+  });
+  var courage_bottom = new Swiper('.courage_bottom', {
+//    autoplay:true,
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
+    },
+
+//    spaceBetween: 10,
+    slidesPerView: 4,
+    touchRatio: 0.2,
+    spaceBetween:0,
+//	slidesOffsetBefore: 10,
+//	slidesOffsetAfter : 10,
+    autoplayDisableOnInteraction: false,
+    loop: true,
+    loopedSlides: 5, //looped slides should be the same
+    slideToClickedSlide: true,
+    noSwiping: false,
+	on:{
+		slideChangeTransitionEnd:function(){
+		
+			$('.line_s1').text(this.realIndex+1)
+			$('.line_s2').text(7)
+			$('.courage_bottom_opcity').text('')
+			$('.swiper-slide-active .courage_bottom_opcity').text(this.realIndex+1)
+			if(this.realIndex==0){
+				$('.courage_top_right').text('2017PBIC项目巡展之 MUSIC RUN小队')
+			}else if(this.realIndex==1){
+				$('.courage_top_right').text('PBIC赴马拉维实现公益梦')
+			}else if(this.realIndex==2){
+				$('.courage_top_right').text('MUSIC RUN捐赠的音乐教室')
+			}else if(this.realIndex==3){
+				$('.courage_top_right').text('MUSIC RUN小队成员与马拉维第一夫人（右三）、马拉维文化部长（右一）共舞')
+			}else if(this.realIndex==4){
+				$('.courage_top_right').text('MUSIC RUN小队现场教授马拉维伙伴中国传统舞蹈')
+			}else if(this.realIndex==5){
+				$('.courage_top_right').text('MUSIC RUN小队成员作为代表参加非盟第一夫人年会 ')
+			}else if(this.realIndex==6){
+				$('.courage_top_right').text('MUSIC RUN小队成员专访拜访非洲第一夫人联合会秘书长')
+			}else{
+				$('.courage_top_right').text('')
+			}
+		}
+	},
+    transitionEnd: function () {
+      courage_bottom.autoplay.start()
+    }
+  });
+  courage_top.controller.control = courage_bottom;
+  courage_bottom.controller.control = courage_top;
+  
+//往期回顾 start
+review_img_swiper()
+	function review_img_swiper(){
+		var review_img_swiper01 = new Swiper('.review_img_swiper01', {
+		autoplay: true,//可选选项，自动滑动
+		 loop: true,
+    navigation: {
+			 nextEl: '.swiper-button-next',
+			 prevEl: '.swiper-button-prev',
+		},
+		on:{
+			click:function(){
+				
+			}
+		}
+	})
+	
+		var review_img_swiper02 = new Swiper('.review_img_swiper02', {
+		autoplay: true,//可选选项，自动滑动
+		 loop: true,
+    navigation: {
+			 nextEl: '.swiper-button-next',
+			 prevEl: '.swiper-button-prev',
+		},
+		on:{
+			click:function(){
+				
+			}
+		}
+	})
+		
+			var review_img_swiper03 = new Swiper('.review_img_swiper03', {
+		autoplay: true,//可选选项，自动滑动
+		 loop: true,
+    navigation: {
+			 nextEl: '.swiper-button-next',
+			 prevEl: '.swiper-button-prev',
+		},
+		on:{
+			click:function(){
+				
+			}
+		}
+	})
+			
+	var review_img_swiper04 = new Swiper('.review_img_swiper04', {
+		autoplay: true,//可选选项，自动滑动
+		 loop: true,
+    navigation: {
+			 nextEl: '.swiper-button-next',
+			 prevEl: '.swiper-button-prev',
+		},
+		on:{
+			click:function(){
+				
+			}
+		}
+	})
+	
+$('.swiper-slide').mouseenter(function () {
+   review_img_swiper01.autoplay.stop();
+   review_img_swiper02.autoplay.stop();
+   review_img_swiper03.autoplay.stop();
+   review_img_swiper04.autoplay.stop();
+})
+$('.swiper-slide').mouseleave(function () {
+   review_img_swiper01.autoplay.start();
+   review_img_swiper02.autoplay.start();
+   review_img_swiper03.autoplay.start();
+   review_img_swiper04.autoplay.start();
+})
+
+	}
+	
+function repeatArr(arr){//去重
+	var obj={};
+	var newArr=[];
+	for(var i= 0;i<arr.length;i++){
+		obj[arr[i]]='true'
+	}
+	for(var j in obj){
+		newArr.push(j)
+	}
+	return newArr
+};
+review_item_click();
+function review_item_click(){
+	
+$('.review_img_item').click(function(){
+	var bigImgArr=[];
+	var _this=$(this);
+	var _thisImg=$(this).find('.review_item_img').attr('data-imgSrc');
+	var _thisIndexOf='';
+	var _thisImgLength='';
+//	var _thisNum=0;
+ $('body').css({"overflow-y":'hidden'});
+ $('.review_big_img img').attr('src',_thisImg)
+$('.review_big_img').fadeIn();
+	
+	if(_this.parents('.review_img_swiper').hasClass('review_img_swiper01')){
+		$('.review_img_swiper01 .review_item_img').each(function(index,item){
+			bigImgArr.push($(item).attr('data-imgSrc'))
+		})
+	};
+		if(_this.parents('.review_img_swiper').hasClass('review_img_swiper02')){
+		$('.review_img_swiper02 .review_item_img').each(function(index,item){
+			bigImgArr.push($(item).attr('data-imgSrc'))
+		})
+	};
+		if(_this.parents('.review_img_swiper').hasClass('review_img_swiper03')){
+		$('.review_img_swiper03 .review_item_img').each(function(index,item){
+			bigImgArr.push($(item).attr('data-imgSrc'))
+		})
+	};
+		if(_this.parents('.review_img_swiper').hasClass('review_img_swiper04')){
+		$('.review_img_swiper04 .review_item_img').each(function(index,item){
+			bigImgArr.push($(item).attr('data-imgSrc'))
+		})
+	};
+	bigImgArr=repeatArr(bigImgArr.sort());	
+	_thisIndexOf=bigImgArr.indexOf(_thisImg);
+	_thisImgLength=bigImgArr.length;
+	
+	$('.review_big_left').click(function(){
+				_thisIndexOf--;
+				if(_thisIndexOf<0){
+					_thisIndexOf=_thisImgLength-1
+				}
+			$('.review_big_img img').attr('src',bigImgArr[_thisIndexOf]);
+	})
+	$('.review_big_right').click(function(){
+			_thisIndexOf++;
+		if(_thisIndexOf>_thisImgLength-1){
+			_thisIndexOf=0;
+		}
+		$('.review_big_img img').attr('src',bigImgArr[_thisIndexOf]);
+	})
+})
+
+$('.review_colose').click(function(){
+	$('.review_big_img').hide()
+	 $('body').css({"overflow-y":'auto'});
+})
+}
+$('.review_title_d').click(function(){
+	var _thisIndex=$(this).index();
+	$('.review_title_d').removeClass('review_red');
+	$(this).addClass('review_red');
+	$('.review_img_swiper').addClass('review_img_swiper_none');
+	$('.review_img_swiper').eq(_thisIndex-1).removeClass('review_img_swiper_none');
+	review_img_swiper();
+	review_item_click();
+})
+
+//往期回顾 end
+  
+</script>
+</body>
+</html>

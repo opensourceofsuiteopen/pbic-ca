@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="default">
+		<meta name="format-detection" content="telephone=no">
+		<link rel="stylesheet" type="text/css" href="../css/comman.css" />
+		<link rel="stylesheet" type="text/css" href="../css/pageArr.css" />
+		<link rel="stylesheet" type="text/css" href="../css/weui.min.css" />
+		<!-- JS -->
+		<script src="../js/jquery-1.12.0.min.js"></script>
+		<script src="../js/jquery-form.js"></script>
+		<script src="../js/jqmd5.js"></script>
+		<script src="../js/sha1.js"></script>
+		<script src="../js/weui.js"></script>
+		<script src="../js/vue.min.js"></script>
+		<script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+		<script src="../js/wxconfig.js"></script>
+		<script src="../js/comman.js"></script>
+		<title>添加参赛项目</title>
+		<script>
+			var vm;
+			$(function() {
+				$("footer").load("footer.html");
+				$('.H_left').click(function(){
+					window.history.back();
+				});
+
+
+			
+				var uid = getCookie("China_Africa_UID");
+				vm = new Vue({
+					el:"#myteam",
+					data:{
+						voteList: [],
+						page: 1,
+						size: 12,
+						pageCount: 0,
+						pageIn: null,
+						keyword: "",
+						pageArr: null,
+						ready: ["投票", "已投"],
+						activityId: activityId,
+						nodata: false,
+						todyDate: new Date(),
+						noDate: new Date("2017-07-15 00:00:00")
+						
+					},
+					methods:{
+						
+					}
+				})
+
+			});
+		</script>
+		<style>
+			header {
+				max-width: 750px;
+				min-width: 320px;
+				margin: 0 auto;
+				position: fixed;
+				top: 0;
+				left: 0;
+				right: 0;
+				z-index: 2;
+				background: #FFFFFF;
+				border-bottom:1px solid #e5e5e5;
+			}
+			body {
+				max-width: 750px;
+				min-width: 320px;
+				margin: 0 auto;
+				color: #333;
+				font-family: "microsoft yahei,marial, helvetica, sans-serif";
+			}
+			
+			.myHeader {
+				height: 44px;
+				background: #e5233e;
+				padding: 0 12px;
+				border-bottom:1px solid #e5e5e5;
+			}
+			
+			.H_left {
+				display: inline-block;
+				width: 10%;
+				height: 44px;
+				float: left;
+				margin-left:12px;
+				background: url("img/imack_01.png") no-repeat left center;
+				background-size: 10px 17px;
+			}
+			
+			.H_right {
+				display: inline-block;
+				width: 80%;
+				height: 44px;
+				float: left;
+				/*background: url("img/match01-02.png") no-repeat center;*/
+				background-size: 159px 26px;
+				text-align:center;
+				line-height:44px;
+				font-size:18px;
+				color:#333333;
+			}
+			
+			.changeLanguageDiv {
+				position: relative;
+				float: right;
+				height: 100%;
+				right: 5px;
+			}
+			
+			.changeLanguage {
+				color: #FFFFFF;
+				text-decoration: underline;
+				font-size: 12px;
+				line-height: 44px;
+			}
+			/*button*/
+			.button{
+				width:100%;
+				height:40px;
+				border: none;
+				font-size: 18px;
+				/*margin-top:46px;*/
+				position: relative;
+			}
+			.button b{
+				display: block;
+				position: absolute;
+				top: 13px;
+				left: 50%;
+				width: 2px;
+				height: 14px;
+				border-left: 1px solid #bebebe;
+			}
+			.button-footer .signupBtn-center {
+				background-color: #E5233E;
+				width:160px;	
+				height:32px;
+				box-sizing:border-box;
+				margin:0 auto;
+				border: none;
+				display:block;
+				color: #FFFFFF;
+			}
+			.button-footer .signupBtn-left {
+				background-color: #333;
+				width:50%;
+				height:40px;
+				box-sizing:border-box;
+				float:left;
+				border: none;
+				display:block;
+				color: #FFFFFF;
+				
+			}
+					
+			.signupBtn {
+				background-color: #fff;
+				width:50%;	
+				height:40px;
+				box-sizing:border-box;
+				float:right;
+				font-size: 16px;
+				border: none;
+				display:block;
+				font-weight:bold;
+				color:#e5233e
+			}
+			.signupBtn-left {
+				background-color: #fff;
+				width:50%;
+				height:40px;
+				box-sizing:border-box;
+				float:left;
+				font-size: 16px;
+				border: none;
+				display:block;
+				color: #888888;
+			}
+			.button-footer{
+				width:100%;
+				height:40px;
+				border: none;
+				font-size: 18px;
+				position:relative;
+				bottom:0;
+				margin-top:96px;
+			}
+			.content{
+				position:relative;
+				width:100%;
+				box-sizing:border-box;
+				text-align:center
+			}	
+			.content>img{
+				width:100%;
+				height:160px;
+				border:1px solid #e5233e;
+			}
+			.content .number{
+				font-size:14px;
+				line-height:32px;
+				color:#333;
+				margin-top:86px;
+			}
+			.content p:nth-child(2){
+				font-size:22px;			
+				color:#333333;
+				font-weight:bold;
+			}
+			.content p:nth-child(3){
+				font-size:14px;			
+				color:#333333;
+				line-height:30px;
+			}
+			.content p:nth-child(4),.content p:nth-child(5){
+				font-size:14px;			
+				color:#333333;
+				line-height:16px;
+			}
+			.content .main{
+				font-size:13px;			
+				color:#333333;
+				line-height:20px;
+				margin-top:6px;
+				padding-top:4px;
+				border:1px solid #e5233e;
+			}
+			.upLoadImg{
+				width:100%;
+				height:96px;
+				margin:16px auto;
+			}
+			.upLoadImg>div{
+				float:left;
+			}
+			.upLoadImg .upImg{
+				width:96px;
+				height:96px;
+				background:#333333;
+				position:relative;
+				margin-right:16px;
+			}
+			.upLoadImg .upImg>div{
+				width:16px;
+				height:16px;
+				background:url('img/shut1.png')no-repeat 0 0;
+				background-size:cover;
+				position:absolute;
+				right:-8px;
+				top:-8px;
+			}
+			.upLoadImg .upImg img{
+				width:96px;
+				height:96px;
+			}
+			.upLoadImg .upLoad{
+				width:96px;
+				height:96px;
+				box-sizing:border-box;
+				background:url('img/camera.png')no-repeat center center;
+				background-size:27px 23px;
+				border:1px dashed #cbcbcb;
+			}
+			.hideHead{
+				display: none;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="hideHead">
+			<div class="H_left"></div>
+			<div class="H_right">
+				我的团队
+			</div>
+		</header>
+
+		<section>
+			<div class="button">
+				<b></b>
+				<button class="signupBtn-left" onclick="javascript:{window.location.href='my_team.html?ids='+3}">我的团队</button>
+				<button class="signupBtn" onclick="javascript:{window.location.href=''}">参赛项目</button>
+			</div>
+			<div class="content">
+				<div class="info" v-for="vote in voteList">
+					<p class="number">请参赛选手注意截至日期</p>
+					<p>2019年7月14日</p>
+					<p>逾期未填写参赛项目的队伍自动视为弃权</p>
+					<p>截至日期前可更改项目内容</p>
+				</div>
+			</div>
+			<div class="button-footer">
+				<button class="signupBtn-center" onclick="javascript:{window.location.href='edit.html'}">添加参赛项目</button>
+			</div>
+		
+
+		<!--<footer>
+		
+		</footer>-->
+	</body>
+
+</html>

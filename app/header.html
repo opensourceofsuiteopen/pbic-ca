@@ -1,0 +1,69 @@
+<style>
+	* {
+		padding: 0;
+		margin: 0;
+		list-style: none;
+	}
+	
+	body {
+		max-width: 750px;
+		min-width: 320px;
+		margin: 0 auto;
+		color: #333;
+	}
+	
+	.myHeader {
+		height: 44px;
+		background: #e5233e;
+		padding: 0 12px;
+	}
+	
+	.H_left {
+		display: inline-block;
+		width: 10%;
+		height: 44px;
+		float: left;
+		background: url("img/match01-1.png") no-repeat left center;
+		background-size: 10px 17px;
+	}
+	
+	.H_right {
+		display: inline-block;
+		width: 80%;
+		height: 44px;
+		float: left;
+		background: url("img/match01-02.png") no-repeat center;
+		background-size: 159px 26px;
+	}
+	
+	.changeLanguageDiv {
+		position: relative;
+		float: right;
+		height: 100%;
+		right: 5px;
+	}
+	
+	.changeLanguage {
+		color: #FFFFFF;
+		text-decoration: underline;
+		font-size: 12px;
+		line-height: 44px;
+	}
+</style>
+
+<script>
+	$(function() {
+		$(".H_left").on("touchstart click", function() {
+			window.location.href = "index.html";
+		});
+	});
+</script>
+
+<div class="myHeader">
+	<div class="H_left"></div>
+	<div class="H_right">
+		<div class="changeLanguageDiv">
+			<!--<a class="changeLanguage" href="../../app/index.html">English</a>-->
+		</div>
+	</div>
+</div>

@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>关于大赛</title>
+		<link href="css/weui.min.css" rel="stylesheet" type="text/css">
+		<link rel="stylesheet" href="css/swiper-3.3.1.min.css" />
+		<link rel="stylesheet" type="text/css" href="css/comman.css" />
+		<!-- JS -->
+		<script src="js/jquery-1.12.0.min.js"></script>
+		<script src="js/jqmd5.js"></script>
+		<script src="js/sha1.js"></script>
+		<script src="js/weui.js"></script>
+		<script src="js/vue.min.js"></script>
+		<script src="js/swiper-3.3.1.jquery.min.js"></script>
+		<script src="js/comman.js"></script>
+		<script>
+			if(isMobile) {
+				location.href = "app/gameShow.html?step=1";
+			}
+		</script>
+		<title>大赛介绍</title>
+		<script>
+		
+			$(function() {
+				$("header").load("hearder01.html");
+				$("footer").load("footer.html");
+			})
+		</script>
+		<style>
+			html body {
+				margin: 0;
+				padding: 0;
+				font-family: "微软雅黑", "华文黑体", "黑体", "华文细黑", "arial, helvetica, sans-serif";
+			}
+			.main {
+				position: relative;
+				color: #333333;
+				font-family: "微软雅黑", "华文黑体", "黑体", "华文细黑", "arial, helvetica, sans-serif";
+				font-size: 18px;
+				width: 1000px;
+				margin: 0 auto 100px auto;
+			}
+			.main .top_tab{
+				width: 1200px;
+				margin: 0 auto;
+			}
+			.main .tab_left{
+				font-size: 18px;
+				color: #333333;
+				height: 30px;
+				line-height: 30px;
+				position: relative;
+				margin: 30px 0px 50px 0px;
+				padding-left: 20px;
+				box-sizing: border-box;
+			}
+			.main .tab_left .tab_b{
+				width: 4px;
+				height: 30px;
+				background: #e5233e;
+				position: absolute;
+				left: 0;
+			}
+			.tab_left a:hover{
+				color: #e5233e;
+			}
+			.introduceTitle_en {
+				font-family: "helvetica";
+				font-size: 24px;
+				color: #E5233E;
+				text-align: center;
+				text-transform: uppercase;
+				margin-top: 103px;
+				margin-bottom: 2px;
+				font-weight: bold;
+			}
+			
+			.introduceTitle_cn {
+				font-size: 48px;
+				text-align: center;
+			}
+			
+			.introduceTitle_line {
+				display: block;
+				width: 70px;
+				height: 2px;
+				background-color: #E5233E;
+				text-align: center;
+				margin: 30px auto 80px auto;
+			}
+			
+			.main p {
+				line-height: 32px;
+			}
+			
+			.introduceMain {
+				position: relative;
+				width: 1000px;
+				height: 120px;
+				margin-top: 65px;
+			}
+			
+			.introduceMain_icon {
+				position: relative;
+				float: left;
+				width: 40px;
+				height: 40px;
+			}
+			
+			.introduceMain_text {
+				position: relative;
+				float: left;
+				width: 952px;
+			}
+			
+			.introduceMain_text h3 {
+				font-size: 22px;
+				font-weight: bold;
+				margin-bottom: 7px;
+			}
+			
+			.introduceMain_text p {}
+			
+			.introduce_paragraph {
+				position: relative;
+				width: 100%;
+				padding: 71px 0 71px 0;
+				border-top: 1px solid #FFC9D1;
+			}
+			
+			.introduce_paragraph h3 {
+				font-size: 24px;
+				color: #E5233E;
+				text-align: center;
+				font-weight: bold;
+				margin-bottom: 58px;
+			}
+			
+			.introduce_paragraph h4 {
+				font-size: 22px;
+				color: #333333;
+				text-align: center;
+				font-weight: bold;
+				margin-top: 9px;
+				margin-bottom: 11px;
+			}
+			
+			.introduce_paragraph p {
+				text-indent: 36px;
+			}
+			
+			.introduce_paragraph_group {
+				position: relative;
+				width: 100%;
+				height: 451px;
+				background: url('img/introduceIcon_intobg.png')no-repeat left center, #333333;
+				overflow: hidden;
+				margin-top: 76px;
+				margin-bottom: 30px;
+			}
+			
+			.introduce_paragraph_group div {
+				position: relative;
+				float: right;
+				width: 412px;
+				height: 451px;
+				overflow: hidden;
+				color: #FFFFFF;
+				padding-top: 25px;
+				padding-left: 16px;
+				padding-right: 15px;
+				box-sizing: border-box;
+				-webkit-box-sizing: border-box;
+				-moz-box-sizing: border-box;
+			}
+			
+			.introduce_paragraph_group h4 {
+				color: #FFFFFF;
+				font-size: 22px;
+				text-align: left;
+				margin-bottom: 10px;
+			}
+			
+			.introduce_paragraph_group ul {
+				text-align: left;
+				margin-left: 20px;
+			}
+			
+			.introduce_paragraph_group li {
+				font-size: 18px;
+				list-style-type: disc;
+				line-height: 30px;
+			}
+			
+			.tutorVideoDiv {
+				position: relative;
+				width: 100%;
+				overflow: hidden;
+			}
+			
+			.tutorVideoBox {
+				/*position: relative;*/
+				float: left;
+				/*width: 320px;*/
+				width:100%;
+				height: 279px;
+				/*margin-right:10px;*/
+				background-color: #F7F8FA;
+				text-align: center;
+				/*overflow: hidden;*/
+			}
+			
+			.tutorVideoBox p {
+				text-indent: 0;
+				line-height: 24px;
+			}
+			.tutorVideoBox img{
+				width:100%;
+				height:200px;
+			}
+			
+			.tutorVideoBox_name {
+				color: #555555;
+				font-size: 18px;
+				margin-top: 13px;
+				font-weight: bold;
+			}
+			
+			.tutorVideoBox_info {
+				color: #666666;
+				font-size: 14px;
+			}
+			
+			.tutorVideoPic-btn {
+				position: relative;
+				/*width: 320px;*/
+				width:100%;
+				height: 200px;
+				cursor: pointer;
+			}
+			
+			.tutorVideo_playBtn_bg {
+				position: absolute;
+				/*width: 320px;*/
+				width:100%;
+				height: 200px;
+				top: 0;
+				left: 0;
+				background-color: rgba(229, 35, 62, 0.1);
+				display: none;
+			}
+			
+			.tutorVideo_playBtn {
+				position: absolute;
+				width: 320px;
+				height: 200px;
+				top: -200px;
+				left: 0;
+				background: url('img/tutorVideoPic/tutor_video_playbtn.png')no-repeat 265px 139px;
+				transition: top 0.3s;
+				-webkit-transition: top 0.3s;
+			}
+			
+			.tutorVideoPic-btn:hover .tutorVideo_playBtn {
+				top: 0;
+			}
+			
+			.videoPlayerBox {
+				position: fixed;
+				width: 100%;
+				height: 100%;
+				top: 0;
+				left: 0;
+				background-color: rgba(0, 0, 0, 0.5);
+				display: none;
+				z-index: 99999;
+			}
+			
+			.videoPlayerMain {
+				position: relative;
+				width: 600px;
+				height: 490px;
+				margin: auto;
+				top: 15%;
+				box-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+			}
+			
+			.isFirst {
+				margin-left: 0;
+			}
+/*新增*/
+			.swiper-container02 {
+		        width: 100%;
+		        height: 320px!important;
+		        position:relative;
+		        overflow: hidden;
+		    }
+		    .swiper-container02 .swiper-slide{
+		    	height:274px!important;
+		    	/*line-height:320px;*/
+		        text-align: center;
+		        font-size: 18px;
+		        /* Center slide text vertically 
+		        display: -webkit-box;
+		        display: -ms-flexbox;
+		        display: -webkit-flex;
+		        display: flex;
+		        -webkit-box-pack: center;
+		        -ms-flex-pack: center;
+		        -webkit-justify-content: center;
+		        justify-content: center;
+		        -webkit-box-align: center;
+		        -ms-flex-align: center;
+		        -webkit-align-items: center;
+		        align-items: center;*/
+		    }
+		    .s{
+		    	margin-right:10px;
+		    }
+		    .swiper-button-next{
+		    	width:40px;
+		    	height:20%;
+		    	text-align:center;
+		    	top:40%;
+		    	right:0px;
+		    	transform: translateY(-50%);
+		    	background-image: url("")!important;
+		    	background-color:rgba(225,225,225,1);
+		    	opacity:.2;
+		    	z-index:200;
+		    	transition: all .3s;
+		    }
+		    .swiper-button-prev{
+		    	width:40px;
+		    	height:20%;
+		    	text-align:center;
+		    	top:40%;
+		    	left:0px;
+		    	transform: translateY(-50%);
+		    	background-image: url("")!important;
+		    	background-color:rgba(225,225,225,1);
+		    	opacity:.2;
+		    	z-index:200;
+		    	transition: all .3s;
+		    }
+		    .swiper-button-next:hover{
+		    	width:40px;
+		    	opacity: .8;
+		    }
+		    .swiper-button-prev:hover{
+		    	width:40px;
+		    	opacity: .8;
+		    }
+		    .wiper-button-color-next{
+		    	display:block;
+		    	width:30px;
+		    	height:30px;
+		    	border-top:3px solid #666;
+		    	border-right:3px solid #666;
+		    	transform: rotate(46deg);
+		    	-ms-transform:rotate(46deg); 	/* IE 9 */
+				-moz-transform:rotate(46deg); 	/* Firefox */
+				-webkit-transform:rotate(46deg); /* Safari 和 Chrome */
+				-o-transform:rotate(46deg); 	/* Opera */
+		    	position: relative;
+		    	top:16px;
+		    	left:-5px;
+		    }
+		    .wiper-button-color-prev{
+		    	display:block;
+		    	width:30px;
+		    	height:30px;
+		    	border-top:3px solid #666;
+		    	border-right:3px solid #666;
+		    	transform: rotate(-135deg);
+		    	-ms-transform:rotate(-135deg); 	/* IE 9 */
+				-moz-transform:rotate(-135deg); 	/* Firefox */
+				-webkit-transform:rotate(-135deg); /* Safari 和 Chrome */
+				-o-transform:rotate(-135deg); 	/* Opera */
+		    	position: relative;
+		    	top:16px;
+		    	right:-12px;
+		    }
+		    .intro_cen{
+		    	text-align: center;
+		    }
+		</style>
+	</head>
+
+	<body>
+		<header></header>
+		<div class="main">
+			<p class="tab_left"><b class="tab_b"></b><a href="index.html">首页</a>/关于大赛</p>
+			<h3 class="introduceTitle_en">Public Benefit International Challenge PBIC</h3>
+			<h3 class="introduceTitle_cn">2017（首届）青少年公益创新国际挑战赛</h3>
+			<span class="introduceTitle_line"></span>
+			<p>你，青春年少、爱心飞扬，有创意、有憧憬、有担当，或许你参加过商赛，参加过社会倡导，参加过公益募捐，但公益挑战则是一项全新的赛事。</p>
+			<p>本次比赛积极响应“联合国可持续发展目标”中的“消除饥饿”、“良好健康与福祉”、“优质教育”、“性别平等”等4项议题，以“帮助非洲受艾滋病影响儿童”为目标，旨在鼓励青少年发挥创意，提出解决方案，设计公益项目，为改善非洲受艾滋和贫困影响儿童的医疗、营养和教育条件贡献力量。</p>
+
+			<div class="introduceMain" style="height: 120px;">
+				<div class="introduceMain_icon" style="background: url('img/index_icon_pb01.png')no-repeat left top;
+				height: 120px;"></div>
+				<div class="introduceMain_text">
+					<h3>名师评审</h3>
+					<p>邀请哈佛大学、宾夕法尼亚大学、哥伦比亚大学、纽约大学、莱斯大学、达特茅斯学院等美国常春藤名校教授担任评审和导师，对参赛队伍予以指导；邀请联合国机构、国际组织、500强企业、投资基金、公益机构等专业人士、公共关系传播专家等加入评审团，在不同比赛阶段对参赛选手进行针对性指导。</p>
+				</div>
+			</div>
+			<div class="introduceMain" style="height: 120px;">
+				<div class="introduceMain_icon" style="background: url('img/index_icon_pb02.png')no-repeat left top"></div>
+				<div class="introduceMain_text">
+					<h3>权威认证</h3>
+					<p>组委会将为获奖队伍和选手颁发国际公益荣誉奖项以及志愿服务证书。同时，对在比赛过程中表现突出并做出优异贡献的选手，授予“优秀倡导者”、“校园先行者”、“积极贡献者”等各种荣誉奖项。证书和相关奖项由组委会和国际组织机构人士签发，记录青少年成长和公益足迹。</p>
+				</div>
+			</div>
+			<div class="introduceMain" style="height: 152px;">
+				<div class="introduceMain_icon" style="background: url('img/index_icon_pb03.png')no-repeat left top"></div>
+				<div class="introduceMain_text">
+					<h3>媒体传播</h3>
+					<p>为保证赛事的公开、透明本次比赛将通过微信、微博、官方网站进行全方位报道，相关门户网站公益频道将全程记录参赛队伍和选手；组委会将推荐获奖和优秀方案入选北京大学、清华大学等研究机构传播案例库；本次赛事将有来自北京、上海、广州、深圳、沈阳、成都、香港以及美国、英国、德国、澳大利亚、非洲等国家地区的选手参赛，增强对外传播、扩大国际影响。</p>
+				</div>
+			</div>
+			<div class="introduceMain" style="height: 88px;">
+				<div class="introduceMain_icon" style="background: url('img/index_icon_pb04.png')no-repeat left top"></div>
+				<div class="introduceMain_text">
+					<h3>明星助力</h3>
+					<p>黄晓明、Angelababy、黄渤、TFBoys等中国明星助力“携手中非，爱加艾减”国际公益。本次赛事，组委会将邀请相关文体明星为进入决赛阶段的队伍加油助力，带动更多爱心人士关注非洲发展、关心非洲公益。</p>
+				</div>
+			</div>
+			<div class="introduceMain" style="height: 120px;margin-bottom: 77px;">
+				<div class="introduceMain_icon" style="background: url('img/index_icon_pb05.png')no-repeat left top"></div>
+				<div class="introduceMain_text">
+					<h3>特优勉励</h3>
+					<p>青少年是推动实现联合国可持续发展目标的决定力量。组委会将组织获奖队伍参访驻京联合国机构、非洲驻华使馆等，与联合国和非洲官员进行面对面交流；同时，获奖选手有机会随组织方公益访问团出访非洲，实地考察项目，拜访公益机构以及赴联合国总部参加相关国际会议。</p>
+				</div>
+			</div>
+			<div class="introduce_paragraph">
+				<h3>比赛背景</h3>
+				<p>非洲热土，土地广袤，神奇而美丽；人民善良淳朴，孩子天真无邪，但贫困和艾滋病成为威胁青少年儿童生命健康的两大“杀手”，这一问题已引发全世界的关注，联合国呼吁国际上更多的组织与个人积极行动起来，实施有效的帮助，组织并减少贫困与艾滋病对青少年儿童造成的伤害。</p>
+				<p>2013年，习近平主席提出“一带一路”倡议，旨在构筑“人类命运共同体”，造福包括非洲在内的广大发展中国家人民；中非友谊渊远留长，中国梦与非洲梦紧紧相连，2015年12月中非合作论坛，习近平主席再次宣示，中国将始终同非洲国家心连心、共命运，永远做非洲的好朋友、好伙伴、好兄弟。今天的非洲，期待中国的兄弟姐妹相助。面对受贫困和艾滋折磨的非洲儿童，让我们行动起来，让愿景变为行动，用创新改变命运。</p>
+			</div>
+			<div class="introduce_paragraph">
+				<h3>比赛简介</h3>
+				<p>你，青春年少、爱心飞扬，有创意、有憧憬、有担当，或许你参加过商赛，参加过社会实践，参加过公益募捐，但以商业的方式推动跨国公益挑战则是一项全新的赛事。</p>
+				<p>2015年9月，联合国193个成员国正式通过17个可持续发展目标，旨在到2030年综合解决全球社会、经济和环境等发展问题，走可持续发展道路。</p>
+				<p> 本次比赛积极响应“联合国可持续发展目标”中的“消除饥饿”、“良好健康与福祉”、“优质教育”、“性别平等”等4项议题，以“帮助非洲受艾滋病影响儿童”为目标，旨在鼓励青少年发挥创意，以创新思维提出现实解决方案，设计公益项目，为改善非洲受艾滋和贫困影响儿童的医疗、营养和教育条件贡献力量。</p>
+			</div>
+			<div class="introduce_paragraph">
+				<h3>比赛主题</h3>
+				<p class="intro_cen">祝福非洲，用创新改变非洲青少年儿童的命运。</p>
+			</div>
+			<div class="introduce_paragraph">
+				<h3>比赛宗旨</h3>
+				<p>培养发现与解决问题的能力；拓展创新思维，提升青少年参与全球社会治理的能力，提升国际视野学业和职业规划意识；培养世界公民的公益精神与人文关怀。</p>
+			</div>
+		</div>
+		<footer></footer>
+	</body>
+</html>

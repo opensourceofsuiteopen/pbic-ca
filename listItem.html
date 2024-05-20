@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" type="text/css" href="./css/comman.css"/>
+    <link rel="stylesheet" type="text/css" href="./css/pageArr.css"/>
+    <link rel="stylesheet" type="text/css" href="./css/weui.min.css"/>
+    <!-- JS -->
+    <script src="./js/jquery-1.12.0.min.js"></script>
+    <script src="./js/jquery-form.js"></script>
+    <script src="./js/jqmd5.js"></script>
+    <script src="./js/sha1.js"></script>
+    <script src="./js/weui.js"></script>
+    <script src="./js/vue.min.js"></script>
+    <script src="./js/comman.js"></script>
+    <script src="js/swiper.js" type="text/javascript" charset="utf-8"></script>
+    <title>参赛队伍列表</title>
+    <script>
+
+        var vm;
+        hasloadRight = true;
+        $(function () {
+            $("header").load("hearder01.html");
+            $("footer").load("footer.html");
+            $('.H_left').click(function () {
+                window.history.back();
+            })
+
+            $('.imgPic').hide();
+            var uid = getCookie("China_Africa_UID");
+            vm = new Vue({
+                el: "#liItem",
+                data: {
+                    voteList: [],
+                    page: 0,
+                    size: 200,
+                    total: '',
+                    pageCount: 0,
+                    keyword: "",
+                    pageArr: '',
+                    ready: ["投票", "已投"],
+                    activityId: activityId,
+                    nodata: false,
+                    todyDate: new Date(),
+                    noDate: new Date("2017-07-15 00:00:00"),
+                    keyword: "",
+                    edit_content: "",
+                    teamPhoto: '',
+                    ids: 1,
+                    upLoadImg: [],
+                    voteUserId: "",//参与用户表的主键ID
+                    mediaData: '',
+                    voteId: "",
+                    pageIn: '',
+                    pageCount: "",
+                },
+                methods: {
+					//查询团队信息：
+                    getMyTeamInfo: function () {
+                        showLoad();
+                        request("CFVote", "getMyTeamInfo", {userId: userID, token: token}, function (data) {
+                            if (data.code == 0) {
+                                hideLoad();
+                                vm.voteId = data.id;
+                            } else {
+                                // console.log(data.msg);
+                            }
+                        })
+                    },
+                    //参赛团队列表
+                    showMeVoteList: function (e) {
+
+                        var param = {
+                            teamCode: vm.keyword,
+                            page: vm.page,
+                            size: vm.size,
+                        };
+                        showLoad();
+                        vm.voteList = [];
+                        request("CFVote", "showMeVoteList", param, function (data) {
+                            if (data.code == 0) {
+                                hideLoad();
+                                if (data.count > 0) {
+                                    vm.nodata = false;
+                                    data.rank.sort(function (a, b) {
+                                        return a.teamCode - b.teamCode;
+                                    });
+                                    for (var i = 0; i < data.rank.length; i++) {
+                                        // console.log(data.rank[i].info.replace('&',' '))
+                                        data.rank[i].info = eval('(' + data.rank[i].info.replace(/'&'/g, '') + ')');
+                                        data.rank[i].teamCode = prefixZero(data.rank[i].teamCode, data.rank[i].teamCode < 100 ? 2 : 3);
+                                        vm.voteList.push(data.rank[i]);
+                                    }
+//										vm.pageIn += data.rank.length;
+                                    vm.total = data.count;
+                                    vm.pageCount = Math.ceil(vm.total / vm.size);
+                                    vm.createPageArr();
+                                } else {
+                                    vm.nodata = true;
+                                }
+                            } else {
+                                showAlert("获取列表失败 ! " + data.msg);
+                            }
+                        });
+                    },
+                    //搜索
+                    search: function (searchMessage) {
+                        vm.keyword = searchMessage;
+                        vm.page = 0;
+                        vm.showMeVoteList();
+                        vm.searchMessage = []; //清空数据
+                    },
+
+                    //创建页码
+                    createPageArr: function () {
+                        vm.pageArr = [];
+                        vm.pageArr = pageArrs(vm.pageCount, vm.page + 2);
+//							alert(vm.pageArr);
+                    },
+
+                    //上一页
+                    prePage: function () {
+                        if (vm.page > 0) {
+                            vm.page--;
+                            vm.showMeVoteList();
+                        }
+                    },
+                    //下一页
+                    nextPage: function () {
+                        if (vm.page < vm.pageCount - 1) {
+                            vm.page++;
+                            vm.showMeVoteList();
+                        }
+                    },
+                    goToPage: function () {
+                        if (vm.pageIn != null && vm.pageIn != '' && vm.pageIn != undefined && parseInt(vm.pageIn) < (vm.pageCount + 1)) {
+                            vm.pageclick(Number(vm.pageIn));
+                        }
+                        vm.pageIn = '';
+                    },
+                    //翻页
+                    pageclick: function (p) {
+                        var pp = p - 1;
+                        if (p == 100000) {
+                            return;
+                        } else if (vm.page != pp) {
+                            vm.page = pp;
+                            vm.showMeVoteList();
+                        }
+                    },
+                    toDetail: function (a) {
+                        window.location.href = "competationItem.html?voteId=" + a + "&ids=" + 6;
+                    },
+                    showPhotoBg: function (info) {
+                        return "url(" + info.teamPhoto[0] + ")no-repeat center center,#f9f9f9";
+                    },
+                    teamPartner: function (info) {
+                        return info.map(function (each) {
+                            return each.userNameZh
+                        }).join('、')
+                    }
+                },
+                filters: {
+                    changeZero: function (num) { //分页添加省略号
+                        var numChange;
+                        if (num == 0 || num == 100000) {
+                            numChange = "...";
+                        } else {
+                            numChange = num;
+                        }
+                        return numChange;
+                    }
+                },
+            })
+
+            vm.showMeVoteList();
+            $("#searchVote").keyup(function (e) {
+                if (e.keyCode == 13) {
+                    vm.showMeVoteList("vm.keyword");
+                }
+            });
+
+            function pageArrs(count, currentpage) {
+                var array = [];
+                if (count <= 7) {
+                    for (var i = 0; i < count; i++) {
+                        array.push(i + 1);
+                    }
+                } else {
+                    array.push(1);
+                    if (currentpage - 1 > 1) {
+                        array.push(0);
+                    }
+                    if (currentpage - 1 > 1 && currentpage - 1 <= count - 1) {
+                        array.push(currentpage - 1);
+                    }
+                    if (currentpage > 1 && currentpage < count) {
+                        array.push(currentpage);
+                    }
+                    if (currentpage + 1 > 1 && currentpage + 1 < count) {
+                        array.push(currentpage + 1);
+                    }
+                    if (currentpage + 1 < count - 1) {
+                        array.push(100000);
+                    }
+                    array.push(count);
+                }
+                return array;
+            };
+
+            function prefixZero(num, n) {
+                return (Array(n).join(0) + num).slice(-n);
+            };
+//				function changeColor(a){
+//					
+//					$(a).css("background","url(./img/index_search.png) no-repeat left center");
+//				};
+            $("#searchVote").focus(function () {
+                $(this).siblings('span').css("background", "url(./img/button_bg.png) no-repeat left center");
+                $(this).siblings('span').css("background-size", "15.5px 15.5px");
+            });
+            $("#searchVote").blur(function () {
+                $(this).siblings('span').css("background", "url(./img/search-db.png) no-repeat left center");
+                $(this).siblings('span').css("background-size", "15.5px 15.5px");
+            });
+            //定位页面地址
+            $('.noLi').eq(2).addClass('onAcitve_233');
+//				$('.noLi').eq(2).siblings().removeClass('onActive');
+
+        });
+    </script>
+
+    <style>
+        .imgbox {
+            width: 50%;
+            text-align: center;
+            margin: 0px auto;
+        }
+
+        #path {
+            display: inline-block;
+            width: 100%;
+            text-align: center;
+            margin: 0px auto;
+        }
+
+        header {
+            width: 100%;
+            margin: 0 auto;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 2;
+        }
+
+        .H_left {
+            display: inline-block;
+            width: 10%;
+            height: 44px;
+            float: left;
+            margin-left: 12px;
+            background: url("img/imack_01.png") no-repeat left center;
+            background-size: 10px 17px;
+        }
+
+        .H_right {
+            display: inline-block;
+            width: 80%;
+            height: 44px;
+            float: left;
+            background-size: 159px 26px;
+            text-align: center;
+            line-height: 44px;
+            font-size: 18px;
+            color: black;
+        }
+
+        .H-head {
+            max-width: 750px;
+            min-width: 320px;
+            margin: 0 auto;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 2;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .index_search {
+            margin-top: 22px;
+            margin-bottom: 20px;
+            width: 320px;
+            margin: 0 auto;
+        }
+
+        .index_search div {
+            width: 93.46%;
+            height: 30px;
+            border-radius: 19px;
+            border: 1px solid #ebebeb;
+            margin: 0 auto;
+            position: relative;
+            padding-left: 45px;
+            box-sizing: border-box;
+        }
+
+        .index_search div span {
+            width: 33px;
+            height: 30px;
+            left: 8px;
+            display: block;
+            position: absolute;
+            cursor: pointer;
+            background: url(./img/search-db.png) no-repeat left center;
+            background-size: 15.5px 15.5px;
+            background-position: 0px 7px;
+        }
+
+        .index_search div b {
+            display: block;
+            position: absolute;
+            top: 4.5px;
+            left: 31.5px;
+            width: 1px;
+            height: 20px;
+            background: #EBEBEB;
+        }
+
+        ::-webkit-input-placeholder {
+            color: #EBEBEB;
+        }
+
+        :-moz-placeholder {
+            color: #EBEBEB;
+        }
+
+        ::-moz-placeholder {
+            color: #EBEBEB;
+        }
+
+        :-ms-input-placeholder {
+            color: #EBEBEB;
+        }
+
+        .index_search div input {
+            height: 100%;
+            width: 100%;
+            padding: 0 5px;
+            border-radius: 100px;
+            display: block;
+            border: none;
+            box-sizing: border-box;
+            outline: none;
+            font-size: 16px;
+            caret-color: #e5233e;
+        }
+
+        .index_tp {
+            width: 1306px;
+            overflow: hidden;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .index_tp > ul {
+            width: 1296px;
+            display: block;
+            margin: 0 auto;
+            margin-top: 72px;
+        }
+
+        .index_tp > ul > li {
+            margin-bottom: 86px;
+            /* width: 203px; */
+            margin-bottom: 76px;
+            margin-right: 56px;
+            margin-left: 56px;
+            /* float: left; */
+            box-sizing: border-box;
+            position: relative;
+            cursor: pointer;
+            display: flex;
+            flex-flow: row nowrap;
+        }
+
+        .index_tp .imgDiv {
+            position: relative;
+            width: 203px;
+            height: 200px;
+            overflow: hidden;
+            background-size: cover !important;
+            float: left;
+        }
+
+        .index_tp .imgDiv img {
+            width: 100%;
+        }
+
+        .setWidth {
+            margin-right: 0px !important;
+        }
+
+        .index_tp ul li img {
+            /*position: absolute;*/
+            display: block;
+            width: 100%;
+        }
+
+        .index_tp .tp_mine {
+            text-align: center;
+            font-size: 14px;
+            width: 100%;
+            flex-grow: 1;
+            box-sizing: border-box;
+            padding-left: 20px;
+        }
+
+        .index_tp .tp_mine p:first-child {
+            /* color:#fff; */
+            line-height: 40px;
+            height: 40px;
+            /* background:#333; */
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-size: 26px;
+            text-align: left;
+            /* margin: 0px auto 3px 0; */
+            font-weight: 600;
+        }
+
+        .index_tp .tp_mine p:nth-child(2) {
+            font-size: 18px;
+            margin: 0 auto;
+            color: #000;
+            line-height: 36px;
+            /* font-weight:bold; */
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .index_tp .tp_mine p:nth-child(2) span:after {
+            content: '、';
+        }
+
+        .index_tp .tp_mine p:nth-child(2) span.isLast:after {
+            content: '';
+        }
+
+        .index_tp .tp_mine p:nth-child(3) {
+            font-size: 18px;
+            margin: 0 auto;
+            color: #333;
+            text-align: left;
+            line-height: 30px;
+            /* display: flex;
+            justify-content: space-between; */
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            -webkit-line-clamp: 4;
+        }
+
+        .index_tp .tp_mine a {
+            display: inline-block;
+            width: 46%;
+            height: 33px;
+            line-height: 33px;
+            background: #e5233e;
+            border-radius: 2px;
+            font-size: 15px;
+            color: #FFFFFF;
+            text-align: center;
+            position: absolute;
+            bottom: 0;
+            right: 0
+        }
+
+        .index_tp .tp_mine .casted {
+            pointer-events: none;
+            background: #fff;
+            border: 1px solid #e5233e;
+            color: red;
+        }
+
+        .mainBox .index_tp .tp_mine .castColor {
+            color: #e5233e;
+            position: relative;
+        }
+
+        /* .index_tp .tp_mine p:nth-child(2) span {
+            position: absolute;
+            top: -10px;
+            right: 60px;
+            font-size: 16px;
+        } */
+
+        .loadMore {
+            margin-top: 10px;
+            width: 100%;
+            height: 30px;
+            font-size: 16px;
+            border: none;
+            background-color: #e5233e;
+            color: #FFFFFF;
+        }
+
+        .indexes {
+            width: 1200px;
+            margin: 36px auto;
+            position: relative;
+            font-size: 18px;
+            line-height: 30px;
+            text-indent: 16px;
+            letter-spacing: 2px;
+        }
+
+        .indexes .box {
+            width: 4px;
+            height: 30px;
+            background: #e5233e;
+            float: left
+        }
+
+        .indexes span {
+            color: #cfcfcf;
+            margin: 0 2px;
+        }
+
+        .pageNum {
+            position: relative;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .pageNum ul {
+            width: 600px;
+            height: 42px;
+            float: right
+        }
+
+        .pageNum .div-li:hover {
+            background-color: #EBEBEB !important;
+            box-shadow: 0 0 0 #FFFFFF;
+
+        }
+
+        .pageNum .page-btn:hover {
+            box-shadow: 0 0 0 #FFFFFF;
+
+        }
+
+        .pageNum .page-go:hover {
+            box-shadow: 0 0 0 #FFFFFF;
+
+        }
+
+        .pageNum.active {
+            background-color: #5777FF;
+            color: white;
+        }
+
+        .next {
+        }
+
+        .pageInput {
+            display: inline-block;
+            text-align: center;
+        }
+
+        .page-div li {
+            height: 24px;
+            border: none;
+            overflow: inherit;
+            margin-right: 0;
+        }
+
+        .page-btn {
+
+        }
+
+        .div-li:hover {
+            background-color: #EBEBEB !important;
+        }
+
+        .indexes > a:hover {
+            color: #e5233e;
+        }
+
+    </style>
+</head>
+
+<body id="liItem">
+
+<header>
+</header>
+<div style="height:102px"></div>
+<div class="indexes">
+    <div class="box"></div>
+    <a href="./index.html">首页</a><span>/</span>参赛队伍<span>
+</div>
+<div class="content">
+    <!--<div>-->
+    <div>
+        <div class="teamTitle_line"></div>
+        <div class="index_search">
+            <div>
+                <span @click="showMeVoteList('search')"></span><b></b>
+                <input id="searchVote" type="text" v-model="keyword" placeholder="search"/>
+            </div>
+        </div>
+    </div>
+    <div class="index_tp">
+        <ul>
+            <li v-for="vote in voteList" @click="toDetail(vote.id)">
+                <div class="imgDiv" v-bind:style="{background:showPhotoBg(vote.info)}"></div>
+                <div class="tp_mine" :id="'tp_'+$index">
+                    <p :title="vote.name">{{vote.name}}</p>
+                    <p :class="{'castColor':vote.isVote==1}" :title="teamPartner(vote.info.teamPartner)">
+                        团队编号：{{vote.teamCode}}&nbsp;&nbsp;&nbsp;队员：
+                        <span :class="{isLast: $index === vote.info.teamPartner.length - 1}"
+                              v-for="partner in vote.info.teamPartner">{{partner.userNameZh}}</span>
+                    </p>
+                    <p :title="vote.info.teamDes" :class="{'castColor':vote.isVote==1}">
+                        {{decodeURIComponent(vote.info.teamDes)}}
+                    </p>
+                </div>
+            </li>
+            <div class="pageNum">
+                <ul class="page-div">
+                    <li class="page-left div-li pagePre" :class="page==0?  'noBtn':''" @click="prePage">
+                        <span></span>
+                    </li>
+                    <li class="page-left div-li" v-for="arr in pageArr" :class="arr==page+1? 'actioning' : ''"
+                        @click="pageclick(arr)">
+                        <span v-html="arr | changeZero"></span>
+                    </li>
+                    <li class="page-left div-li preNext" :class="page==pageCount-1? 'noBtn':''" @click="nextPage">
+                        <span></span>
+
+                    </li>
+                    <li class="page-btn" style="width: initial;"><label>跳转到：</label><input type="text"
+                                                                                           v-model="pageIn"/></li>
+                    <li class="page-go" style="width: initial;">
+                        <button @click="goToPage">GO</button>
+                    </li>
+                </ul>
+            </div>
+        </ul>
+    </div>
+    <!--<button class="loadMore" v-show="pageIn<pageCount" @click="showMeVoteList(page+1)">加载更多</button>-->
+</div>
+<div style="height:366px;"></div>
+<footer></footer>
+</body>
+
+</html>
+

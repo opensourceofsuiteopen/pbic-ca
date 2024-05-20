@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="default">
+		<meta name="format-detection" content="telephone=no">
+		<link rel="stylesheet" type="text/css" href="../css/comman.css" />
+		<link rel="stylesheet" type="text/css" href="../css/pageArr.css" />
+		<link rel="stylesheet" type="text/css" href="../css/weui.min.css" />
+		<!-- JS -->
+		<script src="../js/jquery-1.12.0.min.js"></script>
+		<script src="../js/jquery-form.js"></script>
+		<script src="../js/jqmd5.js"></script>
+		<script src="../js/sha1.js"></script>
+		<script src="../js/weui.js"></script>
+		<script src="../js/vue.min.js"></script>
+		<script type="text/javascript" src="js/swiper-3.3.1.jquery.min.js"></script>
+		<script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+		<script src="../js/wxconfig.js"></script>
+		<script src="../js/comman.js"></script>
+		<title>发布参赛项目</title>
+		<script>
+			var editContent = getQuery("editContent");
+            var keyword = getQuery("keyword");
+            var teamPhoto = getQuery("teamPhoto");
+			var vm;
+			$(function() {
+				$('.H_left').click(function(){
+					window.history.back();
+				});
+				$("header").load("header.html");
+				$("footer").load("footer.html");
+
+				
+
+			
+				var uid = getCookie("China_Africa_UID");
+				vm = new Vue({
+					el:"#myteam",
+					data:{
+						voteList: [],
+						page: 1,
+						size: 12,
+						pageCount: 0,
+						pageIn: null,
+						keyword: "",
+						pageArr: null,
+						ready: ["投票", "已投"],
+						activityId: activityId,
+						nodata: false,
+						todyDate: new Date(),
+						noDate: new Date("2017-07-15 00:00:00"),
+						keyword:keyword,
+						edit_content:editContent,
+						teamPhoto:teamPhoto,
+					},
+					methods:{
+						//参赛团队列表
+						showMeVoteList: function(e) {
+							if(e == 1000000) {
+								return;
+							} else if(e != undefined) {
+								vm.page = Number(e);
+							}
+							if(e == "search") {
+								// console.log("isSearch");
+								vm.page = 1;
+								vm.pageIn = 0;
+								vm.voteList = new Array();
+							}
+							var param = {
+								activityId: vm.activityId,
+								name: vm.keyword,
+								page: vm.page - 1,
+								size: vm.size
+							};
+							if(uid != null) {
+								param.uId = uid;
+							}
+							request("CFVote", "showMeVoteList", param, function(data) {
+								if(data.code == 0) {
+									if(data.count > 0) {
+										vm.nodata = false;
+										for(var i = 0; i < data.rank.length; i++) {
+											vm.voteList.push(data.rank[i]);
+										}
+										vm.pageIn += data.rank.length;
+										vm.pageCount = data.count;
+										vm.pageArr = pageArrs(vm.pageCount, vm.page);
+										if(data.uId != undefined) {
+											uid = data.uId;
+											setCookie("China_Africa_UID", uid, 30 * 24);
+										}
+										vm.$nextTick(function() {
+											var imgWidth = $(".imgDiv").css("width");
+											$(".imgDiv").css("height", parseInt(imgWidth) * 2 / 3 + "px");
+										});
+									} else {
+										vm.nodata = true;
+									}
+								} else {
+									showAlert("获取列表失败 ! " + data.msg);
+								}
+							})
+						},
+					}
+				})
+				vm.showMeVoteList()
+				function tab(spanBtn, gameCont) {
+					$(spanBtn).siblings().removeClass("game_on");
+					$(spanBtn).addClass("game_on");
+					$(".gameCont").children().not("." + gameCont).hide();
+					$("." + gameCont).show();
+					$(window).scrollTop(0); //滚动到顶部
+				}
+				function tab02(liBtn, textCon) {
+					$(liBtn).siblings().find("span:nth-child(3)").removeClass("on_icon");
+					$(liBtn).find("span:nth-child(3)").addClass("on_icon");
+					$(".iconCont").children().not("." + textCon).hide();
+					$("." + textCon).show();
+				}
+			});
+		</script>
+		<style>
+			/*button*/
+			.buttonItem{
+				width:100%;
+				height:40px;
+				border: none;
+				font-size: 18px;
+				/*margin-top:46px;*/
+			}
+			
+			.button-footerItem .signupBtn-centerItem {
+				background-color: #E5233E;
+				width:100%;	
+				height:32px;
+				box-sizing:border-box;
+				margin:0 auto;
+				border: none;
+				display:block;
+				position:fixed;
+				bottom:0;
+				color: #FFFFFF;
+			}
+			.button-footerItem .signupBtn-left {
+				background-color: #333;
+				width:50%;
+				height:40px;
+				box-sizing:border-box;
+				float:left;
+				border: none;
+				display:block;
+				color: #FFFFFF;
+				
+			}
+					
+			.signupBtnItem {
+				background-color: #fff;
+				width:50%;	
+				height:40px;
+				box-sizing:border-box;
+				float:right;
+				border: none;
+				display:block;
+				font-weight:bold;
+				color:#e5233e
+			}
+			.signupBtn-leftItem {
+				background-color: #fff;
+				width:50%;
+				height:40px;
+				box-sizing:border-box;
+				float:left;
+				border: none;
+				display:block;
+				color: #888888;
+			}
+			.button-footerItem{
+				width:100%;
+				height:40px;
+				border: none;
+				font-size: 18px;
+				position:relative;
+				bottom:0;
+				z-index: 1;
+			}
+			.contentItem{
+				position:relative;
+				height:246px;
+				width:246px;
+				box-sizing:border-box;
+				text-align:center;
+				margin:16px auto;
+			}	
+			.contentItem img{
+				width:76px;
+				height:76px;
+				float:left;
+				margin:3px 3px;
+			}
+		
+			.txtItem{
+				width:100%;
+				margin:0 auto;
+				box-sizing:border-box;
+				margin:0 auto;
+			}
+			.txtItem .titleItem{
+				width:100%;
+				text-align:center;
+				font-size:18px;
+				line-height:28px;
+			}
+			.txtItem .contItem{
+				width:100%;
+				padding-left:12px;
+				padding-right:12px;
+				font-size:14px;
+				margin:0 auto;
+				line-height:20px;
+				box-sizing:border-box;
+			}
+			.hideHead{
+				display: none;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="hideHead">
+			<div class="H_left"></div>
+			<div class="H_right">
+				MUSIC RUN{{}}
+			</div>
+		</header>
+
+		<div>
+			<div class="buttonItem">
+				<button class="signupBtn-leftItem" onclick="javascript:{window.location.href='applyPc.html'}">团队信息</button>
+				<button class="signupBtnItem" onclick="javascript:{window.location.href='applyPc.html'}">参赛项目</button>
+			</div>
+			<div class="contentItem">
+				<img src="./img/green-chameleon-21532.png">
+				<img src="./img/green-chameleon-21532.png">
+				<img src="./img/green-chameleon-21532.png">
+				<img src="./img/green-chameleon-21532.png">
+				<img src="./img/green-chameleon-21532.png">
+				<img src="./img/green-chameleon-21532.png">
+				<img src="./img/green-chameleon-21532.png">
+				<img src="./img/green-chameleon-21532.png">
+				<img src="./img/green-chameleon-21532.png">
+			</div>
+			<div class="txtItem">
+				<div class="titleItem">{{keyword}} </div>
+				<div class="contItem">{{edit_content}} </div>
+			</div>
+			<div class="button-footerItem">
+				<button class="signupBtn-centerItem" onclick="javascript:{window.location.href='applyPc.html'}">发布</button>
+			</div>
+		</div>
+
+		<!--<footer>
+		
+		</footer>-->
+	</body>
+
+</html>

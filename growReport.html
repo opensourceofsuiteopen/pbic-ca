@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="keywords" content="特优生,北京托福培训班,北京托福培训专业机构,国际暑期学校">
+		<meta name="description" content="特优生_北京托福培训班_北京托福培训专业机构_国际暑期学校">
+		<meta name="robots" content="all">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="default">
+		<meta name="format-detection" content="telephone=no">
+		<title>成长报告</title>
+		<link href="css/weui.min.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" type="text/css" href="./css/comman.css" />
+        <link href="css/comman.css" rel="stylesheet" type="text/css">
+		<script src="js/jquery-1.12.0.min.js"></script>
+		<!-- JS -->
+		<script src="js/vue.min.js"></script>
+		<script src="js/jqmd5.js"></script>
+		<script src="js/jquery-form.js"></script>
+		<script src="js/sha1.js"></script>
+		<script src="js/weui.js"></script>
+		<script src="js/comman.js"></script>
+        <script src="https://cdn.bootcss.com/echarts/3.6.2/echarts.min.js"></script>
+        <style>
+            header {
+                width: 100%;
+                margin: 0 auto;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                z-index: 2;
+            }
+            .H_left {
+                display: inline-block;
+                width: 10%;
+                height: 44px;
+                float: left;
+                margin-left:12px;
+                background: url("img/imack_01.png") no-repeat left center;
+                background-size: 10px 17px;
+            }
+            
+                ::-webkit-input-placeholder {
+                color: #EBEBEB;
+            }
+            
+            :-moz-placeholder {
+                color: #EBEBEB;
+            }
+            
+            ::-moz-placeholder {
+                color: #EBEBEB;
+            }
+            
+            :-ms-input-placeholder {
+                color: #EBEBEB;
+            }
+            /* 面包屑 */
+            .indexes{
+                width:1200px;
+                margin:36px auto;
+                position:relative; 
+                font-size:18px;
+                line-height:30px;
+                text-indent:16px;
+                letter-spacing:2px;
+            }
+            .indexes .box{
+                width:4px;
+                height:30px;
+                background:#e5233e;
+                float:left
+            }
+            .indexes span{
+                color:#cfcfcf;
+                margin:0 2px;
+            }
+            
+            .next {}
+            
+            .pageInput {
+                display: inline-block;
+                text-align: center;
+            }
+            .page-div li{
+                height: 24px;
+                border: none;
+                overflow: inherit;
+                margin-right: 0;
+            }
+            .page-btn{
+                
+            }
+            .div-li:hover{
+                background-color: #EBEBEB !important;
+            }
+            .indexes>a:hover{
+                color:#e5233e;
+            }
+            .content{
+                width: 890px;
+                margin: 0 auto;
+            }
+            .grow_frame_top{
+                height: 300px;
+                position: relative;
+                padding-top: 40px;
+                box-sizing: border-box;
+                width: 900px;
+                background:#fff;
+                box-shadow: 0px 0px 49px 2px rgba(193,193,193,0.26);
+                border-radius: 20px;
+            }
+            .grow_frame_avatar{
+                width: 139px;
+                height: 139px;
+                border:1px solid #d0d0d0;
+                border-radius: 50%;
+                overflow: hidden;
+                margin: 0 auto 40px;
+            }
+            .grow_frame_avatar img{
+                width: 124px;
+                height: 124px;
+                display: block;
+                margin: 8px auto;
+                border-radius: 50%;
+            }
+            .grow_progress_all{
+                flex: 1;
+                display: flex;
+                justify-content: flex-start;
+                align-items: flex-start;
+                flex-direction: column;
+                padding-left: 17px;
+            }
+            .grow_progress_name{
+                color: #333333;
+                text-align: center;
+                font-size: 26px;
+                font-family: MicrosoftYaHei-Bold;
+                font-weight: bold;
+            }
+            .grow_progress_frame{
+                width: 328px;
+                height: 8px;
+                border: 1px solid #FFD200;
+                border-radius: 4px;
+                display: flex;
+                justify-content: flex-start;
+                align-items: flex-start;
+            }
+            .grow_progress_frame>div{
+                margin: 2px;
+                height: 4px;
+                border-radius: 2px;
+                background-color: #FFD200;
+            }
+            .grow_progress_data{
+                color: #333333;
+                font-size: 12px;
+                padding-top: 10px;
+            }
+            .grow_progress_data>span{
+                color: #FD340B;
+            }
+            .grow_progress_right{
+                padding-left: 93px;
+                color: #FD340B;
+                font-size: 46px;
+                font-weight: 600;
+                margin-right: 73px;
+            }
+            .grow_progress_right>span{
+                font-size: 25px;
+                color: #FD340B;
+                vertical-align: top;
+            }
+            .grow_frame_list_bot{
+                padding: 0 101px 22px 101px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .grow_frame_list_bot_li{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+            }
+            .grow_frame_list_bot_title{
+                font-size: 18px;
+                color: #333333;
+                padding-bottom: 14px;
+            }
+            .grow_frame_list_bot_cont{
+                color: #666666;
+                font-size: 12px;
+            }
+            .grow_second_all{
+                padding-top: 146px;
+                padding-bottom: 48px;
+            }
+            .grow_second_list{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+                margin-bottom: 60px;
+            }
+            .grow_second_title{
+                color: #E5233E;
+                font-weight: bold;
+                font-size: 22px;
+                font-family: MicrosoftYaHei-Bold;
+                font-weight: bold;
+                padding-bottom: 20px;
+            }
+            .grow_second_name{
+                color: #FFCCD3;
+                height: 16px;
+                line-height: 16px;
+                font-size: 18px;
+                font-family: MicrosoftYaHei;
+                font-weight: 400;
+            }
+            .grow_second_footer{
+                padding: 0 15px;
+                box-sizing: border-box;
+            }
+            .grow_second_footer_frame{
+                width: 900px;
+                background:#F8F8F8;
+                border-radius:6px;
+                padding: 30px 0 20px 30px;
+                box-sizing: border-box;
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+            }
+            .grow_second_footer_icon{
+                background: url(../img/grow_second_footer_icon.png) no-repeat center;
+                background-size: 44px 44px;
+                width: 44px;
+                height: 44px;
+            }
+            .grow_second_footer_cont{
+                padding-left: 12px;
+                font-size: 20px;
+                line-height: 30px;
+                flex: 1;
+                display: flex;
+                justify-content: flex-start;
+                align-items: flex-start;
+                flex-direction: column;
+            }
+            .grow_second_footer_cont>div{
+                color: #FF6701;
+                flex: 1;
+                padding-right: 60px;
+                font-size: 20px;
+                font-family: MicrosoftYaHei;
+                font-weight: 400;
+                line-height:32px;
+            }
+            .grow_third_all{
+                padding-bottom: 48px;
+            }
+            .grow_third_Histogram{
+            }
+            .grow_third_Histogram_son{
+                padding-bottom: 20px;
+            }
+            .discuss_all{
+                padding-top: 40px;
+                display: flex;
+                justify-content: flex-start;
+                align-items: flex-start;
+                flex-direction: column;
+                padding-left:15px;
+                padding-right: 15px;
+            }
+            .discuss_all>div{
+                color: #333333;
+                font-size: 12px;
+                line-height: 25px;
+            }
+        </style>
+	</head>
+
+	<body >
+		<div class="grow_all" id="app" v-cloak>
+            <header></header>
+            <div style="height:102px"></div>
+            <div class="indexes">
+                <div class="box"></div>
+                <a href="./index.html">首页</a><span>/</span>挑战赛<span>
+            </div>
+            <div class="content">
+                <div class="grow_frame_top">
+                    <div class="grow_frame_avatar"><img :src="userInfo.userIcon"/></div>
+                    <div class="grow_progress_name">{{userInfo.userName}}</div>
+                </div>
+                <div class="grow_second_all">
+                    <div id="main" style="width:600px;height:350px; margin: 0 auto;"></div>
+                </div>
+                <div class="grow_third_all">
+                    <div class="grow_second_list">
+                        <div class="grow_second_title">总评语</div>
+                        <div class="grow_second_name">General Comment</div>
+                    </div>
+                    <div class="grow_second_footer">
+                        <div class="grow_second_footer_frame">
+                            <div class="grow_second_footer_icon"></div>
+                            <div class="grow_second_footer_cont">
+                                <div>{{userInfo.overview}}发文件发你胃口吉峰农机鄂温克范围分为你看风景宁维凯就能发金额为范围分为访客无法金额窝囊废金额为氛围呢房间喂分为非分为非那我就妇女为妇女违法扶危济困分为服务范围分为带我去反而更热狗仍热裤更热供热开个价而那个让你改扩建热更热构建嗯看极光呢接如果您热接口那个个人个人交给客人进口国</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <footer></footer>
+		</div>
+        <script>
+            var vm;
+			hasloadRight=true;
+			$(function() {
+				$("header").load("hearder01.html");
+				$("footer").load("footer.html");
+				$('.H_left').click(function(){
+					window.history.back();
+				})
+				
+				$('.imgPic').hide();
+				var uid = getCookie("China_Africa_UID");
+				vm = new Vue({
+					el:"#liItem",
+					data: {
+                        data: null,
+                        userInfo: {}, //用户信息
+                        overview: '', //总评语
+                        userCourseDetalsCount: 0,
+                        radarData:[],//雷达成绩图
+                        indicator:[],//雷达图的名称
+                        courseRerfmList: [
+                            {
+                                avgCommentScore: 80,
+                                avgCommentScoreName: null,
+                                evaluationDesc: "上课交流流畅度",
+                                id: 64,
+                            },
+                            {
+                                avgCommentScore: 50,
+                                avgCommentScoreName: null,
+                                evaluationDesc: "上课注意力集中程度",
+                                id: 65,
+                            },
+                            {
+                                avgCommentScore: 70,
+                                avgCommentScoreName: null,
+                                evaluationDesc: "上课回答问题是否积极",
+                                id: 66,
+                            },
+                            {
+                                avgCommentScore: 90,
+                                avgCommentScoreName: null,
+                                evaluationDesc: "上课话题参与度",
+                                id: 67,
+                            },
+                            {
+                                avgCommentScore: 50,
+                                avgCommentScoreName: null,
+                                evaluationDesc: "上课情绪是否积极",
+                                id: 68,
+                            },
+                        ]
+                    },
+                    methods: {
+                        errImg(e) {
+                            this.userInfo.userIcon = 'img/grow_frame_avatar.png';
+                        },
+                        handleRadarData(data) { //处理雷达图
+                            let radarData = this.courseRerfmList;
+                            // console.log(radarData);
+                            this.radarData = radarData.map((item,index)=> item.avgCommentScore);
+                            let arr = [];
+                            for(let i = 0;i<radarData.length;i++){
+                                let obj = {};
+                                obj['text'] = radarData[i].evaluationDesc;
+                                obj['max'] = 100;
+                                arr.push(obj);
+                            }
+                            // console.log(arr)
+                            this.indicator = [...arr];
+                            // console.log(this.indicator)
+                            this.radarPic();//雷达图的渲染
+                        },
+                        handleUserInfo(data) { //处理用户信息
+                            const userInfo = {};
+                            userInfo['userName'] = data.userName;
+                            userInfo['userIcon'] = data.userIcon;
+                            this.userInfo = userInfo;
+                        },
+                        init() {
+                            this.handleRadarData(); //处理雷达图
+                            this.userInfo['userIcon'] = 'img/grow_frame_avatar.png';
+                            //token啥的从url上取
+                            const params = {
+                                id: getQuery('id'),
+                                courseTypeId: getQuery('courseTypeId'),
+                                courseIds: getQuery('courseIds'),
+                                userId:getQuery('userId')
+                            };
+                            let location = window.location.href
+                            //区分正式测试环境
+                            let isProduction = location.indexOf('https://www.saclass.com/')
+                            let url = isProduction > -1 ? 'https://lifecoach.specialaedu.com/certificate/growthReportdetails' : 'http://t-lifecoach.saclass.com/certificate/growthReportdetails'
+                //			const url = `https://lifecoach.specialaedu.com/certificate/growthReportdetails`;
+                //			const userId = getQuery('userId');
+                //			if(token) {
+                //				axios.defaults.headers['Authorization'] = "Bearer " + token;
+                //			}
+                            // axios.defaults.headers['Content-type'] = 'application/json';
+                            // showLoad('数据加载中');
+                            // axios.post(url, params).then((res) => {
+                            //     hideLoad();
+                            //     if(res.data.code === 1000){
+                            //         const data = { ...res.data.data};
+                            //         this.data = data;
+                            //         this.handleUserInfo(data); //处理用户信息
+                            //         this.handleRadarData(data); //处理雷达图
+                            //         this.$nextTick(() => {
+                            //             this.radarPic();//雷达图的渲染
+                            //         })	
+                            //     }else{
+                            //         showAlert('数据获取失败',res.data.msg);
+                            //     }
+                                
+                                
+                            // }).catch((err) => {
+                            //     hideLoad();
+                            //     showAlert('数据获取失败','')
+                            //     console.log(err)
+                            // })
+                        },
+                        radarPic() { //雷达图
+                            let myChart = echarts.init(document.getElementById('main'));
+                            let option = {
+                                tooltip: {
+                                    trigger: 'axis',
+                                    backgroundColor : 'rgba(0,0,250,0.2)'
+                                },
+                                radar: [{
+                                        indicator: this.indicator /*[{
+                                                text: '学生表现',
+                                                max: 100
+                                            },
+                                            {
+                                                text: '知识掌握程度',
+                                                max: 100
+                                            },
+                                            {
+                                                text: '回答问题情况',
+                                                max: 100
+                                            },
+                                            {
+                                                text: '课后作业完成情况',
+                                                max: 100
+                                            },
+                                            {
+                                                text: '上课积极性',
+                                                max: 100
+                                            }
+
+                                        ]*/,
+                                        center: ['50%', '50%'],
+                                    },
+
+                                ],
+                                series: [{
+                                    type: 'radar',
+                                    tooltip: {
+                                        trigger: 'item'
+                                    },
+                                    itemStyle: {
+                                        normal: {
+                                            areaStyle: {
+                                                //									type: 'default',
+                                                color: ["#f51818"],
+                                                opacity: 0.6,
+                                            },
+                                            lineStyle: {
+                                                color: "#f51818" // 图表中各个图区域的边框线颜色
+                                            },
+                                        }
+                                    },
+                                    data: [{
+                                        value: this.radarData,
+                                        name: '上课表现'
+                                    }]
+                                }]
+
+                            }
+                            myChart.setOption(option);
+                        }
+                    },
+                    mounted() {
+                        
+                    },
+                    created() {
+                        this.init();
+                    }
+				})
+				
+			});
+        </script>
+	</body>
+
+</html>

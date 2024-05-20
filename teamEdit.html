@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>更新团队信息</title>
+		<!-- CSS -->
+		<link href="css/weui.min.css" rel="stylesheet" type="text/css">
+		<link rel="stylesheet" href="css/swiper-3.3.1.min.css" />
+		<link rel="stylesheet" type="text/css" href="css/comman.css" />
+		<!-- JS -->
+		<script src="js/jquery-1.12.0.min.js"></script>
+		<script src="js/jqmd5.js"></script>
+		<script src="js/jquery-form.js"></script>
+		<script src="js/sha1.js"></script>
+		<script src="js/weui.js"></script>
+		<script src="js/vue.min.js"></script>
+		<script src="js/jquery.qrcode.min.js"></script>
+		<script src="js/swiper.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/comman.js"></script>
+		<script>
+			if(isMobile){
+				location.href = "app/teamEdit.html";
+			}
+			$(function(){
+				$("header").load("hearder01.html");
+				vm=new Vue({
+					el:"#applayData",
+					data:{
+						activityId: activityId,
+						groupName: '', //项目名称
+						agreeBookurl: "", //同意书文件路径
+						teamDes: "", //团队简介
+						teamPhoto: [], //团队照片
+						teamMedia:[],//视频
+						teamPartner: [{
+							userNameZh: '',
+							userNameEn: '',
+							school: '',
+							gender: "1",
+							age:'12',
+							tel: '',
+							email: '',
+							parentName: '',
+							parentTel: '',
+						}, {
+							userNameZh: '',
+							userNameEn: '',
+							school: '',
+							gender: "1",
+							age:'12',
+							tel: '',
+							email: '',
+							parentName: '',
+							parentTel: '',
+						}, {
+							userNameZh: '',
+							userNameEn: '',
+							school: '',
+							gender: '1',
+							age:'12',
+							tel: '',
+							email: '',
+							parentName: '',
+							parentTel: '',
+						}],
+						nextNum:1,
+					},
+					methods:{
+						getMyItem:function(){
+							request("CFVote", "getMyTeamInfo", {userId:userID},function(data){
+								if(data.code==0){
+									var info = decodeURIComponent(data.info)
+									info=eval('(' + info+ ')');
+									vm.teamPartner= info.teamPartner;
+									vm.groupName=data.name; 
+									vm.agreeBookurl=info.agreeBookurl; 
+									vm.teamDes=info.teamDes; 
+									vm.teamPhoto=info.teamPhoto;
+									if(info.teamMedia!=null){
+										vm.teamMedia=info.teamMedia;
+									}
+								}
+							});
+						},
+						//更新团队信息
+						addApplyfor: function() {
+							var info = {
+								agreeBookurl: vm.agreeBookurl, //同意书路径
+								teamDes: encodeURIComponent(vm.teamDes), //团队介绍
+								teamPhoto: vm.teamPhoto, //团队照片
+								teamMedia:vm.teamMedia,  //团队视频
+								teamPartner: vm.teamPartner //报名人信息
+							}
+							//长度大于3的时候,停止循环
+							var lengths = parseInt(vm.teamPartner.length);
+							parseInt(lengths);
+							groupNumber = true;
+							for(var i = 0; i < lengths; i++) {
+								var nameNumber = vm.teamPartner[i];
+
+								if(!groupNumber) {
+									break;
+								}
+								for(var key in nameNumber) {
+									if(nameNumber[key] == '') {
+										groupNumber = false;
+										break;
+									} else {
+										groupNumber = true;
+									}
+								}
+							}
+							if(groupNumber && vm.groupName != '' && vm.teamDes != '' && vm.teamPhoto.length>0 && vm.agreeBookurl != '') {
+								// console.log("信息填写通过");
+								showLoad("更新团队信息");
+								info.teamDes = info.teamDes.replace(/\,/g,"，").replace(/\'/g,"’").replace(/\"/g,"”");
+								var infojsonstr=JSON.stringify(info);
+								request("CFVote", "updateInfo", {
+									name: vm.groupName,
+									userId:userID
+								}, function(data) {
+									hideLoad();
+									if(data.code == 0) {
+										var voteId = data.voteId;
+										var voteIdname = voteId;
+										showAlert("更新成功，请等待审核","","我知道了","",function(){
+											window.location.href="index.html"
+										});
+									} else {
+										showAlert("更新失败  " + data.msg);
+									}
+								},"post",2,{info:infojsonstr});
+							} else {
+								showAlert("请填写完整的报名信息");
+							}
+						},
+						//增加报名人数
+						addApplaynum: function() {
+							arraylist = {
+								userNameZh: '',
+								userNameEn: '',
+								school: '',
+								gender: 1,
+								age:'12',
+								tel: '',
+								parentName: '',
+								parentTel: '',
+							}
+							vm.teamPartner.push(arraylist);
+						},
+						//x--删除信息
+						clearTxt:function(index,strName){
+							for(var key in vm.teamPartner[index]) {
+								if( key == strName) {
+									vm.teamPartner[index][key] ='';
+									break;
+								}
+							}
+						},
+						toRoman: function(num) {
+							if(isNaN(num)) return num;
+							if(num==0){
+								return "队长信息";
+							}else{
+								var a = [
+									["", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"],
+									["", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XCC"],
+									["", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM"]
+								];
+								var roman = "";
+								var t = 0;
+								for(var m = 0, i = 1000; m < 3; m++, i /= 10) {
+									t = Math.floor((num % i) / (i / 10));
+									roman += a[2 - m][t];
+								}
+								return "报名人"+roman+"信息";
+							}
+						},
+						//删除最后一个报名人
+						deleteApply:function(index){
+							vm.teamPartner.splice(index,1);
+						},
+						//性别
+						addGender:function(index,numStr){
+							vm.teamPartner[index].gender=numStr;
+						},
+						//年龄的加减1
+						addAge:function(index,num){
+							vm.teamPartner[index].age=Number(vm.teamPartner[index].age);
+							if(num==1){
+								if(vm.teamPartner[index].age>19){
+									showAlert("年龄最大是20岁");
+									return;
+								}else if(vm.teamPartner[index].age<1){
+									vm.teamPartner[index].age=1;
+								}
+								vm.teamPartner[index].age+=1;
+							}else{
+								if(vm.teamPartner[index].age<=1){
+									vm.teamPartner[index].age=1;
+									return;
+								}
+								vm.teamPartner[index].age-=1;
+							}
+						},
+						deleteImg:function(index){
+							vm.teamPhoto.splice(index,1);
+						},
+						showPhotoBg:function(info){
+							return "url("+info+")no-repeat center center,#F2F2F2";
+						},
+						toNext:function(num){
+							vm.nextNum=num;
+							if(num==2){
+								mySwiper.init();
+							}
+						}
+					}
+				})
+				
+				//上传团队照
+				$(".addImg").click(function() {
+					var nums=vm.teamPhoto.length;
+					if(nums>9 || nums==9){
+						showAlert("图片最多上传9张");
+						return;
+					}
+					if(!$(this).attr("disabled")) {
+						uploadFile(3, function(url, path) {
+							$(this).removeAttr("disabled");
+							var url = url.toLowerCase();
+							if(/\.(jpg|png|jpeg)$/.test(url)) {
+								vm.teamPhoto.push(path);
+							} else {
+								showAlert('抱歉,上传文件只支持jpg,png,jpeg格式');
+								$(this).text("+");
+							}
+						}.bind(this), function() {
+							$(this).attr("disabled", true);
+						}.bind(this))
+					}
+				})
+				$(".keyInput01").bind("input", function() {
+					var str = $(this).val().replace(/[^0-9]/g, "");
+					if(str<1){
+						str='';
+					}
+					if(str>20){
+						str=20;
+						showAlert("年龄最大是20岁");
+					}
+					$(this).val(str);
+				})
+				$(".keyInput02").bind("input", function() {
+					var str = $(this).val().replace(/[^0-9]/g, "");
+					$(this).val(str);
+				})
+				if(userID!=null){
+					vm.getMyItem();
+				}else{
+					login(function(){
+						vm.getMyItem();
+					});
+				}
+				//预览轮播
+				var	mySwiper = new Swiper('.myItem', {
+					autoplay: 5000,
+					speed: 1000,
+					loop: true,
+					autoplayDisableOnInteraction: false,
+					pagination : '.swiper-pagination',
+				  	paginationType : 'bullets',
+				  	paginationClickable: true,
+			        observer:true,//修改swiper自己或子元素时，自动初始化swiper
+				});
+			})
+		</script>
+		<style>
+			body{
+				display: block;
+				background: #FFFFFF;
+				min-width: 1024px;
+			}
+			a,button{
+				cursor: pointer;
+			}
+			.top_tab{
+				max-width: 1200px;
+				margin: 0 auto;
+			}
+			.tab_left{
+				font-size: 18px;
+				color: #333333;
+				height: 30px;
+				line-height: 30px;
+				position: relative;
+				margin: 30px 0px 50px 0px;
+				padding-left: 15px;
+				box-sizing: border-box;
+			}
+			.tab_left .tab_b{
+				width: 4px;
+				height: 30px;
+				background: #e5233e;
+				position: absolute;
+				left: 0;
+			}
+			.tab_left a:hover{
+				color: #e5233e;
+			}
+			.applyList{
+				width: 890px;
+				margin: 0 auto;
+				box-sizing: border-box;
+			}
+			.listCon{
+				width: 100%;
+			}
+			.team01{
+				font-size: 18px;
+				margin-bottom: 55px;
+			}
+			.li_div01{
+				text-align: center;
+				font-size: 30px;
+				margin-bottom: 40px;
+			}
+			.div_p01{
+				margin-bottom: 10px;
+			}
+			.div_p02 span{
+				position: relative;
+				display: block;
+				margin: 0 auto;
+				width: 300px;
+				font-weight: bold;
+				padding-bottom: 40px;
+			}
+			.p_b{
+				position: absolute;
+				bottom: 2px;
+				left:130px;
+				display: block;
+				width: 40px;
+				height: 2px;
+				background: #e5233e;
+			}
+			.li_div02,.li_div03,.li_div04,.li_div05{
+				width: 100%;
+				position: relative;
+				padding-left: 123px;
+				box-sizing: border-box;
+			}
+			.li_div05{
+				padding-left: 100px;
+			}
+			.titleT{
+				padding: 1px 75px 1px 1px;
+				height: 50px;
+				border-radius: 4px;
+				border:2px solid #cccccc;
+				box-sizing: border-box;
+				position: relative;
+				margin-bottom: 20px;
+			}
+			.titleT02{
+				height: 200px;
+				padding-right: 1px;
+				padding-bottom: 50px;
+			}
+			.title03{
+				padding-right: 40px;
+			}
+			.title04{
+				border:none;
+				padding-right: 1px;
+			}
+			.span03{
+				width: 28px;
+				height: 45px;
+				position: absolute;
+				display: block;
+				top: 0;
+				right: 0px;
+				background: #f0f0f0 url(img/apply-icon-num.png) no-repeat center center;
+			}
+			.span_a01{
+				position: absolute;
+				display: block;
+				width: 100%;
+				height: 50%;
+				top: 0;
+				left: 0;
+			}
+			.span_a02{
+				top: auto;
+				bottom: 0;
+				left: 0;
+			}
+			.numR{
+				display: block;
+				position: absolute;
+				top: 0;
+				right: 10px;
+				width: 75px;
+				height: 50px;
+				line-height: 50px;
+				text-align: right;
+				color: #b3b3b3;
+			}
+			.numR01{
+				width: 90px;
+				top: auto;
+				bottom: 0;
+			}
+			.noIn{
+				color: #e5233e;
+			}
+			.keyInput{
+				border: none;
+				width: 100%;
+				height: 100%;
+				padding-left: 8px;
+				outline: none;
+				font-size: 18px;
+				box-sizing: border-box;
+			}
+			.keyInput01{
+				text-align: center;
+				padding-left: 0px;
+			}
+			.titleT02 .keyArea{
+				line-height: 25px;
+				outline:none;
+				resize:none;
+				padding: 8px 8px 0px 8px;
+				font-family: "微软雅黑","华文黑体","黑体","华文细黑","arial, helvetica,";
+				color: #333333; 
+			}
+			.icon_name{
+				position: absolute;
+				width: 123px;
+				height: 50px;
+				line-height: 50px;
+				left: 0;
+				top: 0;
+				font-size: 18px;
+				font-weight: bold;
+				padding-left: 38px;
+				box-sizing: border-box;
+				background: url(img/apply-top-messageBox-icon-1.png) no-repeat left center;
+			}
+			.icon_name01{
+				background: url(img/apply-top-messageBox-icon-2.png) no-repeat left center;
+			}
+			.icon_name02{
+				background: url(img/apply-top-messageBox-icon-3.png) no-repeat left center;
+			}
+			.icon_name03{
+				background: url(img/login_name.png) no-repeat left center;
+			}
+			.icon_name04{
+				background: url(img/apply-icon-a-02.png) no-repeat left center;
+			}
+			.icon_name05{
+				background: url(img/apply-icon-a-06.png) no-repeat 6px center;
+			}
+			.icon_name06{
+				background: url(img/apply-icon-a-08.png) no-repeat left center;
+			}
+			.icon_name07{
+				background: url(img/apply-icon-a-03.png) no-repeat left center;
+			}
+			.icon_name08{
+				padding-left: 48px;
+				width: 100px;
+				background: url(img/apply-icon-a-04.png) no-repeat 9px center;
+			}
+			.icon_name09{
+				background: url(img/apply-icon-a-07.png) no-repeat left center;
+			}
+			.titleImg{
+				min-height: 110px;
+				width: 100%;
+			}
+			.inImgList{
+				float: left;
+				width: 110px;
+				height: 110px;
+				margin-right: 20px;
+				margin-bottom: 15px;
+				position: relative;
+			}
+			.inImg{
+				width: 110px;
+				height: 110px;
+				overflow: hidden;
+				background: #F9F9F9;
+				display: flex;
+				justify-content: center;
+			}
+			.inImg img{
+				width: auto;
+				height: 100%;
+				flex-shrink: 0;
+			}
+			.addImg{
+				float: left;
+				width: 108px;
+				height: 108px;
+				line-height: 108px;
+				text-align: center;
+				border:1px dashed #bebebe;
+				font-size: 36px;
+				cursor: pointer;
+			}
+			.upImg{
+				width: 100%;
+				margin: 0 auto;
+			}
+			.removeImg{
+				position: absolute;
+				top: -8px;
+				right: -8px;
+				cursor: pointer;
+			}
+			.removeLi{
+				position: absolute;
+				top: 0;
+				right: 0;
+				cursor: pointer;
+			}
+			.removeInput{
+				position: absolute;
+				top: 12px;
+				right: 7px;
+				width: 25px;
+				cursor: pointer;
+			}
+			.team02{
+				height: 468px;
+				font-size: 16px;
+				margin-bottom: 75px;
+				position: relative;
+			}
+			.perOne{
+				float: left;
+				width: 46%;
+				height: auto;
+			}
+			.perTwo{
+				float: right;
+				width: 46%;
+				height: auto;
+			}
+			.perThree{
+				float: left;
+				width: 35%;
+				height: 100%;
+			}
+			.perFour{
+				float: right;
+				width: 65%;
+				height: auto;
+			}
+			.perSex{
+				display: block;
+				position: relative;
+				float: left;
+				height: 100%;
+				margin-right:10px;
+				line-height: 50px;
+				padding-left: 25px;
+			}
+			.perSex01{
+				margin-right:0px;
+			}
+			.sexs{
+				display: block;
+				position: absolute;
+				height: 100%;
+				width: 20px;
+				left: 0;
+				top: 0;
+				background: url(img/apply-icon-false.png) no-repeat left center;
+			}
+			.onsel{
+				background: url(img/apply-icon-true.png) no-repeat left center;
+			}
+			.addPer span{
+				display: block;
+				height: 80px;
+				width: 80px;
+				line-height: 80px;
+				text-align: center;
+				margin: 0 auto;
+				font-size: 32px;
+				border-radius: 40px;
+				border: 1px dashed #bebebe;
+				cursor: pointer;
+			}
+			.sumitApplay{
+				text-align: center;
+				margin: 65px 0px 110px 0px; 
+			}
+			.btn_ap{
+				width: 200px;
+				height: 50px;
+				border-radius: 4px;
+				background: #e5233e;
+				border: none;
+				outline: none;
+				font-size: 18px;
+				color: #FFFFFF;
+			}
+			.btn_ap01{
+				background: #333333;
+				margin-right: 130px;
+			}
+			.btn_ap02{
+				background: #333333;
+				margin-right: 50px;
+			}
+			/*预览
+			 */
+			.button {
+			    width: 506px;
+			    height: 40px;
+			    border: none;
+			    font-size: 18px;
+			    font-family: "微软雅黑";
+			    position: relative;
+			    margin: 0 auto;
+			}
+			.signupBtn-left {
+			    background-color: #fff;
+			    width: 100%;
+			    height: 40px;
+			    box-sizing: border-box;
+			    float: left;
+			    border: none;
+			    display: block;
+			    color: black;
+			    font-size: 24px;
+			    color: #e5233e;
+			    box-sizing: border-box;
+			}
+			.contentItem {
+			    position: relative;
+			    /* border: 1px solid red; */
+			    width: 1000px;
+			    height: 456px;
+			    box-sizing: border-box;
+			    text-align: center;
+			    margin: 16px auto;
+			}
+			.txtItem {
+			    width: 1000px;
+			    margin: 0 auto;
+			    box-sizing: border-box;
+			    margin: 0 auto;
+			}
+			.txtItem .titleItem {
+			    width: 100%;
+			    text-align: center;
+			    font-size: 25px;
+			    font-weight: bold;
+			    line-height: 28px;
+			}
+			.txtItem .captain {
+			    text-align: center;
+			    font-size: 16px;
+			    line-height: 24px;
+			    margin-top: 24px;
+			    font-weight: bold;
+			}
+			.txtItem .member {
+			    text-align: center;
+			    font-size: 16px;
+			    line-height: 24px;
+			    font-weight: normal;
+			}
+			.txtItem .contItem {
+			    width: 100%;
+			    font-size: 17px;
+			    margin-top: 50px;
+			    line-height: 30px;
+			    box-sizing: border-box;
+			}
+			.swiper-container{
+				width: 100%;
+				height: 100%;
+			}
+			.swiper-container .swiper-wrapper .swiper-slide  {
+				width:100%;
+				height: 100%;
+				overflow: hidden;
+				text-align: center;
+				display: flex;
+				justify-content: center;
+			}
+			.swiper-slide img{
+				width: auto;
+				height: 100%;
+				flex-shrink: 0;
+			}
+			.swiper-pagination-bullet{
+				width: 6px;
+				height: 6px;
+				background: #aabfda;
+				border: 1px solid #aabfda;
+			}
+			.swiper-pagination-bullet-active{
+				background: rgba(0,0,0,0);
+				border: 1px solid #e22640;
+			}
+			.swiper-container-horizontal>.swiper-pagination-bullets, .swiper-pagination-custom, .swiper-pagination-fraction{
+				bottom: 4px;
+			}
+		</style>
+	</head>
+	<body id="applayData">
+		<header></header>
+		<div class="top_tab">
+			<p class="tab_left"><b class="tab_b"></b><a href="index.html">首页</a>/更新团队</p>
+			<div class="applyList" v-show="nextNum==1">
+				<div class="listCon">
+					<ul>
+						<li class="team01">
+							<div class="li_div01">
+								<p class="div_p01"><img src="img/apply-top-messageBox.png"/></p>
+								<p class="div_p02"><span>团队信息<b class="p_b"></b></span></p>
+							</div>
+							<div class="li_div02">
+								<div class="icon_name">团队名称</div>
+								<div class="titleT">
+									<span class="numR" :class="{'noIn':groupName.length==20}">{{groupName.length}}/20</span>
+									<input class="keyInput" type="text" maxlength="20" v-model="groupName"/>
+								</div>
+							</div>
+							<div class="li_div03">
+								<div class="icon_name icon_name01">团队描述</div>
+								<div class="titleT titleT02">
+									<span class="numR numR01" :class="{'noIn':teamDes.length==300}">{{teamDes.length}}/300</span>
+									<textarea class="keyInput keyArea" type="text" maxlength="300" v-model="teamDes"></textarea>
+								</div>
+							</div>
+							<div class="li_div04">
+								<div class="icon_name icon_name02">上传图片</div>
+								<div class="titleImg">
+									<div class="inImgList" v-for="photo in teamPhoto">
+										<img src="img/apply-no.png" class="removeImg" @click="deleteImg($index)">
+										<div class="inImg">
+											<img :src="photo" />
+										</div>
+									</div>
+									<div class="addImg"><span>+</span></div>
+								</div>
+							</div>
+						</li>
+						<li class="team02 clear" v-for="applys in teamPartner">
+							<img src="img/apply-no.png" class="removeLi" @click="deleteApply($index)" v-if="$index==(teamPartner.length-1) && $index>2">
+							<div class="li_div01">
+								<p class="div_p01"><img src="img/content-box.png"/></p>
+								<p class="div_p02"><span>{{toRoman($index)}}<b class="p_b"></b></span></p>
+							</div>
+							<div class="personOne">
+								<div class="perOne">
+									<div class="li_div02">
+										<div class="icon_name icon_name03">姓名</div>
+										<div class="titleT title03">
+											<img src="img/login_no.png" class="removeInput" v-show="applys.userNameZh!=''" @click="clearTxt($index,'userNameZh')">
+											<input class="keyInput" type="text" v-model="applys.userNameZh"/>
+										</div>
+									</div>
+									<div class="li_div02">
+										<div class="icon_name icon_name04">学校</div>
+										<div class="titleT title03">
+											<img src="img/login_no.png" class="removeInput" v-show="applys.school!=''" @click="clearTxt($index,'school')">
+											<input class="keyInput" type="text" v-model="applys.school"/>
+										</div>
+									</div>
+									<div class="li_div02">
+										<div class="icon_name icon_name05">手机</div>
+										<div class="titleT title03">
+											<img src="img/login_no.png" class="removeInput" v-show="applys.tel!=''" @click="clearTxt($index,'tel')">
+											<input class="keyInput keyInput02" type="text" v-model="applys.tel" maxlength="11" onkeyup="this.value=this.value.replace(/\D/g,'')"/>
+										</div>
+									</div>
+									<div class="li_div02">
+										<div class="icon_name icon_name06">父/母姓名</div>
+										<div class="titleT title03">
+											<img src="img/login_no.png" class="removeInput" v-show="applys.parentName!=''" @click="clearTxt($index,'parentName')">
+											<input class="keyInput" type="text" v-model="applys.parentName"/>
+										</div>
+									</div>
+								</div>
+								<div class="perTwo">
+									<div class="li_div02">
+										<div class="icon_name icon_name03">英文名</div>
+										<div class="titleT title03">
+											<img src="img/login_no.png" class="removeInput"  v-show="applys.userNameEn!=''" @click="clearTxt($index,'userNameEn')">
+											<input class="keyInput" type="text" v-model="applys.userNameEn"/>
+										</div>
+									</div>
+									<div class="li_div02">
+										<div class="icon_name icon_name07">性别</div>
+										<div class="titleT title04">
+											<div class="perThree">
+												<span class="perSex"><b class="sexs" :class="{'onsel':applys.gender=='1'}" @click="addGender($index,'1')"></b>男</span><span class="perSex perSex01"><b class="sexs" :class="{'onsel':applys.gender=='0'}" @click="addGender($index,'0')"></b>女</span>
+											</div>
+											<div class="perFour">
+												<div class="li_div05">
+													<div class="icon_name icon_name08">年龄</div>
+													<div class="titleT title03">
+														<span class="span03">
+															<a class="span_a01" @click="addAge($index,1)"></a>
+															<a class="span_a01 span_a02" @click="addAge($index,-1)"></a>
+														</span>
+														<input class="keyInput keyInput01" type="text" v-model="applys.age" maxlength="3" />
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="li_div02">
+										<div class="icon_name icon_name09">邮箱</div>
+										<div class="titleT title03">
+											<img src="img/login_no.png" class="removeInput" v-show="applys.email!=''" @click="clearTxt($index,'email')">
+											<input class="keyInput" type="text" v-model="applys.email"/>
+										</div>
+									</div>
+									<div class="li_div02">
+										<div class="icon_name icon_name06">父/母手机</div>
+										<div class="titleT title03">
+											<img src="img/login_no.png" class="removeInput" v-show="applys.parentTel!=''" @click="clearTxt($index,'parentTel')">
+											<input class="keyInput keyInput02" type="text" v-model="applys.parentTel" maxlength="11" onkeyup="this.value=this.value.replace(/\D/g,'')" />
+										</div>
+									</div>
+								</div>
+							</div>
+						</li>
+					</ul>
+					<div class="addPer">
+						<span @click="addApplaynum()">+</span>
+					</div>
+					<div class="sumitApplay">
+						<button class="btn_ap btn_ap02" @click="toNext(2)">预览</button>
+						<button class="btn_ap" @click="addApplyfor">提交</button>
+					</div>
+				</div>
+			</div>
+			<div v-show="nextNum==2">
+				<div class="button">
+					<button class="signupBtn-left">团队信息</button>
+				</div>
+				<div class="contentItem">
+					<div class="swiper-container myItem">
+						<div class="swiper-wrapper">
+							<div class="swiper-slide" v-for="pohto in teamPhoto">
+								<img :src="pohto" />
+							</div>
+						</div>
+						<div class="swiper-pagination"></div>
+					</div>
+				</div>
+				<div class="txtItem clear">
+					<p class="titleItem">{{groupName}} </p>
+					<p class="captain">队长:{{teamPartner[0].userNameZh}}</p>
+					<p class="member">队员:<span>{{teamPartner[1].userNameZh}}</span><span v-for="team in teamPartner" v-if="$index>1">，{{team.userNameZh}}</span></p>
+					<div class="contItem">{{teamDes}} </div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

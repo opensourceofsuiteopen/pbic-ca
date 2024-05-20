@@ -1,0 +1,1315 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="default">
+		<meta name="format-detection" content="telephone=no">
+		<link rel="stylesheet" type="text/css" href="./css/comman.css" />
+		<link rel="stylesheet" type="text/css" href="./css/pageArr.css" />
+        <link rel="stylesheet" type="text/css" href="./css/weui.min.css" />
+        <link rel="stylesheet" href="./css/swiper-3.3.1.min.css" />
+		<!-- JS -->
+		<script src="./js/jquery-1.12.0.min.js"></script>
+		<script src="./js/jquery-form.js"></script>
+		<script src="./js/jqmd5.js"></script>
+		<script src="./js/sha1.js"></script>
+		<script src="./js/weui.js"></script>
+		<script src="./js/vue.min.js"></script>
+        <script src="js/swiper.js" type="text/javascript" charset="utf-8"></script>
+		<script src="./js/comman.js"></script>		
+		<title>项目列表</title>
+		<script>
+			
+			var vm;
+			hasloadRight=true;
+			$(function() {
+				$("header").load("hearder01.html");
+				$("footer").load("footer.html");
+				$('.H_left').click(function(){
+					window.history.back();
+				})
+				
+				$('.imgPic').hide();
+				var uid = getCookie("China_Africa_UID");
+				vm = new Vue({
+					el:"#liItem",
+					data:{
+                        groupName: '项目名称',//项目名称
+                        groupDescribe: '团队描述',//团队描述
+                        teamPhoto: ['./img/apply-top-messageBox-icon-3.png'],//上传图片
+                        teamPartner: [//队员信息
+                            {
+                                userNameZh: '111',
+                                userNameEn: '111',
+                                school: '111',
+                                gender: "1",
+                                age:'12',
+                                tel: '111',
+                                email: '111',
+                                parentName: '111',
+                                parentTel: '1111',
+                            }, 
+                            {
+                                userNameZh: '2222',
+                                userNameEn: '2222',
+                                school: '222',
+                                gender: "0",
+                                age:'12',
+                                tel: '222',
+                                email: '222',
+                                parentName: '2222',
+                                parentTel: '222222',
+                            },
+                        ],
+                        subtitle: '副标题',//副标题
+                        goalsContent: 'B. 目标3：良好健康和福祉 Good health and well-being',//项目方向
+                        countrySelectList: [//重点支持国家
+                            {
+                                name: '埃塞俄比亚',
+                                isSelected: false,
+                            },
+                            {
+                                name: '马拉维',
+                                isSelected: false,
+                            },
+                            {
+                                name: '加纳',
+                                isSelected: true,
+                            },
+                            {
+                                name: '津巴布韦',
+                                isSelected: false,
+                            },
+                            {
+                                name: '安哥拉',
+                                isSelected: false,
+                            },
+                            {
+                                name: '赞比亚',
+                                isSelected: true,
+                            },
+                            {
+                                name: '乌干达',
+                                isSelected: false,
+                            },
+                            {
+                                name: '布隆迪',
+                                isSelected: false,
+                            },
+                        ],
+                        programSummary: '方案提要',//方案提要
+                        programSummaryEng: '方案提要英文版',//方案提要英文版
+                        teamVideo: ['this.teamVideo'],//视频展示
+                        targetPopulation: '目标人群',//目标人群
+                        feasibilityAnalysis: '方案可行性分析',//方案可行性分析
+                        innovationAnalysis: '方案创新性分析',//方案创新性分析
+                        projectProgramme: '项目方案执行',//项目方案执行
+                        teamDivision: '团队分工',//团队分工
+                        costAnalysis: '',//成本分析
+                        expectationOfEffect: '',//效果预期
+                        wechat: '微信、微博',//微信、微博
+                        jitter: '抖音等短视频平台',//抖音等短视频平台
+                        website: '网站、H5',//网站、H5
+                        activityPhoto: [],//活动照片
+                        onlineActivity: '线下活动',//线下活动
+                        socialInfluence: '社会影响',//社会影响
+                        supplementary: '补充说明',//补充说明
+                        showVideoBoxFlag: false,//显示隐藏视频盒子
+                        videoId: ''//视频id
+					},
+					methods:{	 
+                        // 转化成罗马数字
+                        toRoman: function(num) {
+							if(isNaN(num)) return num;
+							if(num==0){
+								return "队长信息";
+							}else{
+								var a = [
+									["", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"],
+									["", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XCC"],
+									["", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM"]
+								];
+								var roman = "";
+								var t = 0;
+								for(var m = 0, i = 1000; m < 3; m++, i /= 10) {
+									t = Math.floor((num % i) / (i / 10));
+									roman += a[2 - m][t];
+								}
+								return "报名人"+roman+"信息";
+							}
+                        },
+                        // 获取团队信息
+                        getMyTeamInfo(){
+                            let that = this
+                            request("CFVote","getMyTeamInfo",{userId:userID},function(data) {
+                                if(data.code==0){
+                                    // console.log(data)
+                                    that.getMyProject(data.id)							
+                                }else{
+                                    showAlert(data.msg);
+                                }
+                            })
+                        },
+                        // 展示视频
+                        showVideo(data){
+                            // console.log(data)
+                            this.videoId = data.ccvid
+                            this.showVideoBoxFlag = true
+                            // console.log(this.videoId)
+                        },
+                        // 隐藏视频
+                        hideVideoBox(){
+                            this.showVideoBoxFlag = false
+                        },
+                        // 获取和项目策划书
+                        getMyProject(voteId){
+                            let that = this
+                            request("CFVote","showMeVoteInfo",{voteId:voteId},function(data) {
+                                if(data.code==0){
+                                    // console.log(data)	
+                                    let comment = JSON.parse(data.planningLetter)
+                                    let info = JSON.parse(data.info)
+                                    // that.teamPartner = info.teamPartner;
+									// that.groupName = data.name; 
+									// that.groupDescribe = info.teamDes; 
+									// that.teamPhoto = info.teamPhoto;
+                                    that.groupName = decodeURIComponent(comment.groupName)//项目名称
+                                    that.subtitle = decodeURIComponent(comment.subtitle)//副标题
+                                    that.goalsContent = decodeURIComponent(comment.goalsContent)//项目方向
+                                    that.countrySelectList = comment.countrySelectList
+                                    that.programSummary = decodeURIComponent(comment.programSummary)//方案提要
+                                    that.programSummaryEng = decodeURIComponent(comment.programSummaryEng)//方案提要英文版
+                                    that.teamVideo = comment.teamVideo//视频展示
+                                    that.targetPopulation = decodeURIComponent(comment.targetPopulation)//目标人群
+                                    that.feasibilityAnalysis = decodeURIComponent(comment.feasibilityAnalysis)//方案可行性分析
+                                    that.innovationAnalysis = decodeURIComponent(comment.innovationAnalysis)//方案创新性分析
+                                    that.projectProgramme = decodeURIComponent(comment.projectProgramme)//项目方案执行
+                                    that.teamDivision = decodeURIComponent(comment.teamDivision)//团队分工
+                                    that.costAnalysis = decodeURIComponent(comment.costAnalysis,)//成本分析
+                                    that.expectationOfEffect = decodeURIComponent(comment.expectationOfEffect,)//效果预期
+                                    that.wechat = decodeURIComponent(comment.wechat)//微信、微博
+                                    that.jitter = decodeURIComponent(comment.jitter)//抖音等短视频平台
+                                    that.website = decodeURIComponent(comment.website)//网站、H5
+                                    that.activityPhoto = comment.activityPhoto//活动照片
+                                    that.onlineActivity = decodeURIComponent(comment.onlineActivity)//线上活动
+                                    that.socialInfluence = decodeURIComponent(comment.socialInfluence)//社会影响
+                                    that.supplementary = decodeURIComponent(comment.supplementary)//补充说明	
+                                    that.videoId = comment.teamVideo ?(comment.teamVideo[0]?comment.teamVideo[0].ccvid.ccvid:'')  : ''
+                                    that.$nextTick(function(){
+                                        if(that.activityPhoto.length>0){
+                                            var swiper1 = new Swiper('.ids5', {
+                                                loop: true,//无限滚动
+                                                // autoplay : 1000,
+                                                autoplay: {
+                                                    delay: 3000,
+                                                    stopOnLastSlide: false,
+                                                    disableOnInteraction: false,
+                                                },
+                                            });
+                                        }
+                                       
+                                    })				
+                                }else{
+                                    showAlert(data.msg);
+                                }
+                            })
+                        },
+                        gotoEditProject(){
+                            window.location.href = 'editProject.html'
+                        } 
+                    },
+                    created() {
+                        this.getMyTeamInfo()
+                    },
+				})
+				
+			});
+	</script>
+
+    <style>
+        header {
+            width: 100%;
+            margin: 0 auto;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 2;
+        }
+        .H_left {
+            display: inline-block;
+            width: 10%;
+            height: 44px;
+            float: left;
+            margin-left:12px;
+            background: url("img/imack_01.png") no-repeat left center;
+            background-size: 10px 17px;
+        }
+        
+            ::-webkit-input-placeholder {
+            color: #EBEBEB;
+        }
+        
+        :-moz-placeholder {
+            color: #EBEBEB;
+        }
+        
+        ::-moz-placeholder {
+            color: #EBEBEB;
+        }
+        
+        :-ms-input-placeholder {
+            color: #EBEBEB;
+        }
+        /* 面包屑 */
+        .indexes{
+            width:1200px;
+            margin:36px auto;
+            position:relative; 
+            font-size:18px;
+            line-height:30px;
+            text-indent:16px;
+            letter-spacing:2px;
+            position: relative;
+        }
+        .indexes .box{
+            width:4px;
+            height:30px;
+            background:#e5233e;
+            float:left
+        }
+        .indexes span{
+            color:#cfcfcf;
+            margin:0 2px;
+        }
+        
+        .next {}
+        
+        .pageInput {
+            display: inline-block;
+            text-align: center;
+        }
+        .page-div li{
+            height: 24px;
+            border: none;
+            overflow: inherit;
+            margin-right: 0;
+        }
+        .page-btn{
+            
+        }
+        .div-li:hover{
+            background-color: #EBEBEB !important;
+        }
+        .indexes>a:hover{
+            color:#e5233e;
+        }
+        
+        /*  */
+        .edit{
+            width: 135px;
+            height: 48px;
+            background:rgba(229,35,62,1);
+            border-radius: 6px;
+            text-align: center;
+            font-size: 18px;
+            font-family: MicrosoftYaHei;
+            font-weight: 400;
+            color: #fff;
+            position: absolute;
+            top: 18px;
+            right: 0;
+            cursor: pointer;
+            display: flex;
+            padding-left: 30px;
+            padding-top: 15px;
+            box-sizing: border-box;
+        }
+
+        .edit img{
+            width: 18px;
+            height: 18px;
+            display: inline-block;
+        }
+        .edit span{
+            height: 18px;
+            line-height: 18px;
+            color: #fff;
+            margin: 0;
+        }
+        .listCon{
+            width: 890px;
+            margin: 0 auto;
+        }
+        .team01{
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+        .li_div01{
+            text-align: center;
+            font-size: 30px;
+            margin-bottom: 40px;
+        }
+        .div_p01{
+            margin-bottom: 10px;
+        }
+        .div_p01 img{
+            width: 60px;
+            margin-bottom: 20px;
+        }
+        .div_p02{
+            position: relative;
+        }
+        .div_p02 span{
+            font-size: 30px;
+            line-height: 1.6;
+            font-weight: bold;
+            font-family: MicrosoftYaHei-Bold;
+            color: #333333;
+        }
+        .div_p02 .redLine{
+            width: 40px;
+            height: 2px;
+            background: #E5233E;
+            display: block;
+            margin: 30px auto 60px;
+        }
+        .div_p02 .paragraph{
+            font-size: 16px;
+            line-height: 1.8;
+            font-family: MicrosoftYaHei;
+            font-weight: 400;
+            color: #333333;
+            text-align: left;
+            text-indent: 32px;
+        }
+        .div_p02 .paragraph a{
+            color: #5181FC;
+        }
+        .div_p03{
+            width: 100%;
+            display: flex;
+            margin-top: 100px;
+        }
+        .div_p03_text{
+            width: 180px;
+            margin-right: 100px; 
+        }
+        .div_p03_text_title{
+            height: 20px;
+            font-size: 18px;
+            line-height: 20px;
+            font-family: MicrosoftYaHei;
+            font-weight: 400;
+            color: #333333;
+            margin-bottom: 25px;
+            text-align: left;
+        }
+        .div_p03_text_text{
+            height: 18px;
+            font-size: 16px;
+            line-height: 18px;
+            font-family: MicrosoftYaHei;
+            font-weight: 400;
+            color: #333333;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        .div_p03_text_btn{
+            width:200px;
+            height:50px;
+            line-height: 50px;
+            background: #E5233E;
+            border-radius: 5px;
+            font-size: 18px;
+            font-family: MicrosoftYaHei;
+            font-weight: 400;
+            color: #FFFFFF;
+            cursor: pointer;
+        }
+        .div_p04{
+            /* display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between; */
+            margin-bottom: 60px;
+        }
+        .div_p05{
+            text-align: right;
+            height: 12px;
+            line-height: 12px;
+            font-size: 16px;
+            font-family: MicrosoftYaHei;
+            font-weight: 400;
+            color:#333;
+        }
+        .p_b{
+            position: absolute;
+            bottom: 2px;
+            left:130px;
+            display: block;
+            width: 40px;
+            height: 2px;
+            background: #e5233e;
+        }
+        .li_div02,.li_div03,.li_div04,.li_div05{
+            width: 100%;
+            position: relative;
+            padding-left: 123px;
+            box-sizing: border-box;
+        }
+        .li_div04_double{
+            height: 220px;
+        }
+        .li_div05{
+            padding-left: 100px;
+        }
+        .li_div06{
+            text-align: left;
+            height: 18px;
+            line-height: 18px;
+            font-size: 18px;
+            font-family: MicrosoftYaHei-Bold;
+            font-weight: bold;
+            color: #333333;
+            margin-bottom: 40px;
+            padding-left: 5px;
+        }
+        .li_div07{
+            height: 18px;
+            font-size: 18px;
+            font-family: MicrosoftYaHei-Bold;
+            font-weight: bold;
+            color: #333333;
+            line-height: 18px;
+            margin: 60px 0 30px 0;
+            text-align: left;
+        }
+        .li_div08{
+            height: 18px;
+            font-size: 18px;
+            font-family: MicrosoftYaHei-Bold;
+            font-weight: bold;
+            color: #333333;
+            margin-bottom: 16px;
+            text-align: left;
+        }
+        .li_div09{
+            height: 16px;
+            font-size: 16px;
+            font-family: SourceHanSansCN-Regular;
+            font-weight: 400;
+            color: #999;
+            line-height: 16px;
+            margin-bottom: 36px;
+            text-align: left;
+        }
+        .li_div10{
+            width: 890px;
+            height: 50px;
+            border: 2px solid rgba(204,204,204,1);
+            border-radius:5px;
+            font-size: 18px;
+            font-family: SourceHanSansCN-Regular;
+            font-weight: 400;
+            color: #333333;
+            line-height: 48px;
+            text-indent: 15px;
+            margin-bottom: 20px;
+            text-align: left;
+            cursor: pointer;
+            box-sizing: border-box;
+        }
+        .li_div10.active{
+            border:2px solid #E5233E;
+            color: #E5233E;
+        }
+        .li_div11{
+            width: 890px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        .li_div12{
+            width: 435px;
+            height: 50px;
+            border: 2px solid rgba(204,204,204,1);
+            border-radius:5px;
+            font-size: 18px;
+            font-family: SourceHanSansCN-Regular;
+            font-weight: 400;
+            color: #333333;
+            line-height: 48px;
+            text-indent: 15px;
+            margin-bottom: 20px;
+            text-align: left;
+            box-sizing: border-box;
+            cursor: pointer;
+        }
+        .li_div12.active{
+            border:2px solid #E5233E;
+            color: #E5233E;
+        }
+        .li_div04_video{
+            margin-bottom: 30px;
+        }
+        .titleT{
+            /* height: 50px; */
+            line-height: 50px;
+            font-family: MicrosoftYaHei;
+            font-weight: 400;
+            font-size: 18px;
+            box-sizing: border-box;
+            position: relative;
+            margin-bottom: 14px;
+            text-align: left;
+        }
+        .titleT03{
+            width: 764px;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            padding: 0;
+        }
+        .titleT03_text{
+            width: 100%;
+            display: flex;
+        }
+        .titleT03_text_left{
+            width: 170px;
+            text-align: center;
+            font-size: 16px;
+            font-family: MicrosoftYaHei;
+            font-weight: 400;
+            color: #333;
+            border-right: 1px solid #ccc;
+            border-bottom: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+        .titleT03_text:nth-last-child(1) .titleT03_text_left{
+            border-bottom: none;
+        }
+        .titleT03_text_right{
+            flex: 1;
+            font-size: 16px;
+            font-family: MicrosoftYaHei;
+            font-weight: 400;
+            color: #333;
+            border-bottom: 1px solid #ccc;
+            box-sizing: border-box;
+            text-align: center;
+            line-height: 30px;
+        }
+        .titleT03_text:nth-last-child(1) .titleT03_text_right{
+            border-bottom: none;
+        }
+        .titleT03_text_right input{
+            width: 100%;
+            border: none;
+            outline: none;
+            text-indent: 20px;
+            font-size: 16px;
+            font-family: MicrosoftYaHei;
+            font-weight: 400;
+            color: #333;
+        }
+        .titleT05{
+            border: none;
+            height: 16px;
+            line-height: 16px;
+            font-size:16px;
+            margin-bottom: 20px;
+            font-family: SourceHanSansCN-Regular;
+            font-weight: 400;
+            color: #999999;
+            text-align: left;
+        }
+        .titleT05 span{
+            color: #333;
+        }
+        .titleT02{
+            /* height: 200px; */
+            /* padding-right: 1px; */
+            padding-bottom: 10px;
+            padding-top: 10px;
+            line-height: 30px;
+            min-height: 50px;
+        }
+        .title03{
+            padding-right: 40px;
+        }
+        .title04{
+            border:none;
+            padding-right: 1px;
+            height: 50px;
+        }
+        .title05{
+            text-align: right;
+        }
+        .span03{
+            width: 28px;
+            height: 45px;
+            position: absolute;
+            display: block;
+            top: 0;
+            right: 0px;
+            background: #f0f0f0 url(img/apply-icon-num.png) no-repeat center center;
+        }
+        .span_a01{
+            position: absolute;
+            display: block;
+            width: 100%;
+            height: 50%;
+            top: 0;
+            left: 0;
+        }
+        .span_a02{
+            top: auto;
+            bottom: 0;
+            left: 0;
+        }
+        .numR{
+            display: block;
+            position: absolute;
+            top: 0;
+            right: 10px;
+            width: 75px;
+            height: 50px;
+            line-height: 50px;
+            text-align: right;
+            color: #b3b3b3;
+            font-size: 18px;
+        }
+        .numR01{
+            width: 90px;
+            top: auto;
+            bottom: 0;
+        }
+        .noIn{
+            color: #e5233e;
+        }
+        .keyInput{
+            border: none;
+            width: 100%;
+            height: 100%;
+            padding-left: 8px;
+            outline: none;
+            font-size: 18px;
+            box-sizing: border-box;
+        }
+        .keyInput01{
+            text-align: center;
+            padding-left: 0px;
+        }
+        .titleT02 .keyArea{
+            line-height: 25px;
+            outline:none;
+            resize:none;
+            padding: 8px 8px 0px 8px;
+            font-family: "微软雅黑","华文黑体","黑体","华文细黑","arial, helvetica,";
+            color: #333333; 
+        }
+        .icon_name{
+            position: absolute;
+            width: 123px;
+            height: 50px;
+            line-height: 50px;
+            left: 0;
+            top: 0;
+            font-size: 18px;
+            font-family: MicrosoftYaHei-Bold;
+            font-weight: bold;
+            padding-left: 35px;
+            box-sizing: border-box;
+            background: url(img/apply-top-messageBox-icon-1.png) no-repeat left center;
+        }
+        .icon_name01{
+            background: url(img/apply-top-messageBox-icon-2.png) no-repeat left center;
+        }
+        .icon_name02{
+            background: url(img/apply-top-messageBox-icon-3.png) no-repeat left center;
+        }
+        .titleImg{
+            min-height: 110px;
+            width: 100%;
+        }
+        .inImgList{
+            float: left;
+            width: 110px;
+            height: 110px;
+            margin-right: 20px;
+            margin-bottom: 10px;
+            position: relative;
+        }
+        .inImg{
+            width: 110px;
+            height: 110px;
+            overflow: hidden;
+            display: flex;
+            background: #F9F9F9;
+            justify-content: center;
+        }
+        .inImg img{
+            width: auto;
+            height: 100%;
+        }
+        .addImg{
+            float: left;
+            width: 108px;
+            height: 108px;
+            line-height: 108px;
+            text-align: center;
+            border:1px dashed #bebebe;
+            font-size: 36px;
+            cursor: pointer;
+        }
+        .upImg{
+            width: 100%;
+            margin: 0 auto;
+        }
+        .icon_name03{
+            background: url(img/fillProject/right.png) no-repeat left center;
+        }
+        .icon_name04{
+            background: url(img/apply-icon-a-02.png) no-repeat left center;
+        }
+        .icon_name05{
+            background: url(img/login_name.png) no-repeat left center;
+            position: relative;
+            margin: 0 auto;
+            text-align: left;
+            width: 178px;
+        }
+        .icon_name055{
+            font-size: 16px;
+            float: left;
+            margin-right: 10px;
+        }
+        .icon_name06{
+            background: url(img/apply-icon-a-08.png) no-repeat left center;
+        }
+        .icon_name07{
+            background: url(img/apply-icon-a-03.png) no-repeat left center;
+        }
+        .icon_name08{
+            padding-left: 48px;
+            width: 100px;
+            background: url(img/apply-icon-a-04.png) no-repeat 9px center;
+        }
+        .icon_name09{
+            background: url(img/apply-icon-a-07.png) no-repeat left center;
+        }
+        .icon_name10{
+            background: url(img/login_name.png) no-repeat left center;
+        }
+        .icon_name11{
+            background: url(img/apply-icon-a-06.png) no-repeat left center;
+        }
+        .icon_name_notext{
+            background: transparent;
+            padding-left: 0;
+        }
+        .titleImg{
+            min-height: 110px;
+            width: 100%;
+        }
+        .inImgList{
+            float: left;
+            width: 110px;
+            height: 110px;
+            margin-right: 20px;
+            margin-bottom: 10px;
+            position: relative;
+        }
+        .inImg{
+            width: 110px;
+            height: 110px;
+            overflow: hidden;
+            display: flex;
+            background: #F9F9F9;
+            justify-content: center;
+        }
+        .li_div04_video .inImg{
+            background: rgba(0, 0, 0, 0.5);
+            align-items: center;
+        }
+        .inImg img{
+            width: auto;
+            height: 100%;
+        }
+        .li_div04_video .inImg img{
+            width: 42px;
+            height: 42px;
+        }
+        .addVideo{
+            float: left;
+            width: 108px;
+            height: 108px;
+            line-height: 108px;
+            text-align: center;
+            border:1px dashed #bebebe;
+            font-size: 36px;
+            cursor: pointer;
+        }
+        .upImg{
+            width: 100%;
+            margin: 0 auto;
+        }
+        .removeImg{
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            cursor: pointer;
+        }
+        .removeLi{
+            position: absolute;
+            top: 0;
+            right: 0;
+            cursor: pointer;
+        }
+        .removeInput{
+            position: absolute;
+            top: 12px;
+            right: 7px;
+            width: 25px;
+            cursor: pointer;
+        }
+        .team02{
+            height: 468px;
+            font-size: 16px;
+            margin-bottom: 75px;
+            position: relative;
+        }
+        .perOne{
+            float: left;
+            width: 46%;
+            height: auto;
+        }
+        .perOne .li_div02{
+            height: 50px;
+        }
+        .perTwo{
+            float: right;
+            width: 46%;
+            height: auto;
+        }
+        .perTwo .li_div02{
+            height: 50px;
+        }
+        .perThree{
+            float: left;
+            width: 35%;
+            height: 100%;
+        }
+        .perFour{
+            float: right;
+            width: 65%;
+            height: auto;
+        }
+        .perSex{
+            display: block;
+            position: relative;
+            float: left;
+            height: 100%;
+            margin-right:10px;
+            line-height: 50px;
+        }
+        .perSex01{
+            margin-right:0px;
+        }
+        .sexs{
+            display: block;
+            position: absolute;
+            height: 100%;
+            width: 20px;
+            left: 0;
+            top: 0;
+            background: url(img/apply-icon-false.png) no-repeat left center;
+        }
+        .onsel{
+            background: url(img/apply-icon-true.png) no-repeat left center;
+        }
+        .addPer span{
+            display: block;
+            height: 80px;
+            width: 80px;
+            line-height: 80px;
+            text-align: center;
+            margin: 0 auto 30px;
+            font-size: 32px;
+            border-radius: 40px;
+            border: 1px dashed #bebebe;
+            cursor: pointer;
+        }
+        .submitBtn{
+            width: 200px;
+            height: 50px;
+            line-height: 50px;
+            font-size: 18px;
+            text-align: center;
+            font-family: MicrosoftYaHei;
+            font-weight: 400;
+            color: #fff;
+            background:rgba(229,35,62,1);
+            border-radius: 5px;
+            margin: 160px auto 30px; 
+            cursor: pointer;
+        }
+        .videoBox{
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+        }
+        .video{
+            width: 660px;
+            height: 550px;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            margin-left: -330px;
+            margin-top: -225px;
+            background: #fff;
+            padding: 30px 25px;
+            box-sizing: border-box;
+            border-radius: 10px;
+        }
+        .video .close{
+            position: absolute;
+            right: 0;
+            top: 0;
+            cursor: pointer;
+        }
+        /* 活动图片 */
+        .contentItem{
+            position: relative;
+            width: 100%;
+            height: 456px;
+            overflow: hidden;
+            box-sizing: border-box;
+            text-align: center;
+            margin: 16px auto;
+        }
+        .contentItem .swiper-container,.contentItem .swiper-slide{
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+        }
+        .contentItem .swiper-slide img{
+            width: auto;
+            height: 100%;
+            flex-shrink: 0;
+        }
+    </style>
+	</head>
+
+	<body id="liItem">
+		
+		<header>
+		</header>
+		<div style="height:102px"></div>
+		<div class="indexes">
+			<div class="box"></div>
+			<a href="./index.html">首页</a><span>/</span>项目策划书<span>
+            <div class="edit" @click="gotoEditProject"><img src="./img/fillProject/edit.png" alt=""><span>编辑</span></div>
+        </div>
+        
+		<div class="content">
+            <div class="listCon">
+                <ul>
+                    <li class="team01">
+                        <div class="li_div01">
+                            <p class="div_p01"><img src="img/fillProject/grail.png"/></p>
+                            <p class="div_p02"><span>PBIC 2019（第三届）青少年公益创新国际挑战赛</span><br/><span>参赛项目策划书</span></p>
+                            <p class="div_p02"><em class="redLine"></em></p>
+                        </div>
+                    </li> 
+                    <li class="team01">
+                        <div class="li_div01">
+                            <div class="li_div06">1. 项目名称</div>
+                            <div class="li_div02">
+                                <div class="icon_name">项目名称</div>
+                                <div class="titleT">
+                                    {{groupName}}
+                                </div>
+                            </div>
+                            <div class="li_div02">
+                                <div class="icon_name icon_name01">团队描述</div>
+                                <div class="titleT">
+                                    {{subtitle}}
+                                </div>
+                            </div>
+                            <div class="li_div07">2. 选择</div>
+                            <div class="li_div08">项目方向 Sustainable Development Goals</div>
+                            <div class="li_div09">方向选择We choose</div>
+                            <div class="li_div10 active">
+                                {{goalsContent}}
+                            </div>
+                            <div class="li_div08">3. 重点支持国家</div>
+                            <div class="li_div09">非洲国家中选择</div>
+                            <div class="li_div11">
+                                <div class="li_div12" :class="{'active': item.isSelected}" v-for="(index,item) in countrySelectList" v-show="item.isSelected">
+                                    {{item.name}}
+                                </div>
+                            </div>
+                            <div class="li_div07">4. 项目方案</div>
+                            <div class="li_div08">4.1 概述</div>
+                            <div class="li_div02">
+                                <div class="icon_name icon_name01">方案提要</div>
+                                <div class="titleT titleT02">
+                                    {{programSummary}}
+                                </div>
+                            </div>
+                            <div class="li_div02">
+                                <div class="icon_name icon_name_notext"></div>
+                                <div class="titleT titleT05">
+                                    概述项目整体情况，如创意、内容及目标等，要求中文400字以内
+                                </div>
+                            </div>
+                            <div class="li_div02">
+                                <div class="icon_name icon_name_notext"></div>
+                                <div class="titleT titleT02">
+                                    {{programSummaryEng}}
+                                </div>
+                            </div>
+                            <div class="li_div02">
+                                <div class="icon_name icon_name_notext"></div>
+                                <div class="titleT titleT05">
+                                    请将上述中文提要翻译为英文
+                                </div>
+                            </div>
+                            <div class="li_div04 li_div04_video">
+                                <div class="icon_name icon_name02">视频展示</div>
+                                <div class="titleImg">
+                                    <!-- <div class="inImgList" v-for="video in teamVideo">
+                                        <div class="inImg">
+                                            <img src="img/fillProject/play.png" @click="showVideo(video)"/>
+                                        </div>
+                                    </div> -->
+                                    <div class="video" v-show="videoId">
+                                        <object 
+                                            classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" 
+                                            codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,0,0" 
+                                            width="600" 
+                                            height="490" 
+                                            :id="'cc_'+videoId">
+                                            <param name="movie" :value="'https://p.bokecc.com/flash/single/D2E655881C30EDCB_'+videoId+'_false_E14196B7EDDC235F_1/player.swf'" />
+                                            <param name="allowFullScreen" value="true" />
+                                            <param name="allowScriptAccess" value="always" />
+                                            <param value="transparent" name="wmode" />
+                                            <embed :src="'https://p.bokecc.com/flash/single/D2E655881C30EDCB_'+videoId+'_false_E14196B7EDDC235F_1/player.swf'" 
+                                            width="600" 
+                                            height="490" 
+                                            :name="'cc_'+videoId" 
+                                            allowFullScreen="true" 
+                                            wmode="transparent" 
+                                            allowScriptAccess="always" 
+                                            pluginspage="http://www.macromedia.com/go/getflashplayer" 
+                                            type="application/x-shockwave-flash"/>
+                                        </object>
+                                        <img class="close" @click="hideVideoBox" src="./img/file_load_close.png" alt="">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="li_div02">
+                                <div class="icon_name icon_name_notext"></div>
+                                <div class="titleT titleT05">
+                                    录制5分钟的项目演讲和展示的视频，语言为英文，此视频将用作评分参考
+                                </div>
+                            </div>
+                            <div class="li_div07">4.2 具体内容</div>
+                            <div class="li_div02">
+                                <div class="icon_name icon_name01">具体内容</div>
+                                <div class="titleT titleT02">
+                                    {{targetPopulation}}
+                                </div>
+                            </div>
+                            <div class="li_div02">
+                                <div class="icon_name icon_name_notext"></div>
+                                <div class="titleT titleT05">
+                                    <span>目标人群</span>（计划帮助的具体人群，预计帮助和影响的人数）
+                                </div>
+                            </div>
+                            <div class="li_div02">
+                                <div class="icon_name icon_name_notext"></div>
+                                <div class="titleT titleT02">
+                                    {{feasibilityAnalysis}}
+                                </div>
+                            </div>
+                            <div class="li_div02">
+                                <div class="icon_name icon_name_notext"></div>
+                                <div class="titleT titleT05">
+                                    <span>方案可行性分析</span>（从方案能否执行和落地角度描述）
+                                </div>
+                            </div>
+                            <div class="li_div02">
+                                <div class="icon_name icon_name_notext"></div>
+                                <div class="titleT titleT02">
+                                    {{innovationAnalysis}}
+                                </div>
+                            </div>
+                            <div class="li_div02">
+                                <div class="icon_name icon_name_notext"></div>
+                                <div class="titleT titleT05">
+                                    <span>方案创新性分析</span>（从方案内容整体或某一环节创新来描述）
+                                </div>
+                            </div>
+                            <div class="li_div02">
+                                <div class="icon_name icon_name_notext"></div>
+                                <div class="titleT titleT02">
+                                    {{projectProgramme}}
+                                </div>
+                            </div>
+                            <div class="li_div02">
+                                <div class="icon_name icon_name_notext"></div>
+                                <div class="titleT titleT05">
+                                    <span>项目方案执行</span> （项目具体计划和步骤、落地时间、进度安排等）
+                                </div>
+                            </div>
+                            <div class="li_div02">
+                                <div class="icon_name icon_name_notext"></div>
+                                <div class="titleT titleT02">
+                                    {{teamDivision}}
+                                </div>
+                            </div>
+                            <div class="li_div02">
+                                <div class="icon_name icon_name_notext"></div>
+                                <div class="titleT titleT05">
+                                    <span>团队分工</span>（团队成员主要负责领域，分工明确，突出队员强项）
+                                </div>
+                            </div>
+                            <div class="li_div08" style="margin-top: 30px;">4.3 成本分析</div>
+                            <div class="li_div02">
+                                <div class="icon_name icon_name01">成本分析</div>
+                                <div class="titleT titleT02">
+                                    {{costAnalysis}}
+                                </div>
+                            </div>
+                            <div class="li_div02">
+                                <div class="icon_name icon_name_notext"></div>
+                                <div class="titleT titleT05">
+                                    <span>成本分析</span>（项目执行所需成本、费用，资金、物资可能的来源）
+                                </div>
+                            </div>
+                            <div class="li_div08" style="margin-top: 30px;">4.4 项目执行、落地非洲效果及产出的预期</div>
+                            <div class="li_div02">
+                                <div class="icon_name icon_name01">效果预期</div>
+                                <div class="titleT titleT02">
+                                    {{expectationOfEffect}}
+                                </div>
+                            </div>
+                            <div class="li_div02">
+                                <div class="icon_name icon_name_notext"></div>
+                                <div class="titleT titleT05">
+                                    <span>效果预期</span>（项目执行、落地非洲效果及产出的预期）
+                                </div>
+                            </div>
+                            <p class="div_p01"><img src="img/content-box.png"/></p>
+                            <p class="div_p02"><span>传播倡导</span></p>
+                            <p class="div_p02"><em class="redLine"></em></p>
+                            <div class="li_div02">
+                                <div class="icon_name icon_name03">线上传播</div>
+                                <div class="titleT titleT03">
+                                    <div class="titleT03_text">
+                                        <div class="titleT03_text_left">平台</div>
+                                        <div class="titleT03_text_right">计划使用的宣传平台及宣传计划概述</div>
+                                    </div>
+                                    <div class="titleT03_text">
+                                        <div class="titleT03_text_left">微信、微博</div>
+                                        <div class="titleT03_text_right">
+                                            {{wechat}}
+                                        </div>
+                                    </div>
+                                    <div class="titleT03_text">
+                                        <div class="titleT03_text_left">抖音等短视频平台</div>
+                                        <div class="titleT03_text_right">
+                                            {{jitter}}
+                                        </div>
+                                    </div>
+                                    <div class="titleT03_text">
+                                        <div class="titleT03_text_left">网站、H5</div>
+                                        <div class="titleT03_text_right">
+                                            {{website}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="li_div02">
+                                <div class="icon_name icon_name_notext"></div>
+                                <div class="titleT titleT05">
+                                    通过微博、微信，抖音等短视屏平台，网站和H5等形式进行宣传计划
+                                </div>
+                            </div>
+                            <div class="li_div04" style="margin: 40px auto;">
+								<div class="icon_name icon_name02" style="font-size: 16px;">照片及截图</div>
+								<div class="titleImg">
+                                    <!-- 轮播图 -->
+                                    <div class="contentItem">
+                                        <div class="swiper-container ids5" v-show="activityPhoto.length>0">
+                                            <div class="swiper-wrapper" >
+                                                <div class="swiper-slide" v-for="teamPhoto in activityPhoto">
+                                                    <img :src="teamPhoto"/>
+                                                </div>
+                                            </div>
+                                            <div class="swiper-pagination"></div>
+                                        </div>
+                                    </div>
+								</div>
+							</div>
+                            <div class="li_div03">
+                                <div class="icon_name icon_name04">线下活动</div>
+                                <div class="titleT titleT02">
+                                    {{onlineActivity}}
+                                </div>
+                            </div>
+                            <div class="li_div02">
+                                <div class="icon_name icon_name_notext"></div>
+                                <div class="titleT titleT05">
+                                    通过组织学校等线下活动进行的宣传，概述计划的要点。
+                                </div>
+                            </div>
+                            <div class="li_div02">
+                                <div class="icon_name icon_name_notext"></div>
+                                <div class="titleT titleT02">
+                                    {{socialInfluence}}
+                                </div>
+                            </div>
+                            <div class="li_div02">
+                                <div class="icon_name icon_name_notext"></div>
+                                <div class="titleT titleT05">
+                                    请将上述中文提要翻译为英文
+                                </div>
+                            </div>
+                            <p class="div_p01"><img src="img/content-box.png"/></p>
+                            <p class="div_p02"><span>补充说明</span></p>
+                            <p class="div_p02"><em class="redLine"></em></p>
+                            <div class="li_div03">
+                                <div class="icon_name icon_name04">补充说明</div>
+                                <div class="titleT titleT02">
+                                    {{supplementary}}
+                                </div>
+                            </div>
+                            <div class="li_div02">
+                                <div class="icon_name icon_name_notext"></div>
+                                <div class="titleT titleT05">
+                                    团队其他优势、特色和想法的补充
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <!-- <video width="300" height="300" src="http://files.specialaedu.com/files/pbic2018/2019/06/27/1561605413743.mp4"></video> -->
+            </div>
+        </div>
+		<footer></footer>
+	</body>
+
+</html>
+

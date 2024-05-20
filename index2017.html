@@ -1,0 +1,1768 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>首页</title>
+		<link href="css/weui.min.css" rel="stylesheet" type="text/css">
+		<link rel="stylesheet" href="css/swiper-3.3.1.min.css" />
+		<link rel="stylesheet" type="text/css" href="css/comman.css" />
+		<!-- JS -->
+		<script src="js/jquery-1.12.0.min.js"></script>
+		<script src="js/jqmd5.js"></script>
+		<script src="js/sha1.js"></script>
+		<script src="js/weui.js"></script>
+		<script src="js/vue.min.js"></script>
+		<script src="js/swiper-3.3.1.jquery.min.js"></script>
+		<script src="js/comman.js"></script>
+		<script>
+			hasloadRight=false;
+			// if(isMobile){
+			// 	location.href = "app/index.html";
+			// }
+		</script>
+		<script>
+			// if(isMobile){
+			// 	location.href = "app/index.html";
+			// }
+			var numIndex=0;
+			$(function() {
+				$("header").load("header.html");
+				$("footer").load("footer.html");
+				vm = new Vue({
+					el: '#body',
+					data: {
+						//导师团队
+						advisorTeam: [{
+							picUrl: "img/tutorPic/tutor_bg.png",
+							name: "Brett Gamboa",
+							university: "达特茅斯学院",
+							job:"达特茅斯学院英语语言教授",
+							intro:"研究“莎士比亚第一人”",
+							info:"研究“莎士比亚第一人”",
+						},{
+							picUrl: "img/tutorPic/tutor_Bill.png",
+							name: "Bill Nace",
+							university: "麻省理工大学",
+							job:"麻省理工大学HKN顾问",
+							intro:"研究数码设计，FPGA毕业项目，分布系统以及网络基础",
+							info:"研究数码设计，FPGA毕业项目，分布系统以及网络基础",
+						},{
+							picUrl: "img/tutorPic/tutor_rpa.png",
+							name: "Richard Payne",
+							university: "芝加哥大学",
+							job:"芝加哥大学历史系教授",
+							intro:"剑桥大学三一学院研究员",
+							info:"剑桥大学三一学院研究员",
+						},{
+							picUrl: "img/tutorPic/tutor_mk.png",
+							name: "Matthew Kaliner",
+							university: "哈佛大学",
+							job:"哈佛大学社会学系教授",
+							intro:"社会学理论专家·文化社会学家",
+							info:"社会学理论专家·文化社会学家",
+						},{
+							picUrl: "img/tutorPic/tutor_rk.png",
+							name: "Robert Kurzban",
+							university: "宾夕法尼亚大学",
+							job:"宾夕法尼亚大学心理系教授",
+							intro:"加州大学圣芭芭拉分校心理学博士",
+							info:"加州大学圣芭芭拉分校心理学博士",
+						},{
+							picUrl: "img/tutorPic/tutor_gon.png",
+							name: "Ian Gonsher",
+							university: "布朗大学",
+							job:"布朗大学工程学院教授·研究员",
+							intro:"机器人研发领域大亨",
+							info:"机器人研发领域大亨",
+						},{
+							picUrl: "img/tutorPic/tutor_sf.png",
+							name: "Steven Fischer",
+							university: "西北大学",
+							job:"西北大学电影制作教授",
+							intro:"艾美奖最佳提名制作人",
+							info:"艾美奖最佳提名制作人",
+						},{
+							picUrl: "img/tutorPic/tutor_nm.png",
+							name: "Neel Mukherjee",
+							university: "哈佛大学",
+							job:"哈佛大学文学系教授",
+							intro:"2014年获得布克奖",
+							info:"2014年获得布克奖",
+						},{
+							picUrl: "img/tutorPic/tutor_rv.png",
+							name: "Richard Vinograd",
+							university: "斯坦福大学",
+							job:"斯坦福大学艺术与艺术史系教授",
+							intro:"出版作品：新理解明和清绘",
+							info:"出版作品：新理解明和清绘",
+						},{
+							picUrl: "img/tutorPic/tutor_jg.png",
+							name: "Jerome Game",
+							university: "哥伦比亚大学",
+							job:"哥伦比亚大学炙手可热的电影学教授",
+							intro:"剑桥大学国王学院博士",
+							info:"剑桥大学国王学院博士",
+						},{
+							picUrl: "img/tutorPic/tutor_kbm.png",
+							name: "Katrina Bell McDonald",
+							university: "翰霍普金斯大学",
+							job:"约翰霍普金斯大学社会学院教授",
+							intro:"2006年获得终身职教",
+							info:"2006年获得终身职教",
+						},{
+							picUrl: "img/tutorPic/tutor_JJ.png",
+							name: "John Jannotti",
+							university: "布朗大学",
+							job:"布朗大学计算机系教授",
+							intro:"致力研究无线协议,操作系统的灵活性和传感网络",
+							info:"致力研究无线协议,操作系统的灵活性和传感网络",
+						},{
+							picUrl: "img/tutorPic/tutor_gdc.png",
+							name: "G . Daniel Cohen",
+							university: "莱斯大学",
+							job:"莱斯大学历史系主任",
+							intro:"奥地利维也纳人类历史研究项目成员",
+							info:"奥地利维也纳人类历史研究项目成员",
+						},{
+							picUrl: "img/tutorPic/tutor_rl.png",
+							name: "Robert Lyon",
+							university: "纽约大学Stern商学院",
+							job:"纽约大学Stern商学院顶级教授",
+							intro:"曾从事出版管理，创意项目管理，商业沟通顾问自由撰稿人",
+							info:"曾从事出版管理，创意项目管理，商业沟通顾问自由撰稿人",
+						},{
+							picUrl: "img/tutorPic/tutor_lb.png",
+							name: " Luca Bossi",
+							university: "宾夕法尼亚大学",
+							job:"宾夕法尼亚大学经济学教授",
+							intro:"最受欢迎的经济学教授",
+							info:"最受欢迎的经济学教授",
+						},{
+							picUrl: "img/tutorPic/tutor_bt.png",
+							name: "Brandon Tilley",
+							university: "哈佛大学",
+							job:"哈佛大学",
+							intro:"精通英语、西班牙语、法语、拉丁语等多门语言",
+							info:"精通英语、西班牙语、法语、拉丁语等多门语言",
+						},{
+							picUrl: "img/tutorPic/tutor_fb.png",
+							name: "Faiza Bellounis",
+							university: "康奈尔大学",
+							job:"",
+							intro:"",
+							info: "毕业于哥伦比亚大学，曾任哥伦比亚大学研究生顾问M. A. program coordinator ，前常青藤名校哥伦比亚大学、宾夕法尼亚大学招生官，哥伦比亚大学知名学术顾问，精通于处理各类大学申请案例。任教于Special A 常春藤国际暑期学校项目，为学生带来精彩的课程，学生喜欢上她的课，在她的课上能够尽情的释放自己，而她的课程设置上也是专门针对SA的学生每周固定时间安排学生进行“演讲”PK。"
+						},{
+							picUrl: "img/tutorPic/tutor_sukailin.png",
+							name: "苏凯琳",
+							university: "联合国艾滋病规划署东南非区域代表",
+							job:"",
+							intro:"",
+							info: "名学术顾问，精通于处理各类大学申请案例。任教于Special A 常春藤国际暑期学校项目，为学生带来精彩的课程，学生喜欢上她的课，在她的课上能够尽情的释放自己，而她的课程设置上也是专门针对SA的学生每周固定时间安排学生进行“演讲”PK。"
+						}, {
+							picUrl: "img/tutorPic/tutor_yedawei.png",
+							name: "叶大伟",
+							university: "姚基金秘书长",
+							job:"",
+							intro:"",
+							info: "毕业于哥伦比亚大学，曾任哥伦比亚大学研究生顾问M. A. program coordinator ，前常青藤名校哥伦比亚大学、宾夕法尼亚大学招生官，哥伦比亚大学知名学术顾问，精通于处理各类大学申请案例。任教于Special A 常春藤国际暑期学校项目，为学生带来精彩的课程，学生喜欢上她的课，在她的课上能够尽情的释放自己，而她的课程设置上也是专门针对SA的学生每周固定时间安排学生进行“演讲”PK。"
+						}, {
+							picUrl: "img/tutorPic/tutor_zhangyan.png",
+							name: "张琰",
+							university: "联合国开发计划署项目经理",
+							job:"",
+							intro:"",
+							info: "毕业于哥伦比亚大学，曾任哥伦比亚大学研究生顾问M. A. program coordinator ，前常青藤名校哥伦比亚大学、宾夕法尼亚大学招生官，哥伦比亚大学知名学术顾问，精通于处理各类大学申请案例。任教于Special A 常春藤国际暑期学校项目，为学生带来精彩的课程，学生喜欢上她的课，在她的课上能够尽情的释放自己，而她的课程设置上也是专门针对SA的学生每周固定时间安排学生进行“演讲”PK。"
+						}, {
+							picUrl: "img/tutorPic/tutor_wangyalin.png",
+							name: "王亚琳",
+							university: "联合国开发计划署项目官员",
+							job:"",
+							intro:"",
+							info: "毕业于哥伦比亚大学，曾任哥伦比亚大学研究生顾问M. A. program coordinator ，前常青藤名校哥伦比亚大学、宾夕法尼亚大学招生官，哥伦比亚大学知名学术顾问，精通于处理各类大学申请案例。任教于Special A 常春藤国际暑期学校项目，为学生带来精彩的课程，学生喜欢上她的课，在她的课上能够尽情的释放自己，而她的课程设置上也是专门针对SA的学生每周固定时间安排学生进行“演讲”PK。"
+						},  {
+							picUrl: "img/tutorPic/tutor_chenguang.png",
+							name: "陈光",
+							university: "北京市志愿服务联合会副秘书长",
+							job:"",
+							intro:"",
+							info: "毕业于哥伦比亚大学，曾任哥伦比亚大学研究生顾问M. A. program coordinator ，前常青藤名校哥伦比亚大学、宾夕法尼亚大学招生官，哥伦比亚大学知名学术顾问，精通于处理各类大学申请案例。任教于Special A 常春藤国际暑期学校项目，为学生带来精彩的课程，学生喜欢上她的课，在她的课上能够尽情的释放自己，而她的课程设置上也是专门针对SA的学生每周固定时间安排学生进行“演讲”PK。"
+						}, {
+							picUrl: "img/tutorPic/tutor_lilianxing.png",
+							name: "李连星",
+							job:"",
+							intro:"",
+							university: "清华大学对外传播研究中心中非媒体研究项目秘书长",
+							info: "待定..."
+						}, {
+							picUrl: "img/tutorPic/tutor_zhengchunling.png",
+							name: "郑春玲",
+							university: "北京市最佳志愿服务组织<br/>心飞扬青少年志愿服务中心负责人",
+							job:"",
+							intro:"",
+							info: "待定..."
+						}, {
+							picUrl: "img/tutorPic/tutor_manuer.png",
+							name: "马努尔",
+							university: "中非民间商会国际联络助理秘书长",
+							job:"",
+							intro:"",
+							info: "待定..."
+						}, {
+							picUrl: "img/tutorPic/tutor_lucuicui.png",
+							name: "卢翠翠",
+							university: "印第安纳大学 Kelley商学院助理教授",
+							job:"",
+							intro:"",
+							info: "待定..."
+						}, {
+							picUrl: "img/tutorPic/tutor_wanggeng.png",
+							name: "王耕",
+							university: "美国麦肯锡咨询公司项目经理，哈佛大学研究生",
+							job:"美国麦肯锡咨询公司项目经理",
+							intro:"",
+							info: "待定..."
+						}],
+
+					},
+					methods: {
+						toOtherHref:function(){
+							window.open("http://www.sohu.com/a/167154814_549700");
+						}
+					}
+				});
+				$(".pb_h").click(function(){
+					var has=$(this).hasClass("h_active");
+					$(".pb_h").removeClass("h_active");
+					$(".h_p").hide();
+					if(has){
+						$(this).removeClass("h_active");
+					}else{
+						$(this).addClass("h_active");
+						$(this).parent().find(".h_p").show();
+					}
+					
+				})
+				setwid();
+				window.onresize = function() {
+					setwid();
+				}
+				$(".imgA").click(function(){
+					var index=$(this).index()-1;
+					var mythis=$(this);
+					var hasShow=mythis.hasClass("myShow");
+					var myNow=$(".imgList");
+					if(hasShow){
+						$(".imgA").removeClass("myShow");
+						myNow.animate({
+							height:0
+						},'slow',function(){
+							
+						});
+					}else{
+						$(".imgA").removeClass("myShow");
+						mythis.addClass("myShow");
+						$(".specification_paragraph").hide();
+						$(".specification_paragraph").eq(index).show();
+						myNow.animate({
+							height:920
+						},'slow',function(){
+							
+						});
+					}
+				});
+				$(".cen_second").hover(function(){
+				    $(this).find(".p_sp01").hide();
+				    $(this).find(".left_txt").hide();
+				    $(this).find(".show_left").show();
+				},function(){
+				    $(this).find(".p_sp01").show();
+				    $(this).find(".left_txt").show();
+				    $(this).find(".show_left").hide();
+				}); 
+			})
+			function setwid(){
+				setTimeout(setImgA,3000);
+				var wIn01=$(window).innerWidth();
+				if(wIn01<1200){
+					wIn01=1200;
+				}
+				var w01=wIn01*0.72;
+				var h01=(w01/1386)*650;
+				$(".swiperTop01").css("max-height",h01);
+				
+				var heg=(h01+110)/3;
+				$(".swiperTop02").css("height",heg);
+				
+	        	if(numIndex!=1 && numIndex!=7){
+	        		$(".page01").css("padding-top","38px");
+	        		$(".pbicT").text("2017PBIC决赛现场");
+	        	}else{
+	        		var widIn=$(window).innerWidth();
+	        		if(widIn>1338){
+	        			$(".page01").css("padding-top","25px");
+	        		}else{
+	        			$(".page01").css("padding-top","12px");
+	        		}
+	        		$(".pbicT").text("你，青春年少、爱心飞扬，有创意、有憧憬、有担当，或许你参加过商赛，参加过社会倡导，参加过公益募捐，但公益挑战则是一项全新的赛事");
+	        	}
+				
+				var wids=$(window).innerWidth();
+				if(wids<1480 && wids>=1200){
+					$(".div_03").css("width",wids);
+					$(".right_pb").css("width",wids-590);
+					
+					var pbH=((wids-590)/891)*530;
+					$(".swiperPb").css("max-height",pbH);
+					
+					$(".myTeachers .swiper-container").css("width",1200);
+					$(".myTeachers .swiper-slide img").css("width",300);
+					$(".myTeachers .swiper-slide img").css("height",300);
+					$(".myTeachers").css("background-size","auto 600px");
+				}else if(wids>=1480){
+					$(".right_pb").css("width","60%");
+					$(".div_03").css("width",1480);
+					
+					$(".myTeachers .swiper-container").css("width",1480);
+					$(".myTeachers .swiper-slide img").css("width","370px");
+					$(".myTeachers .swiper-slide img").css("height","370px");
+					$(".myTeachers").css("background-size","auto 740px");
+				}
+			}
+			function setImgA(){
+				var imgA=$(".div_top08").height();
+				$(".imgA").css("line-height",imgA+"px");
+			}
+		</script>
+		<style>
+			body{
+				min-width: 1200px;
+			}
+			.index_div01{
+				width: 980px;
+				margin: 0 auto;
+			}
+			.div_title{
+				text-align: center;
+				height: 250px;
+			}
+			.div_title img{
+				margin-top: 65px;
+			}
+			.div_title01,.div_title02{
+				text-align: center;
+			}
+			.div_title01 img{
+				margin:140px 0px 80px 0px;
+			}
+			.div_title02 img{
+				margin:105px 0px 65px 0px;
+			}
+			.txt_01{
+				font-size: 32px;
+			}
+			.txt_02{
+				font-size: 18px;
+				color: #666666;
+				margin-top: 15px;
+			}
+			.txt_02 a:hover,.txt_01 a:hover{
+				color: #e5233e;
+			}
+			.txt_a{
+				padding-right: 18px;
+				border-right: 1px solid #ebebeb;
+			}
+			.txt_b{
+				padding:0px 18px;
+				border-right: 1px solid #ebebeb;
+			}
+			.txt_c{
+				padding-left: 18px;
+			}
+			.div_vedio{
+				min-height: 280px;
+			}
+			.div_vedio{
+				margin-top: 35px;
+			}
+			.vedio_left{
+				float: left;
+				width: 59%;
+				padding-right: 20px;
+				box-sizing: border-box;
+				cursor: pointer;
+			}
+			.vedio_right{
+				float: left;
+				width: 41%;
+			}
+			.p_title{
+				font-size: 22px;
+				margin-bottom: 8px;
+				padding-left: 10px;
+				font-weight: bold;
+				border-left: 4px solid #e5233e;
+			}
+			.p_con{
+				font-size: 18px;
+				line-height: 31.5px;
+			}
+			.p_con01{
+				text-indent:35px
+			}
+			.p_end{
+				font-size: 14px;
+				color: #888888;
+				text-align: right;
+				padding-right: 28px;
+				margin-top: 5px;
+				box-sizing: border-box;
+			}
+			.endTop02 img{
+				width: 100%;
+				display: block;
+			}
+			.topLb{
+				overflow: hidden;
+			}
+			.lb01{
+				width: 72%;
+				float: left;
+				line-height: 0;
+			}
+			.lb02{
+				width: 28%;
+				float: left;
+				line-height: 0;
+			}
+			.swiperTop01{
+				box-sizing: border-box;
+			}
+			.swiperTop01 img{
+				width: 100%;
+				display: block;
+				float: left;
+			}
+			.page01{
+				width: 100%;
+				height: 110px;
+				background: #333333;
+				color: #FFFFFF;
+				font-size: 22px;
+				line-height: 30px;
+				padding:15px 130px 0px 130px;
+				box-sizing: border-box;
+				position: relative;
+			}
+			.page01 .swiper-button-prev{
+				right: 60px;
+				left: auto;
+				height: 110px;
+				width: 60px;
+			}
+			.page01 .swiper-button-next{
+				right: 0px;
+				height: 110px;
+				width: 60px;
+			}
+			.page01 .swiper-button-next.swiper-button-white,.page01 .swiper-container-rtl .swiper-button-prev.swiper-button-white{
+				background-size: 16px;
+			}
+			.page01 .swiper-button-prev.swiper-button-white,.page01 .swiper-container-rtl .swiper-button-next.swiper-button-white{
+				background-size: 16px;
+			}
+			.swiperTop01{
+				overflow: hidden;
+			}
+			.pre01,.pre02{
+				position: absolute;
+				right: 58px;
+				top: 0;
+				display: block;
+				width: 1px;
+				height: 130px;
+				background: #484848;
+			}
+			.pre01{
+				right: 120px;
+			}
+			.pageNum{
+				position: absolute;
+				left: 0;
+				top: 0;
+				width: 130px;
+				height: 110px;
+				background: url(img/nums_back.png) no-repeat 50px center;
+			}
+			.nums1{
+				position: absolute;
+				top: 10px;
+				left: 12px;
+				font-size: 88px;
+				line-height: 88px;
+				color: #e5233e;
+			}
+			.nums2{
+				position: absolute;
+				bottom: 10px;
+				right: 35px;
+				font-size: 42px;
+				line-height: 42px;
+				color: #FFFFFF;
+			}
+			.swiperTop02{
+				margin: 0px!important;
+				display: block;
+				overflow: hidden;
+			}
+			.swiperTop02 img{
+				height: 100%;
+				width: auto;
+				display: block;
+			}
+			.addBorder01{
+				width: 100%;
+				height: 100%;
+				position: absolute;
+				top: 0;
+				left: 0;
+				display: block;
+				box-sizing: border-box;
+				background: rgba(0,0,0,.6);
+				cursor: pointer;
+			}
+			.addBorder{
+				background: rgba(0,0,0,.4);
+				border: 4px solid #e5233e;
+				box-sizing: border-box;
+			}
+			.gallery-right{
+				line-height: 0px;
+				overflow: hidden;
+			}
+			.leftR01{
+				width: 50%;
+				float: left;
+			}
+			.leftR02{
+				width: 50%;
+				float: right;
+			}
+			.swiperTop02{
+				clear: both;
+				position: relative;
+			}
+			.index_div03{
+				background: url(img/pb03_back.png) no-repeat bottom left;
+			}
+			.div_03{
+				width: 1480px;
+				margin: 0 auto;
+				overflow: hidden;
+				position: relative;
+			}
+			.left_pb{
+				float: left;
+				width: 590px;
+				height: 100%;
+				padding:0px 10px;
+				box-sizing: border-box;
+				position: relative;
+			}
+			.right_pb{
+				float: right;
+				width: 60%;
+			}
+			.pb{
+				padding-left: 38px;
+				margin-bottom: 25px;
+				font-size: 18px;
+				box-sizing: border-box;
+				background:url(img/index_icon_pb01.png) no-repeat left top;
+			}
+			.h_p{
+				line-height: 30px;
+				margin-top: 5px;
+				display: none;
+			}
+			.pb_h{
+				font-size: 22px;
+				line-height: 30px;
+				color: #666666;
+				cursor: pointer;
+			}
+			.pb02{
+				background:url(img/index_icon_pb02.png) no-repeat left top;
+			}
+			.pb03{
+				background:url(img/index_icon_pb03.png) no-repeat left top;
+			}
+			.pb04{
+				background:url(img/index_icon_pb04.png) no-repeat left top;
+			}
+			.pb05{
+				background:url(img/index_icon_pb05.png) no-repeat left top;
+			}
+			.h_active{
+				font-weight: bold;
+			}
+			.swiperPb{
+				max-height: 528px;
+				overflow: hidden;
+			}
+			.swiperPb img{
+				width: 100%;
+				display: block;
+			}
+			.right_pb .swiper-button-next,.right_pb .swiper-button-prev{
+				width: 48px;
+				height: 48px;
+				line-height: 48px;
+				text-align: center;
+				bottom: 0!important;
+				top: auto!important;
+				color: #FFFFFF;
+				font-size: 32px;
+				background: #333333;
+			}
+			.right_pb .swiper-button-next{
+				right: 0!important;
+			}
+			.right_pb .swiper-button-prev{
+				right: 48px!important;
+			}
+			.right_pb .swiper-button-disabled{
+				opacity:1!important;
+				color: #888888;
+			}
+			.toPbDeatil{
+				width: 220px;
+				height: 50px;
+				line-height: 50px;
+				text-align: center;
+				display: block;
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				border-radius: 4px;
+				background: #e5233e;
+				color: #FFFFFF;
+				font-size: 18px;
+			}
+			.myTeachers{
+				background: url(img/index_top04_back.jpg) no-repeat top center;
+				background-size: auto 740px;
+			}
+			.myTeachers .swiper-container{
+				width: 1480px;
+				padding-bottom: 90px;
+			}
+		    .myTeachers .swiper-slide {
+		        margin: 0px!important;
+				line-height: 0px;
+		    }
+			.myTeachers .swiper-slide img{
+				width:370px;
+				height: 370px;
+				float: left;
+				margin: 0!important;
+				display: block;
+			} 
+			.teacher_pre{
+				height: 90px;
+				width: 100%;
+				bottom: 0;
+				left: 0;
+				position: absolute;
+			}
+			.swiper-button-next,.swiper-button-prev{
+				color: #e5233e;
+				font-size: 68px;
+				height: auto;
+				width: 45px;
+				top: 22px;
+			}
+			.teacher_pre .swiper-button-next,.teacher_pre .swiper-button-prev{
+				color: #333333;
+				font-size: 44px;
+			}
+			.teacher_pre .swiper-button-next:hover,.teacher_pre .swiper-button-prev:hover{
+				color: #e5233e;
+			}
+			.swiper-button-next{
+				right: 0px;
+			}
+			.swiper-button-prev{
+				right: 70px;
+				left: auto;
+			}
+			.index_div05{
+				background: url(img/pb05_back.jpg) no-repeat bottom left;
+				background-size: 100%;
+				padding-bottom: 50px;
+			}
+			.myVideo{
+				width: 1000px;
+				margin: 0 auto;
+			}
+			.vidList{
+				width: 100%;
+				margin-top: 40px;
+			}
+			.vidList ul{
+				width: 100%;
+				overflow: hidden;
+			}
+			.vidList ul li{
+				width: 280px;
+				height: 200px;
+				float: left;
+				display: block;
+				font-size: 18px;
+				line-height: 0px;
+				margin-bottom: 15px;
+				border:2px solid transparent;
+				box-sizing: border-box;
+				position: relative;
+			}
+			.vidList .li_cen{
+				margin: 0px 80px 15px 80px;
+			}
+			.vidList .vid_title{
+				line-height: 40px;
+				box-sizing: border-box;
+				position: relative;
+			}
+			.vidList .onTitle{
+				padding-left: 12px;
+			}
+			.vidList ul li img{
+				width: 276px;
+				cursor: pointer;
+			}
+			.vidList .left_bor{
+				display: block;
+				height: 18px;
+				width: 2px;
+				top: 12px;
+				left: 0;
+				position: absolute;
+				background: #e5233e;
+				display: none;
+			}
+			.active_div{
+				position: relative;
+			}
+			.active_div .active_vid{
+				width: 100%;
+				height: 100%;
+				line-height: 157px;
+				text-align: center;
+				color: #FFFFFF;
+				font-size: 24px;
+				position: absolute;
+				top: 0;
+				left: 0;
+				background: rgba(0,0,0,.4);
+				box-sizing: border-box;
+				border:2px solid #e5233e;
+				display: none;
+			}
+			.active_div .onActive,.vidList .onBor{
+				display: block;
+			}
+			.now_vid{
+				margin-top: -4px;
+				font-size: 24px;
+				color: #FFFFFF;
+				height: 44px;
+				padding: 2px 0px;
+				box-sizing: border-box;
+				background: #242424;
+			}
+			.now_vid p{
+				padding-left: 18px;
+				line-height: 32px;
+				margin-top: 5px;
+				border-left: 8px solid #E5233E;
+				box-sizing: border-box;
+			}
+			.div_top05{
+				text-align: center;
+			}
+			.div_top06{
+				text-align: center;
+				margin-top: 90px;
+			}
+			.div_top07{
+				text-align: center;
+				margin-top: 80px;
+				margin-bottom: 40px;
+			}
+			.top08_img{
+				max-width: 1419px;
+				margin: 0 auto;
+				position: relative;
+			}
+			.top08_img img{
+				width: 100%;
+				display: block;
+			}
+			.img01,.img02,.img03,.img04{
+				width: 25%;
+				height: 100%;
+				font-size: 24px;
+				text-align: center;
+				color: #FFFFFF;
+				position: absolute;
+				top: 0;
+				left: 0;
+				cursor: pointer;
+				/* Firefox */
+				display:-moz-box;
+				-moz-box-pack:center;
+				-moz-box-align:center;
+				
+				/* Safari、Opera 以及 Chrome */
+				display:-webkit-box;
+				-webkit-box-pack:center;
+				-webkit-box-align:center;
+				
+				/* Internet Explorer 10 */
+				display:-ms-flexbox;
+				-ms-flex-pack:center;
+				-ms-flex-align:center;
+				
+				/* W3C */
+				display:box;
+				box-pack:center;
+				box-align:center;
+			}
+			.imgA:hover{
+				color: #e5233e;
+			}
+			.myShow{
+				color: #e5233e;
+			}
+			.img02{
+				left: 25%;
+			}
+			.img03{
+				left: 50%;
+			}
+			.img04{
+				left: 75%;
+			}
+			/*赛制说明
+			 */
+			.imgList{
+				width:1000px;
+				margin: 0 auto;
+				font-size: 18px;
+				height: 0;
+				overflow: hidden;
+			}
+			.imgList .specification_paragraph{
+				margin: 0 auto;
+				display: none;
+			}
+			.specification_paragraph {
+				position: relative;
+				width: 100%;
+				padding: 71px 0 71px 0;
+				border-top: 1px solid #FFC9D1;
+			}
+			
+			.specification_paragraph h3 {
+				font-size: 24px;
+				color: #E5233E;
+				text-align: center;
+				font-weight: bold;
+				margin-bottom: 24px;
+			}
+			
+			.specification_paragraph p {
+				text-align: left;
+				text-indent: 36px;
+			}
+			
+			.specification_paragraph_title {
+				margin-top: 19px;
+				text-align: center !important;
+				font-weight: bold;
+				text-indent: 0 !important;
+			}
+			
+			.specification_paragraph_div {
+				position: relative;
+				width: 922px;
+				border: 1px dashed #bebebe;
+				margin: 16px auto 0 auto;
+				padding: 27px 36px 27px 62px;
+				-webkit-box-sizing: border-box;
+				-moz-box-sizing: border-box;
+				box-sizing: border-box;
+			}
+			
+			.specification_paragraph_div p {
+				text-align: left;
+				text-indent: 36px;
+			}
+			
+			.specification_paragraph_div ul {
+				position: relative;
+			}
+			
+			.specification_paragraph_div ul li {
+				list-style-type: disc !important;
+				line-height: 32px;
+			}
+			.specification_paragraph_table{
+				position: relative;
+				width: 680px;
+				margin: auto;
+			}
+			.specification_paragraph_table tr{
+				height: 40px;
+			}
+			.specification_paragraph_table .row1{
+				width: 320px;
+			}
+			.specification_paragraph_table .row2{
+				width: 160px;
+			}
+			.specification_paragraph_table .row3{
+				
+			}
+			.paragraphType1 {
+				-webkit-box-sizing: border-box;
+				-moz-box-sizing: border-box;
+				box-sizing: border-box;
+				padding: 71px 39px 71px 39px;
+			}
+			.tableDiv {
+				position: relative;
+				width: 100%;
+				height: 182px;
+				margin-top: 30px;
+			}
+			
+			.tableDiv p {
+				text-indent: 0;
+			}
+			
+			.tableTitle {
+				position: relative;
+				float: left;
+				width: 129px;
+				height: 100%;
+				border: 1px solid #ebebeb;
+				background-color: #f8f8f8;
+				padding: 40px 0 35px 0;
+				-webkit-box-sizing: border-box;
+				-moz-box-sizing: border-box;
+				box-sizing: border-box;
+			}
+			
+			.tableTitle p {
+				text-align: center;
+			}
+			
+			.tableContent {
+				position: relative;
+				float: left;
+				height: 100%;
+				width: 790px;
+				border: 1px solid #ebebeb;
+				border-left: none;
+				padding: 10px 30px 10px 30px;
+				-webkit-box-sizing: border-box;
+				-moz-box-sizing: border-box;
+				box-sizing: border-box;
+			}
+			
+			.div-title {
+				font-weight: bold;
+			}
+			
+			.panelsDiv {
+				position: relative;
+				margin-top: 49px;
+				width: 100%;
+				height: 600px;
+				padding-left: 40px;
+			}
+			
+			.panelsDiv h4 {
+				text-align: center;
+				font-size: 22px;
+				font-weight: bold;
+				margin-bottom: 21px;
+			}
+			
+			.panelsDiv p {
+				text-align: left;
+				text-indent: 0;
+			}
+			
+			.panelDiv {
+				position: relative;
+				width: 360px;
+				height: 290px;
+				border-bottom: 1px solid #EBEBEB;
+				float: left;
+				margin-bottom: 55px;
+			}
+			
+			.panelDiv_row2 {
+				position: relative;
+				width: 360px;
+				height: 190px;
+				float: left;
+			}
+			
+			.panelDiv_line {
+				position: relative;
+				float: left;
+				width: 1px;
+				height: 190px;
+				background-color: #EBEBEB;
+				margin: 0 65px 0 65px;
+				top: 34px;
+			}
+			
+			.projectRating {
+				text-align: center;
+			}
+			
+			.projectRating img {
+				margin-top: 29px;
+				margin-bottom: 50px;
+			}
+			
+			.projectRating_div {
+				text-align: left;
+				border: 1px dashed #BEBEBE;
+				padding: 13px 30px 13px 62px;
+				-webkit-box-sizing: border-box;
+				-moz-box-sizing: border-box;
+				box-sizing: border-box;
+				margin-top: 20px;
+			}
+			
+			.projectRating_div ul li {
+				list-style-type: disc;
+				margin-top: 10px;
+				margin-bottom: 10px;
+			}
+			
+			.matchProgress img {
+				margin-top: 54px;
+				width: 100%;
+			}
+			
+			.importantClause {
+				padding: 71px 39px 6px 39px;
+			}
+			
+			.importantClause p {
+				text-align: center;
+				text-indent: 0;
+			}
+			/*参赛细则结束
+			 */
+			.index_div07{
+				width: 100%;
+				height: 900px;
+				margin-top: 120px;
+				background: url(img/index08_back.jpg) no-repeat center center;
+				background-size: cover;
+			}
+			.div_con{
+				width: 1000px;
+				margin: 0 auto;
+			}
+			.con_p{
+				text-align: center;
+				padding-top: 100px;
+			}
+			.con_cen{
+				width: 1000px;
+				height: 460px;
+				margin-top: 100px;
+			}
+			.cen_left,.cen_right{
+				width: 460px;
+				height: 460px;
+				float: left;
+				background: #120f0d;
+				opacity: 0.7;
+				position: relative;
+				cursor: pointer;
+			}
+			.cen_right{
+				float: right;
+			}
+			.left_txt{
+				width: 100%;
+				font-size: 18px;
+				color: #FFFFFF;
+				position: absolute;
+				bottom: 25px;
+				left: 0;
+				text-align: center;
+			}
+			.p_sp01{
+				font-size: 32px;
+				color: #e5233e;
+				text-align: center;
+				position: relative;
+			}
+			.sp_t01{
+				font-size: 72px;
+				position: absolute;
+				top: 172px;
+				left: 160px;
+			}
+			.sp_t02{
+				position: absolute;
+				top: 200px;
+				left: 230px;
+			}
+			.show_left{
+				text-align: left;
+				padding: 55px 0px 0px 60px;
+				box-sizing: border-box;
+				color: #FFFFFF;
+				font-size: 18px;
+				position: relative;
+				display: none;
+			}
+			.left_one{
+				font-size: 32px;
+				color: #e5233e;
+				margin-bottom: 65px;
+			}
+			.left_child{
+				margin-bottom: 50px;
+			}
+			.p_b01{
+				position: absolute;
+				width: 20px;
+				height: 2px;
+				background: #E5233E;
+				top: 115px;
+				left: 60px;
+			}
+			.teaDiv{
+				position: relative;
+				float: left;
+				cursor: pointer;
+			}
+			.teacherDetail{
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				background: rgba(155,18,35,.7);
+				display: none;
+			}
+			.div_wz{
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				width: 100%;
+				height: auto;
+				transform: translate(-50%,-50%);
+			}
+			.tdetal01{
+				font-size: 32px;
+				line-height: 45px;
+				color: #FFFFFF;
+				overflow: hidden;
+				text-align: center;
+				margin-bottom: 10px;
+			}
+			.tdetal01 span{
+				display: inline-block;
+				border-bottom: 4px solid #cb6570;
+			}
+			.tdetal02{
+				font-size: 18px;
+				line-height: 30px;
+				color: #FFFFFF;
+				text-align: center;
+				overflow: hidden;
+			}
+		</style>
+	</head>
+	<body id="body">
+		<header></header>
+		<div class="myIndex">
+			<div id="index01" class="index_div01">
+				<div class="div_title">
+					<img src="img/index_top_title01.png" />
+				</div>
+				<p class="txt_01"><a href="http://hunan.ifeng.com/a/20170828/5947454_0.shtml" target="_blank">联合国副秘书长米歇尔先生高度赞扬PBIC青少年公益创新国际挑战赛</a></p>
+				<p class="txt_02">
+					<a class="txt_a" href="http://www.sohu.com/a/167154814_549700"  target="_blank">首届“青少年公益创新国际挑战赛(PBIC)”圆满成功</a>
+					<a class="txt_b" href="https://v.qq.com/x/page/u0526tc5lqi.html" target="_blank">采访PBIC公益挑战赛心路历程</a>
+					<a class="txt_c" href="https://www.meipian.cn/o9qhix9" target="_blank">参赛选手A&C筑梦队 义卖活动</a>
+				</p>
+				<div class="div_vedio">
+					<div class="vedio_left" @click="toOtherHref">
+						<p class="p_title"><span>首届“青少年公益创新国际挑战赛”圆满成功</span></p>
+						<p class="p_con p_con01">挑战赛主题为“创新·实践·公益非洲”，以“拓宽青少年国际视野，启蒙参与全球社会治理，为宗旨，通过创新思维和方式实践国际公益，展现中国青少年世界公民的学业能力、人文情怀和青年领导力”。</p>
+						<p class="p_con p_con01">由中非民间商会和中华社会救助基金会联合主办，北京外国语大学国际商学院和北京外国语大学校友会协办，北京仁德嘉华国际教育科技有限公司、爱加艾减公益基金、特优生创始人团队共同承办，得到了包括联合国艾滋病规划署中国办公室、北京市...</p>
+						<p class="p_end">（来自搜狐）</p>
+					</div>
+					<div class="vedio_right">
+						<p>
+							<script src="https://p.bokecc.com/player?vid=E01F178228839B4C9C33DC5901307461&siteid=D2E655881C30EDCB&autoStart=false&width=400&height=280&playerid=E14196B7EDDC235F&playertype=1" type="text/javascript"></script>
+						</p>
+					</div>
+				</div>
+			</div>
+			<div id="index02" class="index_div02 clear">
+				<div class="div_title01">
+					<img src="img/index_top_title02.png" />
+				</div>
+				<div class="div_lb">
+					<div class="topLb">
+						<div class="lb01">
+							<div class="swiper-container gallery-thumbs">
+						        <div class="swiper-wrapper">
+						            <div class="swiper-slide swiperTop01">
+						            	<img class="swiperImgd" src="img/index_top_imgL01.png" />
+						            </div>
+						            <div class="swiper-slide swiperTop01">
+						            	<img src="img/index_pb_lb02.jpg" />
+						            </div>
+						            <div class="swiper-slide swiperTop01">
+						            	<img src="img/index_pb_lb03.jpg" />
+						            </div>
+						            <div class="swiper-slide swiperTop01">
+						            	<img src="img/index_pb_lb04.jpg" />
+						            </div>
+						            <div class="swiper-slide swiperTop01">
+						            	<img src="img/index_pb_lb05.jpg" />
+						            </div>
+						            <div class="swiper-slide swiperTop01">
+						            	<img src="img/index_pb_lb06.jpg" />
+						            </div>
+						            <!--<div class="swiper-slide swiperTop01">
+						            	<img src="img/index_pb_lb07.jpg" />
+						            </div>-->
+						        </div>
+						        <div class="page01 clear">
+						        	<p class="pbicT">你，青春年少、爱心飞扬，有创意、有憧憬、有担当，或许你参加过商赛，参加过社会倡导，参加过公益募捐，但公益挑战则是一项全新的赛事</p>
+						        	<div class="swiper-button-next swiper-button-white"></div>
+						    		<div class="swiper-button-prev swiper-button-white"></div>
+						    		<p class="pre01"></p>
+						    		<p class="pre02"></p>
+						    		<p class="pageNum"><span class="nums1">1</span><span class="nums2">6</span></p>
+						        </div>
+						    </div>
+						</div>
+						<div class="lb02">
+				            <div class="gallery-right">
+						        <div class="leftR01">
+						        	<div class="swiperTop02" style="background: url(img/index_top_imgL01.png) no-repeat center center;background-size: cover;">
+						            	<div id="add01" class="addBorder01 addBorder"></div>
+						            </div>
+						            <div class="swiperTop02" style="background: url(img/index_pb_lb02.jpg) no-repeat center center;background-size: cover;">
+						            	<div id="add02" class="addBorder01"></div>
+						            </div>
+						            <div class="swiperTop02" style="background: url(img/index_pb_lb03.jpg) no-repeat center center;background-size: cover;">
+						            	<div id="add03" class="addBorder01"></div>
+						            </div>
+						        </div>
+						        <div class="leftR02">
+						        	<div class="swiperTop02" style="background: url(img/index_pb_lb04.jpg) no-repeat center center;background-size: cover;">
+						            	<div id="add04" class="addBorder01"></div>
+						            </div>
+						            <div class="swiperTop02" style="background: url(img/index_pb_lb05.jpg) no-repeat center center;background-size: cover;">
+						            	<div id="add05" class="addBorder01"></div>
+						            </div>
+						            <div class="swiperTop02" style="background: url(img/index_pb_lb06.jpg) no-repeat center center;background-size: cover;">
+						            	<div id="add06" class="addBorder01"></div>
+						            </div>
+						        </div>
+						    </div>
+						</div>
+					</div>
+					<div class="endTop02 clear">
+						<img src="img/index_top02_end.png" />
+					</div>
+				</div>
+			</div>
+			<div id="index03" class="index_div03">
+				<div class="div_title02">
+					<img src="img/index_top_title03.png" />
+				</div>
+				<div class="myThree">
+					<div class="div_03">
+						<div class="left_pb">
+							<div class="pb pb01 clear">
+								<h4 class="pb_h">01 名师评审</h4>
+								<p class="h_p">邀请哈佛大学、宾夕法尼亚大学、哥伦比亚大学、纽约大学、莱斯大学、达特茅斯学院等美国常春藤名校教授担任评审和导师，对参赛队伍予以指导；邀请联合国机构、国际组织、500强企业、投资基金、公益机构等专业人士、公共关系传播专家等加入评审团，在不同比赛阶段对参赛选手进行针对性指导。</p>
+							</div>
+							<div class="pb pb02 clear">
+								<h4 class="pb_h">02 权威认证</h4>
+								<p class="h_p">组委会将为获奖队伍和选手颁发国际公益荣誉奖项以及志愿服务证书。同时，对在比赛过程中表现突出并做出优异贡献的选手，授予“优秀倡导者”、“校园先行者”、“积极贡献者”等各种荣誉奖项。证书和相关奖项由组委会和国际组织机构人士签发，记录青少年成长和公益足迹。</p>
+							</div>
+							<div class="pb pb03 clear">
+								<h4 class="pb_h">03 媒体传播</h4>
+								<p class="h_p">为保证赛事的公开、透明，本次比赛将通过微信、微博、官方网站进行全方位报道，相关门户网站公益频道将报道比赛，记录参赛队伍和选手；组委会将推荐获奖和优秀方案入选北京大学、清华大学等研究机构传播案例库；本次赛事将有来自北京、上海、广州、深圳、沈阳、成都、香港以及美国、英国、德国、澳大利亚、非洲等国家地区的选手参赛，增强对外传播、扩大国际影响。</p>
+							</div>
+							<div class="pb pb04 clear">
+								<h4 class="pb_h">04 明星助力</h4>
+								<p class="h_p">黄晓明、Angelababy、黄渤、TFBoys等中国明星助力“携手中非，爱加艾减”国际公益。本次赛事，组委会将邀请相关文体明星为进入决赛阶段的队伍加油助力，带动更多爱心人士关注非洲发展、关心非洲公益。</p>
+							</div>
+							<div class="pb pb05 clear">
+								<h4 class="pb_h">05 特优勉励</h4>
+								<p class="h_p">青少年是推动实现联合国可持续发展目标的决定力量。组委会将组织获奖队伍参访驻京联合国机构、非洲驻华使馆等，与联合国和非洲官员进行面对面交流；同时，获奖选手有机会随组织方公益访问团出访非洲，实地考察项目，拜访公益机构以及赴联合国总部参加相关国际会议。</p>
+							</div>
+						</div>
+						<a href="matchIntroduction.html" class="toPbDeatil">2019大赛背景详情 >></a>
+						<div class="right_pb">
+							<div class="swiper-container pbicYs">
+						        <div class="swiper-wrapper">
+						            <div class="swiper-slide swiperPb">
+						            	<img class="swiperPb01" src="img/index_pb_lb01.jpg" />
+						            </div>
+						        </div>
+						       <div class="swiper-button-next swiper-button-white">></div>
+						       <div class="swiper-button-prev swiper-button-white"><</div>
+						    </div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="index04" class="index_div04 clear">
+				<div class="div_title02">
+					<img src="img/index_top_title04.png">
+				</div>
+				<div class="myTeachers">
+					<div class="swiper-container teachersList">
+				        <div class="swiper-wrapper">
+				            <div class="swiper-slide">
+				            	<div class="topTeacher clear">
+				            		<div class="teaDiv" v-for="tutors in advisorTeam" v-if="$index<4">
+				            			<img v-bind:src="tutors.picUrl" />
+					            		<div class="teacherDetail">
+					            			<div class="div_wz">
+						            			<p class="tdetal01"><span>{{tutors.name}}</span></p>
+						            			<p class="tdetal02"><span>{{tutors.job}}</span></p>
+						            			<p class="tdetal02"><span>{{tutors.info}}</span></p>
+					            			</div>
+					            		</div>
+				            		</div>
+				            	</div>
+				            	<div class="botTeacher clear">
+				            		<div class="teaDiv" v-for="tutors in advisorTeam" v-if="$index<8 && $index>3">
+				            			<img v-bind:src="tutors.picUrl" />
+				            			<div class="teacherDetail">
+					            			<div class="div_wz">
+						            			<p class="tdetal01"><span>{{tutors.name}}</span></p>
+						            			<p class="tdetal02"><span>{{tutors.job}}</span></p>
+						            			<p class="tdetal02"><span>{{tutors.info}}</span></p>
+					            			</div>
+					            		</div>
+				            		</div>
+				            	</div>
+				            </div>
+				            <div class="swiper-slide">
+				            	<div class="topTeacher clear">
+					            	<div class="teaDiv" v-for="tutors in advisorTeam" v-if="$index>7 && $index<12">
+					            		<img v-bind:src="tutors.picUrl" />
+					            		<div class="teacherDetail">
+					            			<div class="div_wz">
+						            			<p class="tdetal01"><span>{{tutors.name}}</span></p>
+						            			<p class="tdetal02"><span>{{tutors.job}}</span></p>
+						            			<p class="tdetal02"><span>{{tutors.info}}</span></p>
+					            			</div>
+					            		</div>
+					            	</div>
+				            	</div>
+				            	<div class="botTeacher clear">
+				            		<div class="teaDiv" v-for="tutors in advisorTeam" v-if="$index>11 && $index<16">
+					            		<img v-bind:src="tutors.picUrl" />
+					            		<div class="teacherDetail">
+					            			<div class="div_wz">
+						            			<p class="tdetal01"><span>{{tutors.name}}</span></p>
+						            			<p class="tdetal02"><span>{{tutors.job}}</span></p>
+						            			<p class="tdetal02"><span>{{tutors.info}}</span></p>
+					            			</div>
+					            		</div>
+					            	</div>
+				            	</div>
+				            </div>
+				            <div class="swiper-slide">
+				            	<div class="topTeacher clear">
+				            		<div class="teaDiv">
+					            		<img v-bind:src="advisorTeam[advisorTeam.length-1].picUrl" />
+					            		<div class="teacherDetail">
+					            			<div class="div_wz">
+						            			<p class="tdetal01"><span>{{advisorTeam[advisorTeam.length-1].name}}</span></p>
+						            			<p class="tdetal02"><span>{{advisorTeam[advisorTeam.length-1].job}}</span></p>
+						            			<p class="tdetal02"><span>{{advisorTeam[advisorTeam.length-1].info}}</span></p>
+					            			</div>
+					            		</div>
+					            	</div>
+					            	<div class="teaDiv" v-for="tutors in advisorTeam" v-if="$index<3">
+					            		<img v-bind:src="tutors.picUrl" />
+					            		<div class="teacherDetail">
+					            			<div class="div_wz">
+						            			<p class="tdetal01"><span>{{tutors.name}}</span></p>
+						            			<p class="tdetal02"><span>{{tutors.job}}</span></p>
+						            			<p class="tdetal02"><span>{{tutors.info}}</span></p>
+					            			</div>
+					            		</div>
+					            	</div>
+				            	</div>
+				            	<div class="botTeacher clear">
+				            		<div class="teaDiv" v-for="tutors in advisorTeam" v-if="$index<7 && $index>2">
+					            		<img v-bind:src="tutors.picUrl" />
+					            		<div class="teacherDetail">
+					            			<div class="div_wz">
+						            			<p class="tdetal01"><span>{{tutors.name}}</span></p>
+						            			<p class="tdetal02"><span>{{tutors.job}}</span></p>
+						            			<p class="tdetal02"><span>{{tutors.info}}</span></p>
+					            			</div>
+					            		</div>
+					            	</div>
+				            	</div>
+				            </div>
+				            <div class="swiper-slide">
+				            	<div class="topTeacher clear">
+				            		<div class="teaDiv" v-for="tutors in advisorTeam" v-if="$index<11 && $index>6 ">
+					            		<img v-bind:src="tutors.picUrl" />
+					            		<div class="teacherDetail">
+					            			<div class="div_wz">
+						            			<p class="tdetal01"><span>{{tutors.name}}</span></p>
+						            			<p class="tdetal02"><span>{{tutors.job}}</span></p>
+						            			<p class="tdetal02"><span>{{tutors.info}}</span></p>
+					            			</div>
+					            		</div>
+					            	</div>
+				            	</div>
+				            	<div class="botTeacher clear">
+				            		<div class="teaDiv" v-for="tutors in advisorTeam" v-if="$index<15 && $index>10">
+					            		<img v-bind:src="tutors.picUrl" />
+					            		<div class="teacherDetail">
+					            			<div class="div_wz">
+						            			<p class="tdetal01"><span>{{tutors.name}}</span></p>
+						            			<p class="tdetal02"><span>{{tutors.job}}</span></p>
+						            			<p class="tdetal02"><span>{{tutors.info}}</span></p>
+					            			</div>
+					            		</div>
+					            	</div>
+				            	</div>
+				            </div>
+				        </div>
+				        <div class="teacher_pre">
+				        	<div class="swiper-button-next swiper-button-white">></div>
+							<div class="swiper-button-prev swiper-button-white"><</div>
+				        </div>
+				    </div>
+				</div>
+			</div>
+			<div id="index05" class="index_div05">
+				<div class="div_title02">
+					<img src="img/index_top_title05.png">
+				</div>
+				<div class="myVideo">
+					<p>
+						<script src="https://p.bokecc.com/player?vid=E01F178228839B4C9C33DC5901307461&siteid=D2E655881C30EDCB&autoStart=false&width=1000&height=605&playerid=E14196B7EDDC235F&playertype=1" type="text/javascript"></script>
+					</p>
+					<div class="now_vid"><p>非洲助力队现场报告环节</p></div>
+					<div class="vidList">
+						<ul>
+							<li>
+								<div class="active_div">
+									<img src="img/index_team01.png" />
+									<p class="active_vid">3'24''</p>
+									<!--
+                                    	onActive 选中状态加的样式
+                                    -->
+								</div>
+								<p class="vid_title onTitle"><b class="left_bor onBor"></b>非洲助力队</p>
+							</li>
+							<li class="li_cen">
+								<div class="active_div">
+									<img src="img/index_team02.png" />
+									<p class="active_vid">3'24''</p>
+								</div>
+								<p class="vid_title"><b class="left_bor"></b>非洲儿童关爱小队</p>
+							</li>
+							<li>
+								<div class="active_div">
+									<img src="img/index_team03.png" />
+									<p class="active_vid">3'24''</p>
+								</div>
+								<p class="vid_title"><b class="left_bor"></b>Power</p>
+							</li>
+							<li>
+								<div class="active_div">
+									<img src="img/index_team04.png" />
+									<p class="active_vid">3'24''</p>
+								</div>
+								<p class="vid_title"><b class="left_bor"></b>非洲助力队</p>
+							</li>
+							<li class="li_cen">
+								<div class="active_div">
+									<img src="img/index_team05.png" />
+									<p class="active_vid">3'24''</p>
+								</div>
+								<p class="vid_title"><b class="left_bor"></b>非洲儿童关爱小队</p>
+							</li>
+							<li>
+								<div class="active_div">
+									<img src="img/index_team06.png" />
+									<p class="active_vid">3'24''</p>
+								</div>
+								<p class="vid_title"><b class="left_bor"></b>Power</p>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div id="index06" class="index_div06">
+				<div class="div_title02">
+					<img src="img/index_top_title06.png">
+				</div>
+				<div class="div_top05">
+					<img src="img/index_top05.png">
+				</div>
+				<div class="div_top06">
+					<img src="img/index_top06.png">
+				</div>
+				<div class="div_top07">
+					<img src="img/index_top07.png">
+				</div>
+				<div class="div_top08">
+					<div class="top08_img">
+						<img id="top07Img" src="img/index_top07_01.jpg">
+						<a class="imgA img01"><span>背景信息</span></a><a class="imgA img02"><span>项目类别</span></a><a class="imgA img03"><span>实现方式</span></a><a class="imgA img04"><span>项目评比</span></a>
+					</div>
+				</div>
+				<div class="imgList">
+					<div class="specification_paragraph">
+						<h3>背景信息</h3>
+						<p>请多花一些时间了解以下信息，适当进行信息拓展和调研，将有助于参赛队伍和选手们选择好具体参赛项目、制定方案。</p>
+						<p class="specification_paragraph_title">(1) 根据联合国儿基会2016报告</p>
+						<div class="specification_paragraph_div">
+							<ul>
+								<li>撒哈拉以南非洲，约160万15岁以下儿童感染艾滋病，其中只有半数能接受到治疗；</li>
+								<li>撒哈拉以南非洲，约1420万15岁以上女性感染艾滋病；</li>
+								<li>撒哈拉以南非洲，约130万怀孕女性不幸感染了艾滋病；</li>
+								<li>全球有1340万儿童青少年（0-17岁）因艾滋失去父母或其中一位亲人；</li>
+								<li>全球范围内，自2000年以来，0-4岁艾滋病相关死亡已下降70%；通过母婴阻断（PMTCT）的努力，有160万新的婴幼儿感染被预防阻断。</li>
+							</ul>
+						</div>
+						<p class="specification_paragraph_title">(2) 根据联合国可持续发展目标</p>
+						<div class="specification_paragraph_div" style="padding-left:36px ;">
+							<p>2015年9月，世界各国领导人在一次具有历史意义的联合国峰会上上通过了2030年可持续发展议程，该议程涵盖17个“可持续发展目标”，聚焦经济发展、社会发展和环境可持续三大领域，反映了全球各国人民期望创建一个没有贫困、没有饥饿、安全、充满活力和可持续世界的美好愿望。</p>
+							<p>因此，在接下来的15年内，各国将致力于消除一切形式的贫穷、实现平等、促进繁荣、保护地球，同时确保“没有一个人掉队”。中国政府已制定《中国落实2030年可持续发展议程国别方案》。</p>
+						</div>
+					</div>
+					<div class="specification_paragraph paragraphType1">
+						<h3>项目类别</h3>
+						<p>为使参赛队伍进一步理解参赛要求，特对上述3个目标主要相关内容作进一步说明，以引导参赛队伍更加精准的设计具有一定水准的可行性项目：</p>
+		
+						<div class="tableDiv">
+							<div class="tableTitle">
+								<p class="div-title">目标2</p>
+								<p>消除饥饿</p>
+								<p>改善营养</p>
+							</div>
+							<div class="tableContent">
+								<p><span class="div-title">事实：</span>撒哈拉以南的非洲是饥饿现象最普遍的地区，有四分之一的人营养不足；在非洲撒哈拉以南，预测在2014-2016年间营养不足率为23%；在发展中世界，有6600万的小学学龄儿童饿着肚子去上学，仅非洲就有2300万。</p>
+								<p><span class="div-title">联合国目标：</span>到2030年，消除饥饿，确保所有人特别是穷人和弱势群体，包括婴儿，全年都有安全、营养和充足的食物；消除一切形式的营养不良，解决孕妇、哺乳期妇女营养需求。</p>
+							</div>
+						</div>
+		
+						<div class="tableDiv" style="height: 216px;">
+							<div class="tableTitle">
+								<p class="div-title">目标3</p>
+								<p>确保健康</p>
+								<p>促进福祉</p>
+							</div>
+							<div class="tableContent">
+								<p><span class="div-title">事实：</span>每年仍然有超过600万的5岁以下的儿童死亡；撒哈拉以南非洲和南亚在儿童死亡方面所占比例正在上升，每5个5岁以下儿童死亡中就有4个发生在这两个地区；出生在贫穷家庭的儿童5岁之前死亡的机率几乎是出身在富裕家庭儿童的两倍；艾滋病目前是非洲青少年（10-19岁）死亡的主要原因。</p>
+								<p><span class="div-title">联合国目标：</span>到2030年，消除新生儿和5岁以下儿童可预防的死亡；实现联合国“三零愿景”，消除艾滋病。</p>
+							</div>
+						</div>
+		
+						<div class="tableDiv">
+							<div class="tableTitle">
+								<p class="div-title">目标4</p>
+								<p>优质教育</p>
+								<p>学习机会</p>
+							</div>
+							<div class="tableContent">
+								<p><span class="div-title">事实：</span>发展中地区小学教育适龄儿童失学人数为5700万，适龄失学儿童中，一半以上来自撒哈拉以南非洲地区； 世界上有1.03亿青少年缺乏基本的读写算技能，其中60%为女性。</p>
+								<p><span class="div-title">联合国目标：</span>到2030年，确保所有男女童完成免费、公平和优质的中小学教育，并取得相关和有效的学习成果；确保所有男女童获得优质幼儿发展、看护和学前教育；建立和改善兼顾儿童、残疾和性别平等的教育设施，为所有人提供安全、非暴力、包容和有效的学习环境。</p>
+							</div>
+						</div>
+					</div>
+					<div class="specification_paragraph paragraphType1">
+						<h3>实现方式</h3>
+						<p style="text-indent: 0;">选择一个你要帮助实现的目标，通过查找资料、研究分析，设计商业类、科技类项目或设计线上线下活动方案发起直接筹款募捐来帮助他们。</p>
+						<div class="panelsDiv">
+							<div class="panelDiv">
+								<h4>商业类</h4>
+								<p>通过设计具有可行性的商业类项目，取得盈利并帮助弱势群体，鼓励青少年以社会企业为思考方向。例如，发掘非洲本地人文公益品，解决相关人群生计；设计制作非洲艺术品，策划开设网上商店等。</p>
+							</div>
+							<div class="panelDiv_line"></div>
+							<div class="panelDiv">
+								<h4>科技类</h4>
+								<p>深入研究了解非洲受艾滋影响儿童困境，针对他们生活中所需，设计相关产品和项目，要求可执行、可落地、可复制、可推广。例如：利用无人机送货，为偏远地区人群配送艾滋病检测试剂等，无人机可通过众筹、募款等方式获得。</p>
+							</div>
+							<div class="panelDiv_row2">
+								<h4>公益类</h4>
+								<p>直接为某地区某国家受艾滋影响儿童发起公众筹款，针对营养、教育、医疗等方面问题，设计和策划线下线上筹款活动方案，传播方案等并予以实施。</p>
+							</div>
+							<div class="panelDiv_line" style="top: 9px;"></div>
+							<div class="panelDiv_row2">
+								<h4>其他类</h4>
+								<p>组委会鼓励新的创意创想，如有上述未提及项目可直接向组委会提出申请。</p>
+							</div>
+						</div>
+					</div>
+					<div class="specification_paragraph paragraphType1 projectRating">
+						<h3>项目评比</h3>
+						<img src="img/gamemessage_trangle.png" />
+						<p style="text-indent: 0;">本次大赛采用<span class="div-title">项目方案、倡导推广、募款筹款</span>等三部分权重评分，为不同偏好和特长的同学提供脱颖而出的机会：</p>
+						<div class="projectRating_div">
+							<ul>
+								<li><span class="div-title">项目方案</span>，强调发现和解决问题的能力，设计要根据非洲实际情况因地制宜，力求简单且具有可执行性；</li>
+								<li><span class="div-title">倡导推广</span>，考察学生领导力，要求各参赛队伍在关注方案本身同时，要通过倡导宣传以影响带动更多人群关注非洲贫困问题；</li>
+								<li><span class="div-title">募款筹款</span>，考验同学们的行动力，鼓励不同类别项目的参赛队伍都能在比赛过程中，发起公益募款，最终金额将被纳入评分。</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="index07" class="index_div07">
+				<div class="div_con">
+					<p class="con_p"><img src="img/index08_title.png" /></p>
+					<div class="con_cen">
+						<div class="cen_left cen_second">
+							<p class="p_sp01"><span class="sp_t01">1</span><span class="sp_t02">参赛</span></p>
+							<p class="left_txt">*每个团队至少队长成员各一名</p>
+							<div class="show_left">
+								<p class="p_b01"></p>
+								<p class="left_one">参赛</p>
+								<p class="left_child">网站或公众号 报名</p>
+								<p class="left_child">1~3天审核团队信息</p>
+								<p class="left_child">审核成功</p>
+								<p class="left_child">添加项目内容</p>
+							</div>
+						</div>
+						<div class="cen_right cen_second">
+							<p class="p_sp01"><span class="sp_t01">2</span><span class="sp_t02">投票</span></p>
+							<p class="left_txt">*每人每天仅能为一支团队投一票</p>
+							<div class="show_left">
+								<p class="p_b01"></p>
+								<p class="left_one">投票</p>
+								<p class="left_child">扫描二维码关注订阅号</p>
+								<p class="left_child">点击菜单“投票”</p>
+								<p class="left_child">搜索团队编号或号码</p>
+								<p class="left_child">点击“投票”按钮</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<footer></footer>
+		<script>
+			var d=1;
+		    var swiper1 = new Swiper('.gallery-thumbs', {
+		        autoplay: 8000,
+				speed: 2000,
+				loop: true,
+				autoplayDisableOnInteraction: false,
+		        nextButton: '.swiper-button-next',
+		        prevButton: '.swiper-button-prev',
+		        paginationType : 'bullets',
+		        observer:true,//修改swiper自己或子元素时，自动初始化swiper
+				observeParents:false,//修改swiper的父元素时，自动初始化swiper
+		        onSlideChangeStart: function(swiper){
+		        	var num=swiper.activeIndex;
+		        	numIndex=num;
+		        	if(num!=1 && num!=7){
+		        		$(".page01").css("padding-top","38px");
+		        		$(".pbicT").text("2017PBIC决赛现场");
+		        	}else{
+		        		var wid=$(window).innerWidth();
+		        		if(wid>1338){
+		        			$(".page01").css("padding-top","25px");
+		        		}else{
+		        			$(".page01").css("padding-top","12px");
+		        		}
+		        		$(".pbicT").text("你，青春年少、爱心飞扬，有创意、有憧憬、有担当，或许你参加过商赛，参加过社会倡导，参加过公益募捐，但公益挑战则是一项全新的赛事");
+		        	}
+		        	$(".nums1").text(num);
+		        	var str="#add0"+num;
+		        	var lb=$(str);
+		        	$(".addBorder01").removeClass("addBorder");
+		        	lb.addClass("addBorder");
+		        	var dd=Math.ceil(num/3);
+		        	if(num==7){
+		        		$(".nums1").text(1);
+		        		$(".addBorder01").removeClass("addBorder");
+		        		$("#add01").addClass("addBorder");
+		        	}
+		        }
+		    });
+		    
+		    $(".addBorder01").click(function(){
+		    	var id=$(this).attr("id");
+		    	$(".addBorder01").removeClass("addBorder");
+		        $(this).addClass("addBorder")
+		    	var ids=id.substr(id.length-1,1);
+		    	$(".nums1").text(ids);
+				swiper1.slideTo(ids,2000,false);//切换到第一个slide，速度为1秒
+			})
+		    var swiper3 = new Swiper('.pbicYs', {
+		        autoplay: 8000,
+				speed: 2000,
+				loop: false,
+				autoplayDisableOnInteraction: false,
+		        nextButton: '.swiper-button-next',
+		        prevButton: '.swiper-button-prev',
+		        paginationType : 'bullets',
+		        observer:true,//修改swiper自己或子元素时，自动初始化swiper
+				observeParents:false,//修改swiper的父元素时，自动初始化swiper
+		        onSlideChangeStart: function(swiper){
+		        	var num=swiper.activeIndex;
+		        }
+		    });
+		    $(function(){
+			    var swiper4 = new Swiper('.teachersList', {
+			        autoplay: 8000,
+					speed: 2000,
+					loop: true,
+					nextButton: '.swiper-button-next',
+		        	prevButton: '.swiper-button-prev',
+					autoplayDisableOnInteraction: false,
+			        paginationType : 'bullets',
+			        observer:true,//修改swiper自己或子元素时，自动初始化swiper
+					observeParents:false,//修改swiper的父元素时，自动初始化swiper
+			        onSlideChangeStart: function(swiper){
+			        	var num=swiper.activeIndex;
+		        	}
+		    	});
+		    	$(".teaDiv").hover(function(){
+				    $(this).find(".teacherDetail").show();
+				},function(){
+				    $(this).find(".teacherDetail").hide();
+				}); 
+		    })
+		</script>
+	</body>
+</html>

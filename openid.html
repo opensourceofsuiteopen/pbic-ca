@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>授权</title>
+		<script src="../js/jquery-1.12.0.min.js"></script>
+		<script src="../js/jqmd5.js"></script>
+		<script src="../js/sha1.js"></script>
+		<script>
+			noUserInfo = true;
+			noloadxn = true;
+		</script>
+		<script type="text/javascript" src="../js/comman.js" ></script>
+		<script>
+			
+			AppId = "wxbe460c1806eed0e6";
+
+			//微信初始化授权
+			function wxInit(code){
+				request("CFVote", "getVoteOpenId", {code:code, type:0, appid:AppId}, function(data){
+					// console.log(data);
+					if(data.code==0){
+						
+						setCookie("openId", data.openId, 2);
+						setCookie("unionId", data.unionId, 2);
+						setCookie("jsapiTicket", data.jsapiTicket, 2);
+						setCookie("accessToken", data.accessToken, 2);
+						//setCookie("wxName", data.wxName, 2);
+						//setCookie("wxPicurl", data.wxPicurl, 2);
+						//分享真实URL
+						var search = decodeURIComponent(window.location.search);
+						search = search.slice(1);
+						var str = search.split("realurl")[1].slice(1);
+						if(str.split("?").length==1){
+							str = str.split("&")[0];
+						}
+						location.href = str;
+					}else{
+						alert("微信授权失败   "+data.msg);
+					}
+				})
+			}
+			
+			$(function(){
+				var code = getQuery("code");
+				if(code==null){
+					alert("未经过微信授权");
+				}else{
+					wxInit(code);
+				}
+			})
+		</script>
+	</head>
+	<body>
+		
+	</body>
+</html>

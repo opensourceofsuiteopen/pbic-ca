@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="default">
+		<meta name="format-detection" content="telephone=no">
+		<link rel="stylesheet" type="text/css" href="../css/comman.css" />
+		<link rel="stylesheet" type="text/css" href="../css/pageArr.css" />
+		<link rel="stylesheet" type="text/css" href="../css/weui.min.css" />
+		<link rel="stylesheet" href="../css/swiper-3.3.1.min.css" />
+		<!-- JS -->
+		<script src="../js/jquery-1.12.0.min.js"></script>
+		<script src="../js/jquery-form.js"></script>
+		<script src="../js/jqmd5.js"></script>
+		<script src="../js/sha1.js"></script>
+		<script src="../js/weui.js"></script>
+		<script src="../js/vue.min.js"></script>
+		<script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+		<script type="text/javascript" src="../js/swiper-3.3.1.jquery.min.js"></script>
+		<script src="../js/wxconfig.js"></script>
+		<script src="../js/comman.js?v=6"></script>
+		
+		
+		<title>首页</title>
+		
+		<script>
+			AppId = "wx0f4771c2373a76b9";
+			baseShareURL = "http://pbic.saclass.com/";
+
+			var shareURL = baseShareURL + "app/share.html";
+			var shareIcon = baseShareURL + "app/img/congratulalions.png";
+			var shareTitle = "PBIC投票活动";
+			var shareDes = "PBIC团队投票。";
+//
+//			openId ="66";
+			openId = getCookie("openId");
+			unionId = getCookie("unionId");
+			jsapiTicket = getCookie("jsapiTicket");
+			accessToken = getCookie("accessToken");
+			wxName = getCookie("wxName");
+			wxPicurl = getCookie("wxPicurl");
+			
+	        if(is_weixn()) {
+	            var reaurl = "index2.html";
+	            useWX(reaurl, 1);
+	        }
+
+			function onClickReady() {
+				wxShare(
+					shareURL,
+					shareIcon,
+					shareTitle,
+					shareDes,
+					function() {
+						_hmt.push(['_trackEvent', "PBIC投票", "分享到朋友圈", wxName, 2]);
+					},
+					function() {
+						_hmt.push(['_trackEvent', "PBIC投票", "发送给好友", wxName, 1]);
+					}
+				);
+			}
+			var vm;
+			$(function() {
+				$("footer").load("footer.html?v=1");
+				vm = new Vue({
+					el: "#indexTp",
+					data: {
+						voteList: [],
+						page: 1,
+						size: 12,
+						pageCount: 0,
+						pageIn: null,
+						keyword: "",
+						pageArr: null,
+						ready: ["投票", "已投"],
+						activityId: activityId,
+						nodata: false,
+						todyDate: new Date(),
+						noDate: new Date("2017-07-15 00:00:00"),
+						toast:0,
+						votea:false,
+						voteId:'',
+						info:"",
+						VOTE:'',
+						video:'0',
+						Open:"",
+						wxShare:null
+					},
+					methods: {
+						//获取团队信息：
+						getMyTeamInfo: function() {
+							showLoad();
+							request("CFVote","getMyTeamInfo",{userId:userID,token:token},function(data) {
+								if(data.code==0){
+									hideLoad();
+									vm.voteId = data.id;
+								}else{
+									console.log(data.msg);
+								}
+							})
+						},
+						//参赛团队列表
+						showMeVoteList: function() {
+							var param = {
+								teamCode: vm.keyword,
+								page: vm.page - 1,
+								size: vm.size,
+								openId:openId
+							};
+							request("CFVote", "showMeVoteList", param, function(data) {
+								if(data.code == 0) {
+									if(data.count > 0) {
+										vm.data = data;
+										vm.nodata = false;
+										for(var i = 0; i < data.rank.length; i++) {
+											vm.voteList.push(data.rank[i]);
+										}
+										vm.pageIn += data.rank.length;
+										vm.pageCount = Math.ceil(data.count / vm.size);
+										vm.pageArr = pageArrs(vm.pageCount, vm.page);
+										
+										vm.$nextTick(function() {
+											var imgWidth = $(".imgDiv").css("width");
+											$(".imgDiv").css("height", parseInt(imgWidth) * 2 / 3 + "px");
+										});
+									} else {
+										vm.nodata = true;
+									}
+								} else {
+									showAlert("获取列表失败 ! " + data.msg);
+								}
+							})
+						},
+						//搜索
+						search: function() {
+							vm.page = 1;
+							vm.voteList = []; //清空数据
+							vm.showMeVoteList();
+						},
+						showMore: function() {
+							if(vm.page<vm.pageCount){
+								vm.page+=1;
+								vm.showMeVoteList();
+							}
+						},
+						toReview: function() {
+							window.location.href="review.html";
+						},
+						//投票
+						iWantToVote: function(id,index) {
+							if(!is_weixn()){
+								showAlert("请在微信中投票");
+								return;
+							}
+							vm.wxShare=vm.voteList[index].id;
+							request("CFVote", "iWantToVote", {
+								voteId:id,
+								isWx:1,
+								uId: openId
+							}, function(data) {
+								if(data.code == 0) {
+									var htm = $("#tp_" + index);
+									vm.voteList[index].totalNum += 1;
+									vm.voteList[index].isVote=true;
+									htm.find(".pop1").show();
+								} else {
+									if(data.msg == "票数用尽，无法投票") {
+										vm.toast=2;
+									} else {
+										showAlert("投票失败! ",data.msg);
+									}
+								}
+							})
+						},
+						toGiftList:function(){
+							$(".pop1").hide();
+							location.href="giftList.html";
+						},
+						toDetail: function(voteId) {
+							location.href = "help_item.html?voteId="+voteId+"&ids="+3;
+
+						},
+						//团队照片
+						showPhoto: function(info) {
+							var team = eval("(" + info + ")");//对象转化成数组
+							return team.teamPhoto[0];
+						},
+						showPhotoBg: function(info) {
+							return "url(" + vm.showPhoto(info) + ")no-repeat center center,#f9f9f9";
+						},
+						changeZero: function(arr) {
+							var arrt = arr;
+							if(arr == 1000000) {
+								arrt = "...";
+							}
+							return arrt;
+						},
+						shut: function(){
+							$(".pop1").hide();
+						},
+						shut1: function(){
+							vm.toast=0;
+						},
+						toVideo: function() {
+							location.href="gameShow.html?step=1";
+						},
+						gomyTeam: function() {
+							if(userID!=null){
+								getIndexInfo("myTeam");
+							}else{
+								login(function(){
+									getIndexInfo("myTeam");
+								});
+							}
+						},
+						goRegistration: function() {
+							request("CFVote", "checkJoinAndEditEndTime", {chekType:0}, function(data) {
+								hideLoad();
+								if(data.code==0){
+									if(userID!=null){
+										getIndexInfo("Registration");
+									}else{
+										login(function(){
+											getIndexInfo("Registration");
+										});
+									}
+								}else{
+									location.href = "http://my.saclass.com/app/landingPBIC.html";
+								}
+							});
+						},
+						Share: function() {
+							shareURL = baseShareURL + "app/share.html?voteId="+vm.wxShare;
+							onClickReady();
+							$('.wxguide').css("display","block");
+							$(".pop1").hide();
+							vm.toast=0;
+						},
+						shutShare: function() {
+							$('.wxguide').css('display','none');
+						},
+						removeKey:function(){
+							vm.keyword='';
+							vm.voteList = [];
+							vm.page=1;
+							vm.showMeVoteList();
+						}
+					}
+
+				})
+				vm.showMeVoteList();
+				var video = document.getElementsByTagName("video")[0];
+
+				$(".videoReadyBtn").css("height", $("#myvideo").css("height"));
+
+				$(".videoReadyBtn").click(function() {
+					$(this).css("display", "none");
+					video.play();
+				});
+				 $('#searchVote').bind('search', function () {
+			            vm.voteList = [];
+						vm.page=1;
+						vm.showMeVoteList();
+			     });
+			});
+			//得票数+1
+			function setMate(htm, index) {
+				vm.voteList[index].totalNum += 1;
+			}
+			
+			//获取视频地址
+			function getVideoUrl(ccid) {
+				request("Video", "getVideoUrlByCcId", {
+					ccId: ccid
+				}, function(data) {
+					var ccSrc = data.url.videoUrl;
+					$("#myvideo").attr("src", ccSrc);
+				});
+			}
+
+			function pageArrs(count, currentpage) {
+				var array = [];
+				if(count <= 7) {
+					for(var i = 0; i < count; i++) {
+						array.push(i + 1);
+					}
+				} else {
+					array.push(1);
+					if(currentpage - 1 > 1) {
+						array.push(0);
+					}
+					if(currentpage - 1 > 1 && currentpage - 1 <= count - 1) {
+						array.push(currentpage - 1);
+					}
+					if(currentpage > 1 && currentpage < count) {
+						array.push(currentpage);
+					}
+					if(currentpage + 1 > 1 && currentpage + 1 < count) {
+						array.push(currentpage + 1);
+					}
+					if(currentpage + 1 < count - 1) {
+						array.push(1000000);
+					}
+					array.push(count);
+				}
+				return array;
+			}
+
+
+		</script>
+		<style>
+			.myVideoBox {
+				position: relative;
+			}
+			html,body {
+				width: 100%;
+				font-family: "microsoft yahei,marial, helvetica, sans-serif";
+			}
+			header {
+				position: fixed;
+				width: 100%;
+				z-index: 100001;
+			}
+			input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+			    color: #bebebe; 
+			} 
+			input::-moz-placeholder { /* Mozilla Firefox 19+ */
+			    color: #bebebe; 
+			}
+			input:-ms-input-placeholder{
+			    color: #bebebe;
+			}
+			
+			input::-webkit-input-placeholder{
+			    color: #bebebe;
+			}
+		    input::-webkit-search-cancel-button {
+		    	display: none;
+		    }
+ 			input::-ms-clear{display:none;}
+ 			
+			.main {
+				position: relative;
+				width: 100%;
+				text-align: center;
+				margin-bottom: 20px;
+			}
+			
+			.menuTab {
+				width: 100%;
+				height: 35px;
+				text-align: center;
+				z-index: 100001;
+			}
+			
+			.menuTab p {
+				display: inline-block;
+				width: 80%;
+				overflow: hidden;
+			}
+			.menuTab a .a-left{
+				float:left;
+				color: #ebebeb;
+			}
+			.menuTab a .a-right{
+				float:right;
+				color: #ebebeb;
+			}
+			.menuTab a {
+				display: inline-block;
+				width: 33.3333%;
+				height: 35px;
+				line-height: 36px;
+				float: left;
+				text-align: center;
+				font-size: 16px;
+			}
+			.menuTab a:last-child {
+				background: none;
+			}
+			.button{
+				width:100%;
+				height:40px;
+				border: none;
+				font-size: 18px;
+				margin-top:-6px;
+				position:relative;z-index:2;
+			}
+			.signupBtn {
+				background-color: #E5233E;
+				width:50%;	
+				height:40px;
+				box-sizing:border-box;
+				float:right;
+				border: none;
+				display:block;
+				font-size: 16px;
+				color: #FFFFFF;
+			}
+			.signupBtn-left {
+				background-color: #333;
+				width:50%;
+				height:40px;
+				box-sizing:border-box;
+				float:left;
+				border: none;
+				font-size: 16px;
+				display:block;
+				color: #FFFFFF;
+			}
+			
+			.teamTitle_line {
+				position: relative;
+				width: 56%;
+				height: 1px;
+				margin: 33px auto 0 auto;
+				background-color: #333333;
+			}
+			
+			.teamTitle {
+				position: relative;
+				display: block;
+				font-size: 18px;
+				background-color: #FFFFFF;
+				color:#333333;
+				width: 100px;
+				margin: -13px auto 0 auto;
+			}
+			
+			.index_search {
+				margin-top: 22px;
+				margin-bottom: 20px;
+			}
+			
+			.index_search div {
+				width: 93.46%;
+				height: 30px;
+				border-radius: 19px;
+				border: 1px solid #ebebeb;
+				margin: 0 auto;
+				position: relative;
+				padding-left: 45px;
+				box-sizing: border-box;
+			}
+			
+			.index_search div span {
+				width: 33px;
+				height: 30px;
+				left: 8px;
+				display: block;
+				position: absolute;
+				cursor: pointer;
+				background: url(./img/index_search.png) no-repeat left center;
+				background-size: 15.5px 15.5px;
+				background-position: 0px 7px;
+			}
+			
+			 ::-webkit-input-placeholder {
+				color: #EBEBEB;
+			}
+			
+			:-moz-placeholder {
+				color: #EBEBEB;
+			}
+			
+			::-moz-placeholder {
+				color: #EBEBEB;
+			}
+			
+			:-ms-input-placeholder {
+				color: #EBEBEB;
+			}
+			
+			.index_search div input {
+				height: 100%;
+				width: 100%;
+				padding: 0 5px;
+				border-radius: 100px;
+				display: block;
+				border: none;
+				box-sizing: border-box;
+				outline: none;
+				font-size: 16px;
+			}
+			.index_search div{
+				padding-right: 30px;
+				box-sizing: border-box;
+			}
+			.index_search .removeKey {
+				display: block;
+				position: absolute;
+				top: 6px;
+				right: 7px;
+				width: 25px;
+				height: 30px;
+			}
+			.index_search .removeKey img{
+				width: 16px;
+			}
+			.index_tp ul {
+				width: 93.46%;
+				overflow: hidden;
+				display: block;
+				margin: 0 auto;
+			}
+			
+			
+			
+			.index_tp ul li {
+				margin-bottom: 36px;
+				width: 100%;
+				height:113px;
+				float: left; 
+				box-sizing: border-box;
+				position:relative;
+			}
+			
+			.index_tp .imgDiv {
+				position: relative;
+				width: 46%;
+				background-size: cover!important;
+				float:left;
+			}
+			.setWidth {
+				margin-right: 0px!important;
+			}
+			
+			.index_tp ul li img {
+				position: absolute;
+				display: block;
+				width: 100%;
+				left: 0;
+			}
+			
+			.index_tp .tp_mine {
+				text-align: center;
+				font-size: 14px;
+				width: 46%;
+				top:0;
+				float:right;
+				/*position:absolute;
+				right:0;*/
+				box-sizing:border-box;
+			}
+			
+			.index_tp .tp_mine .index_p1{
+				color:#333333;
+				font-size: 12px;
+				line-height: 12px;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+				text-align:left;
+				padding-top: 5px;
+				margin: 0px auto 3px 0;
+			}
+			
+			.index_tp .tp_mine .index_p2 {
+				font-size: 16px;
+				margin: 3px 0px 8px 0;
+				color: #333333;
+				font-weight:bold;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+				text-align:left;
+			}
+			.index_tp .tp_mine .index_p3 {
+				font-size: 12px;
+				margin: 10px 0px 6px 0;
+				color: #888888;
+				text-align:left;
+				
+			}
+			.index_tp .tp_mine a {
+				display: inline-block;
+				width: 46%;
+				height: 30px;
+				line-height: 33px;
+				background: #e5233e;
+				border-radius: 2px;
+				font-size:14px;
+				color: #FFFFFF;
+				text-align:center;
+				position:absolute;
+				bottom:0;
+				right:0
+			}
+			
+			.index_tp .tp_mine .casted {
+				pointer-events: none;
+				background: #fff;
+				border:1px solid #e5233e;
+				color:#e5233e;
+			}
+			
+			.mainBox .index_tp .tp_mine .castColor {
+				color: #e5233e;
+				position: relative;
+			}
+			
+			.index_tp .tp_mine p:nth-child(2) span {
+				position: absolute;
+				top: -10px;
+				right: 60px;
+				font-size: 16px;
+			}
+			
+			.loadMore {
+				margin-top: 10px;
+				width: 100%;
+				height: 40px;
+				font-size: 16px;
+				border: none;
+				background-color: #e5233e;
+				color: #FFFFFF;
+			}
+			.noMore{
+				color: #E5E5E5;
+			}
+			#myvideo {
+				width: 100%;
+			}
+			.footerTopBar{
+				position: relative;
+				width: 100%;
+				height: 20px;
+				background: rgba(255,255,255,0);
+			}
+			
+			footer {
+				/*margin-top: 99px;*/
+			}
+			.nodataClass{
+				visibility: hidden;
+				height: 0px;
+			}
+			header{
+				width:100%;
+				position:relative;
+			}
+			header img{
+				width:36%;
+				position:absolute;
+				display: block;
+				top:0;
+				left:0;
+			}
+			.pop1{
+				display: none;
+			}
+			.pop1,.pop2,.pop3{
+				width:100%;
+				height:100%;
+				position:fixed;
+				top:0;
+				left:0;
+				box-sizing:border-box;
+				z-index:2222222222;
+			}
+			.pop1 .bg{
+				width:100%;
+				height:100%;
+				position:relative;
+				opacity:0.2;
+				background:#333;	
+			}
+			.pop2 .bg,.pop3 .bg{
+				width:100%;
+				height:100%;
+				position:relative;
+				opacity:0.8;
+				background:#333;	
+			}
+			.pop1 .main,.pop3 .main,.pop2 .main{
+				position:absolute;
+				box-sizing:border-box;
+				top:186px;
+				width:100%;
+			}
+			.pop1 .main .info,.pop3 .main .info,.pop2 .main .info{
+				width:276px;
+				height:166px;
+				background:#fff;
+				position:relative;
+				margin:0 auto;	
+				border-radius:3px;
+				text-align:center;
+			}
+			.pop3 .main img:nth-child(1),.pop2 .main img:nth-child(1){
+				position:absolute;
+				top:6px;
+				right:6px;
+				width:12px;	
+			}
+			.main .info .icon_x{
+				position:absolute;
+				top:0px;
+				right: 0px;
+				left: auto;
+				width:25px;
+				height: 25px;
+				background:url(img/shut.png) no-repeat center center;
+				background-size: 12px;	
+			}
+			.main .info .icon_img{
+				position:absolute;
+				display: block;
+				left: 50%;
+				top:-16px;
+				transform:translateX(-50%);
+				width:32px;
+			}
+			.pop2 .main .info02,.pop3 .main .info02{
+				font-size:16px;
+				text-align:center;
+				display:block;
+				line-height:26px;
+				color:#333333;
+			}
+			.pop1 .main .info01,.pop2 .main .info01 {
+				text-align:center;
+				display:block;
+				color:#333333;
+				font-size:16px;
+				padding-top: 24px;
+				padding-bottom: 1px;
+			}
+			.pop1 .main .info02{
+				text-align:center;
+				display:block;
+				font-size: 16px;
+				margin-top: 5px;
+				letter-spacing: 3px;
+			}
+			.pop1 .main .info03{
+				text-align:center;
+				color:#e5233e;
+				display:block;
+				margin-top: 2px;
+				font-size: 16px;
+			}
+			.pop2 .main .info03{
+				text-align:center;
+				display:block;
+				margin-top:8px;
+				color:#333333;
+			}
+			.pop1 .main-footer{
+				width:100%;
+				height:42px;
+				position:absolute;
+				bottom:0;
+				color:#fff;
+				font-size:16px;
+			}
+			.pop1 .main-footer .toGigft{
+				display: block;
+				width: 100%;
+				height: 100%;
+				line-height: 42px;
+				color: #FFFFFF;
+			}
+			.pop2 .main-footer,.pop3 .main-footer{
+				width:100%;
+				height:42px;
+				position:absolute;
+				bottom:0;
+				color:#fff;
+			}
+			.pop2 .main-footer button,.pop3 .main-footer button{
+				width:100%;
+				height:100%;
+				background:#333;
+				float:left;
+				border:0 none;
+				color:#fff;
+				font-size:16px;
+			}
+			.pop2 .lg{
+				font-size:18px;
+				color:#e5233e;
+			}
+			.pop1 .main-footer button:nth-child(1){
+				width:50%;
+				height:100%;
+				background:#333;
+				float:left;
+				border:0 none;
+				color:#fff;
+				font-size: 16px;
+				border-bottom-left-radius:3px;
+			}
+			.pop1 .lg{
+				font-size:24px;
+			}
+			.pop1 .main-footer button:nth-child(2){
+				width:50%;
+				height:100%;
+				float:right;
+				border:0 none;
+				background:#e5233e;
+				color:#fff;
+				font-size: 16px;
+				border-bottom-right-radius:3px;
+			}
+			.wq{
+			    width: 100%;
+			    box-sizing: border-box;
+			}
+			.swiper-slide img{
+			    display: block;
+			    width:100%;
+			}
+			.swiper-pagination{
+			    text-align: right;
+			}
+			.wxguide{
+				width:100%;
+				height:100%;
+				position:fixed;
+				top:0;
+				z-index:2222222222;
+				display:none;
+			}
+			.guide{
+				width:100%;
+				height:100%;
+				background:#333333;
+				opacity:.6;
+				position:absolute;
+				top:0;
+				z-index:2222222223;
+			}
+			.wxguide img{
+				width:156px;
+				position:absolute;
+				top:12px;
+				right:12px;
+				z-index:2222222224;
+			}
+		</style>
+	</head>
+	<body id="indexTp">
+		<!--<header><img src="img/logo-head.png"></header>-->
+		<div class="wxguide">
+			<div style="position:relative;width:100%;height:100%;">
+				<div class="guide" @click="shutShare()">
+				</div>
+				<img src="img/guidance.png">	
+			</div>
+		
+		</div>
+		<div class="main">
+			<div class="videoBox">
+				<div class="wq" v-show="video==0">
+					 <div class="swiper-container">
+					    <div class="swiper-wrapper">
+					      <div class="swiper-slide"><img @click="toVideo()" src="img/app-banner.png"></div>
+					      <div class="swiper-slide"><img @click="toReview()" src="../img/indexAppbanner01.jpg?v=1"></div>
+					    </div>
+					 </div>
+				</div>
+				<script>
+					var swiper = new Swiper('.swiper-container', {
+						autoplay: 3000,
+						speed: 600,
+						loop: true,
+						observer:true,
+//						paginationType : 'bullets',
+//						pagination : '.swiper-pagination',
+						autoplayDisableOnInteraction: false,
+						onSlideChangeStart: function(swiper) {
+						}
+					});
+				</script>
+			</div>
+			<div class="button" >
+				<button class="signupBtn-left" @click="gomyTeam()"  >我的团队</button>
+				<button class="signupBtn" @click="goRegistration()" >我要报名</button>
+			</div>
+			<div class="menuTab">
+				<p>
+					<a href="gameShow.html?step=1">关于大赛</a>
+					<a href="gameShow.html?step=3" ><span class="a-left">/</span>赛制说明<span class="a-right">/</span></a>
+					<a href="tutor.html">导师团队</a>
+				</p>
+			</div>
+			<div>
+				<div> 
+					<div class="teamTitle_line"></div>
+					<div class="teamTitle">参赛队伍</div>
+					<div class="index_search" >
+						<div>
+							<span @click="search"></span><b></b>
+							<input id="searchVote" type="search" v-model="keyword" placeholder="search" />
+							<b class="removeKey" v-show="keyword!=''" @click="removeKey"><img src="../img/login_no.png"/></b>
+						</div>
+					</div>
+				</div>
+				<div class="index_tp">
+					<ul>
+						<li v-for="vote in voteList" :id="'tp_'+$index">
+							<div class="imgDiv" @click="toDetail(vote.id)" v-bind:style="{ background: showPhotoBg(vote.info)}"></div>
+							<div class="tp_mine">
+								<p class="index_p1" @click.stop="toDetail(vote.id)">编号：{{vote.id}}</p>
+								<p class="index_p2" :class="{'castColor':vote.isVote==1}" @click.stop="toDetail(vote.id)">{{vote.name}}</p>
+								<p class="index_p3" @click.stop="toDetail(vote.id)" :class="{'castColor':vote.isVote==1}">得票:&nbsp;{{vote.totalNum}}</p>
+								<a  v-show="!vote.isVote"  @click="iWantToVote(vote.id,$index)" >投票</a>
+								<a class="casted" v-show="vote.isVote">已投票</a>
+							</div>
+							<div class="pop1">
+								<div class="bg"></div>
+								<div class="main">
+									<div class="info">
+										<span class="icon_x" @click.stop="shut()"></span>
+										<img class="icon_img" src="img/pop1.png">
+										<p class="info01">投票成功</p>
+										<p class="info02">已<span class="lg">{{vote.totalNum}}</span>票</p>
+										<p class="info03">已获得1次抽奖机会</p>
+										<div class='main-footer'>
+											<button @click.stop="Share()">为他助力</button>
+											<button><a class="toGigft" @click="toGiftList">抽奖</a></button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+				<button class="loadMore" v-show="page<pageCount" @click="showMore()">加载更多{{page}}-{{pageCount}}</button>
+				<p class="noMore" v-show="page==pageCount">没有更多团队了~</p>
+			</div>
+		</div>
+		<footer></footer>
+		
+		<div class="pop2" v-show="toast==2">
+			<div class="bg"></div>
+			<div class="main">
+				<div class="info">
+					<span class="icon_x" @click="shut1"></span>
+					<img class="icon_img" src="img/pop2.png">
+					<p class="info01">已投过票，</p>
+					<p class="info02">明天再来吧！</p>
+					<p class="info03"><span class="lg">分享</span>让更多好友为他们<span class="lg">助力</span></p>
+					<div class='main-footer'>
+						<button @click="Share()">为他助力</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

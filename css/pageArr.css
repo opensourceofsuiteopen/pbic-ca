@@ -1,0 +1,278 @@
+/* 分页页码样式*/
+.pageNum{
+	width: 100%;
+	clear: both;
+	margin-top:30px ;
+	margin-bottom: 30px;
+	border:none!important;
+}
+.page-div{
+	text-align: right;
+}
+.page-div li{
+	height:24px;
+	line-height:24px;
+	text-align: center;
+	display: inline-block;
+}
+.page-div .div-li{
+	width:24px;
+	margin-left: 10px;
+	font-size: 16px;
+}
+.div-li:hover{
+	background-color: #EBEBEB;
+}
+.page-right{
+	display: none;
+	visibility: hidden;
+	padding:0px 15px;
+	margin-right: -4px;
+	border-left: 1px solid #E6E6E6;
+}
+.page-left{
+	cursor: pointer;
+	margin-left: -1px;
+}
+.page-div .pagePre{
+	width:20px;
+}
+.pagePre span{
+	padding:8px 5px;
+	background: url(../img/btn-cal-pre.png) no-repeat center center;	
+}
+.page-div .preNext{
+	width:20px;
+}
+.preNext span{
+	padding:8px 5px;
+	background: url(../img/btn-cal-next.png) no-repeat center center;	
+}
+.page-btn{
+	margin-left: 10px;
+	height: 30px!important;
+	line-height: 30px;
+	position: relative;
+	left:12px;
+/*	padding-right: 37px;*/
+	color: #888888;
+}
+.page-go button{
+	position: relative;
+	top: -1px;
+	width:42px;
+	height: 28px;
+	cursor: pointer;
+	color: #FFFFFF;
+	background-color:#333333 ;
+	border: none;
+}
+.page-go{
+	width:42px;
+}
+.page-btn label{
+	height: 30px;
+	font-size: 16px;
+	color: #888888;
+}
+.page-btn input{
+	position: relative;
+	width:64px;
+	height:30px;
+	top: -1px;
+	padding: 0px 5px;
+	margin-left: 12px;
+	text-align: center;
+	color: #333333;
+	border-top: 1px solid #efefef;
+	border-left: 1px solid #efefef;
+	border-bottom: 1px solid #efefef;
+	border-right: 1px solid #efefef;
+	border-top-left-radius:4px;
+	border-bottom-left-radius: 4px;
+	outline: none;
+	box-sizing: border-box;
+}
+.page-btn span{
+	display: block;
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 37px;
+	height: 28px;
+	line-height: 28px;
+	border-top-right-radius:4px;
+	border-bottom-right-radius: 4px;
+	background: #E5233E;
+	color: #FFFFFF;
+	cursor: pointer;
+}
+.page-div .actioning{
+	color: #FFFFFF;
+	background: #E5233E;
+	border-radius: 100px;
+}
+.noBtn{
+	pointer-events: none;	
+}
+.preNext.noBtn span{
+	background: url(../img/btn-cal-next-disable.png) no-repeat center center;	
+}
+.pagePre.noBtn span{
+	background: url(../img/btn-cal-pre-disable.png) no-repeat center center;	
+}
+/*TOEFL, SAT, ACT, SSAT*/
+.body{
+	background:#fff;
+	font-family:"微软雅黑";
+}
+.homeMain{
+	max-width:1920px;
+	min-width:1024px;
+	margin:0 auto;
+	overflow:hidden;
+}
+.bannerBox{
+	height:500px;
+	overflow:hidden;
+}
+.childBox{
+	width:612px;
+	height:245px;
+	margin:95px auto 0 auto;
+}
+.childBox span{
+	display:block;
+	margin-top:20px;
+}
+.childBox span a{
+	display:block;
+	width:150px;
+	height:50px;
+	line-height:50px;
+	margin:0 auto;
+	color: #fff;
+	font-size:16px;
+	text-align: center;
+	background: #5777FF;
+	border-radius:2px;
+	font-family:"微软雅黑";
+	cursor: pointer;
+}
+.childBox span a:hover{
+	background:#4767EE;
+}
+
+
+.toefl_plus li{
+	height: 500px;
+	margin:0 auto;
+}
+.toefl_plus li img{
+	display:block;
+	margin:0 auto;
+}
+
+
+.toefl_plus .toefl_one{
+	background: #f5f5f5;
+}
+.toefl_detail{
+	width:100%;
+	height: 125px;
+	line-height: 125px;
+	font-size: 18px;
+	background: #f6f6f8;
+	border-top:2px solid #e5e5e5;
+}
+.toefl_detail span{
+	margin-left:75.520833%;
+	cursor:pointer;
+}
+
+.sPrev {
+	cursor: pointer;
+	position: absolute;
+	left: 0;
+	top: 100px;
+}
+.sNext {
+	cursor: pointer;
+	position: absolute;
+	right: 0;
+	top: 100px;
+}
+.sPrev1{
+	cursor: pointer;
+	position: absolute;
+	left: 0;
+	top: 300px;
+}
+.sNext1{
+	cursor: pointer;
+	position: absolute;
+	right: 0;
+	top: 300px;
+}
+.teacher-li{
+	position: relative;
+	width: 100%;
+	height: 500px;
+	margin-bottom: 100px;
+}
+.teacher-li ul li{
+	width: 420px;
+	display: inline-block;
+	margin:0px 28px 0px 0px;
+}
+.teacher-li .imgBox{
+	display:block;
+}
+
+.new_line h2{
+	font-size: 22px;
+	text-align: center;
+	padding:20px 0px;
+	font-weight:lighter;
+}
+.new_line p{
+	width:65%;
+	margin:0 auto;
+	text-align: center;
+	line-height: 28px;
+	font-size:16px;
+	color:#333;
+}
+.teacher-all{
+	font-size: 30px;
+	height: 180px;
+	line-height: 180px;
+	text-align: center;
+	margin-top:45px;
+	display: none;
+}
+.teacher-footer{
+	position: relative;
+	width: 100%;
+	height: 680px;
+	margin-bottom: 60px;
+	display: none;
+}
+.teacher-footer ul li{
+	width: 970px;
+	height:680px;
+	display: inline-block;
+	margin:0px 20px 0px 0px;
+	text-align:center;
+	border:1px solid #e8e8e8;
+}
+.teacher-footer ul li span{
+	display:inline-block;
+	padding-top:100px;
+	font-size:30px;
+}
+
+.teacher-footer ul li img{
+	width:970px;
+	height:680px;
+}

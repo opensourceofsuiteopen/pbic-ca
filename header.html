@@ -1,0 +1,585 @@
+<!-- Demo styles -->
+<script type="text/javascript" src="js/jquery.color-2.1.2.js"></script>
+
+<style>
+	
+	.swiper-slides {
+		height: 650px;
+		font-family: "微软雅黑", "microsoft yahei", Arial, Helvetica, sans-serif;
+	}
+	
+	.swiper2023 {
+		background: url("img/banner2023.jpeg?v=1")no-repeat center top;
+		background-size: cover;
+		cursor: pointer;
+	}
+
+  .swiper2022 {
+		background: url("img/banner2022.jpeg?v=1")no-repeat center top;
+		background-size: cover;
+		cursor: pointer;
+	}
+
+	.swiper2021 {
+		background: url("img/banner2021.jpeg?v=1")no-repeat center top;
+		background-size: cover;
+		cursor: pointer;
+	}
+
+	.swiper0 {
+		background: url("img/banner3.jpeg")no-repeat center top;
+		background-size: cover;
+		cursor: pointer;
+	}
+	
+	.swiper2 {
+		background: url("img/banner2.jpg")no-repeat center top;
+		background-size: cover;
+	}
+	.swiper1 {
+		background: url("img/banner1-new0409.jpg")no-repeat center top;
+		background-size: cover;
+		cursor: pointer;
+	}
+	
+	.bannerLogoBox {
+		position: absolute;
+		width: 100%;
+		z-index: 9;
+	}
+	
+	.bannerLogo {
+		margin: auto;
+		width: 351px;
+		height: 61px;
+		/* background: url(img/bannerLogo_o2.png) no-repeat center top; */
+		cursor: pointer;
+	}
+	
+	.changeLanguage {
+		position: absolute;
+		border: none;
+		background-color: #E5233E;
+		color: #FFFFFF;
+		width: 80px;
+		height: 26px;
+		border-radius: 5px;
+		top: 18px;
+		right: 60px;
+		font-family: "微软雅黑", "microsoft yahei", Arial, Helvetica, sans-serif;
+		font-size: 14px;
+	}
+	
+	.changeLanguage:hover {
+		background-color: rgba(229, 35, 62, 0.9);
+	}
+	.china_africa_topbar{
+		position: relative;
+	}
+	.bannerTextArea {
+		position: absolute;
+		left: 23.95%;
+		bottom: 230px;
+		z-index: 11;
+	}
+	.bannerTextArea-img {
+		display: block;
+		cursor: pointer;
+		color: #ffffff;
+		position: relative;
+	}
+	.sp_banner{
+		display: block;
+		width: 100%;
+		height: 560px;
+		position: absolute;
+	}
+	.bannerTextArea-img2,.bannerTextArea-img3 {
+		display: none;
+		margin-bottom: 73px;
+	}
+	.bannerTextArea-img p{
+		font-size: 48px;
+	}
+	.bannerTextArea-img  .bannerTextArea_p1{
+		font-size: 48px;
+		font-weight: bold;
+		margin-bottom: 38px;
+	}
+	.bannerTextArea-img .bannerTextArea_p2{
+	font-size: 30px;
+    letter-spacing: 4px;
+    line-height: 45px;
+	}
+	.bannerTextArea_red_line{
+		position: absolute;
+		display: block;
+		width: 50px;
+		height: 2px;
+		background: #ec471b;
+		left: 0px;
+		top:80px
+	}
+	.bannerTextArea_play_icon{
+		position: absolute;
+		left: 268px;
+    	top: -1px;
+	}
+	.signUpBtn {
+		background-color: #E5233E;
+		border: 1px solid #E5233E;
+	}
+	
+	.broadcastBtn {
+		background-color: #333333;
+		margin-left: 20px;
+		border: 1px solid #333333;
+		border-color: #333333;
+	}
+	
+	.bannerText-title {
+		font-family: arial;
+		font-size: 72px;
+		color: #333333;
+		font-weight: bold;
+	}
+	
+	.bannerText-line {
+		display: block;
+		width: 50px;
+		height: 1px;
+		background-color: #e5233e;
+		margin: 34px 0 40px 0;
+	}
+	
+	.bannerText-1 {}
+	
+	.bannerText-2 {}
+	
+	.bannerText-3 {}
+	
+	.bannerMenu {
+		position: relative;
+		width: 100%;
+		background-color: #333333;
+		text-align: center;
+		line-height: 100px;
+		z-index: 12;
+	}
+	
+	.bannerMenu a {
+		color: #FFFEFE;
+	}
+	
+	.bannerMenu>ul {
+		background-color: #333333;
+		width: 1090px;
+		height: 100px;
+		margin:0 auto;
+		padding: 0;
+	}
+	
+	.bannerMenu ul li {
+		display: block;
+		float: left;
+		cursor: pointer;
+		margin-left: 70px;
+		/*width: 120px;*/
+		height: 100px;
+	}
+	
+	.bannerMenu .firstMenu {
+		margin-left: 0px;
+	}
+	.bannerMenu .secondMenu{
+		/*width: 140px;*/
+	}
+	.bannerMenu ul li a:hover {
+		color: #e5233e;
+	}
+	.bannerMenu .bannerOn{
+		color: #e5233e;
+	}
+	
+	.bannerMenu ul li a {
+		line-height: 100px;
+		font-size: 24px;
+		cursor: pointer;
+	}
+	
+	/*@media only screen and (max-width: 1335px) {
+		.bannerMenu ul {
+			width: 900px;
+		}
+		.bannerMenu ul li {
+			margin-left: 14px;
+			width: 110px;
+		}
+		.bannerMenu ul li:first-child {
+			margin-left: 0px;
+			margin-right: 15px;
+		}
+		.bannerMenu ul li:hover a {}
+		.bannerMenu ul li a {
+			font-size: 24px;
+		}
+	}*/
+	.swiper-pagination-bullet{
+		background:#6e5e4d;
+		width: 50px;
+		height: 4px;
+		border-radius: 0px;
+	}
+	.swiper-pagination-bullet-active{
+		background: #e5233e;
+	}
+	.swiper-container-horizontal>.swiper-pagination-bullets, .swiper-pagination-custom, .swiper-pagination-fraction{
+		bottom: 40px;
+	}
+	.swiper-pagination{
+		text-align: left;
+		padding-left: 24%;
+		box-sizing: border-box;
+	}
+	.top_sp{
+		width: 100%;
+		height: 100%;
+		z-index: 1000;
+		display: none;
+		position: fixed;
+		top: 0;
+		left: 0;
+	}
+	.bod_sp{
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		top: 0;
+		left: 0;
+		z-index: 1001;
+		background: rgba(0,0,0,.6);
+	}
+	.top_sp p{
+		text-align: center;
+		position: fixed;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%,-50%);
+		z-index: 1002;
+	}
+	.swHeig{
+		height: 30px;
+	}
+	.swiper-heard01>.swiper-pagination-bullets .swiper-pagination-bullet{
+		margin-top: 13px;
+	}
+	.ban2_01,.ban2_02{
+		position: absolute;
+		bottom: 3px;
+		left: 0;
+		width: 200px;
+		height: 50px;
+		display: block;
+		border-radius: 4px;
+		cursor: pointer;
+		z-index: 999;
+	}
+	.ban2_01{
+		/*right: 10px;
+		left: auto;*/
+		background: #e5233e;
+	}
+	.ban2_02{
+		right: 10px;
+		left: auto;
+		background: #333333;
+		/*e5233e*/
+	}
+	.ban{
+		bottom: -30px;
+		display: inline-block;
+		width: 200px;
+		height: 50px;
+		line-height: 50px;
+		text-align: center;
+		border-radius: 4px;
+		display: none;
+		font-size: 18px;
+		color: #ffffff;
+	}
+	.bannerMenu>ul .lastMenu{
+		float: right;
+		margin-left: 0px;
+		position: relative;
+	}
+	
+	.bannerMenu ul .lastMenu>ul{
+		position: absolute;
+		left: -24px;
+		top: 100px;
+		overflow: hidden;
+		height:0px;
+		transition: all .3s ease;
+	}
+	
+	.bannerMenu ul .lastMenu>ul li{
+
+		margin: 0;
+		width:150px;
+		height:70px;
+		background:#e5233e;
+		box-sizing: border-box;
+		transition: all .3s ease;
+	}
+	.bannerMenu ul .lastMenu>ul li a{
+		display: block;
+		font-size: 20px;
+		color:#fff;
+		text-align: center;
+		line-height: 70px;
+		border-bottom:1px solid #ea4f65;
+		width:120px;
+		height:70px;		
+		margin: 0 auto;
+		box-sizing: border-box;		
+	}
+	.bannerMenu ul .lastMenu>ul li:hover{
+		background:#d41933;
+	}
+</style>
+
+<div class="china_africa_topbar">
+	<div class="top_sp">
+		<div class="bod_sp"></div>
+		<p>
+			<script src="https://p.bokecc.com/player?vid=E01F178228839B4C9C33DC5901307461&siteid=D2E655881C30EDCB&autoStart=false&width=1000&height=600&playerid=E14196B7EDDC235F&playertype=1" type="text/javascript"></script>
+		</p>
+	</div>
+	<div class="bannerLogoBox">
+		<div class="bannerLogo" title="Back to Home" onclick="javascript:{window.location.href='index.html'}"></div>
+		<!--<button class="changeLanguage" onclick="javascript:{window.location.href='china_africa/index.html'}">简体中文</button>-->
+	</div>
+	<div class="bannerTextArea">
+		<!--<img class="bannerTextArea-img" src="img/bannerText2.png" />-->
+		<div class="bannerTextArea-img">
+			<span class="bannerTextArea_red_line"></span>
+			<!-- <img src="img/play_icon.png" alt="" class="bannerTextArea_play_icon"/> -->
+			<p class="bannerTextArea_p1">PBIC 2017 </p>
+			<p class="bannerTextArea_p2">央视报道决赛现场</p>
+			<p class="bannerTextArea_p2" style="font-size: 38px;">获联合国副秘书长</p>
+			<p class="bannerTextArea_p2" style="font-size: 38px;">米歇尔·西迪贝先生高度赞扬</p>
+		</div>
+		<img class="bannerTextArea-img2" src="img/bannerText-new.png" />
+		<!--<img class="bannerTextArea-img3" src="img/qrcode.png" />-->
+<!--		<a href="http://weibo.com/u/6268270272" target="_blank" class="ban2_02 ban">赛事播报</a>-->
+<!--		<a class="ban2_01 ban">立即报名</a>-->
+		
+	</div>
+	<!-- Swiper -->
+	<div class="swiper-container swiper-heard01">
+		<div class="swiper-wrapper">
+			<div class="swiper-slide swiper-slides swiper2023"></div>
+   		<div class="swiper-slide swiper-slides swiper2022"></div>
+   		<div class="swiper-slide swiper-slides swiper2021"></div>
+			<div class="swiper-slide swiper-slides swiper0"></div>
+			<div class="swiper-slide swiper-slides swiper1"></div>
+			<div class="swiper-slide swiper-slides swiper2"></div>
+			
+		</div>
+		<div class="swiper-pagination swHeig">
+			<ul>
+				<li></li>
+				<li></li>
+				<!--<li></li>-->
+			</ul>
+		</div>
+	</div>
+	<div class="bannerMenu">
+		<ul class="clearfloat">
+			<li class="firstMenu">
+				<!--<a href="#index01">PBIC2019</a>-->
+				<a href="javascript:;">PBIC2022</a>
+			</li>
+			<li>
+				<!--<a href="#index02">核心优势</a>-->
+				<a href="javascript:;">核心优势</a>
+			</li>
+			<li class="secondMenu">
+				<!--<a href="#index03">赛制说明</a>-->
+				<a href="javascript:;">赛制说明</a>
+			</li>
+			<li class="secondMenu">
+				<a href="javascript:;">往届回顾</a>
+			</li>
+			<li>
+				<!--<a href="#index04">选手风采</a>-->
+				<a href="javascript:;">选手风采</a>
+			</li>
+			<li class="secondMenu">
+				<!--<a href="#index05">媒体报道</a>-->
+				<a href="javascript:;">媒体报道</a>
+			</li>
+			<li class="lastMenu">
+				<a >优秀队伍</a>
+				<!--href="" target="_blank"-->
+				<!------------------8.30下拉菜单改动------------------>
+				<ul>
+					<li><a href="excTeam.html">PBIC2017</a></li>
+					<!--<li><a href="#">PBIC2019</a></li>-->
+					<li><a href="page_8.30.html">优秀体验队</a></li>
+				</ul>
+			</li>
+			<script>
+				$('.lastMenu').hover(function(){
+					$(this).find('ul').css({height:'140px'})
+				},function(){
+					$(this).find('ul').css({height:''})
+				})
+			</script>
+			<!--<li>
+				<a href="#index06">赛制说明</a>
+			</li>
+			<li>
+				<a href="#index07">参与方式</a>
+			</li>-->
+		</ul>
+	</div>
+</div>
+  
+<script>
+	var swiper = new Swiper('.swiper-heard01', {
+//		autoplay: 8000,
+//		speed: 3000,
+	autoplay: {// 以下是  swiper 4.0写法 要换这种写法 不然会出现  分页器不显示 不能自动滚动 等问题
+	    delay: 8000,
+	    stopOnLastSlide: false,
+	    disableOnInteraction: false,
+    },
+		loop: true,
+		autoplayDisableOnInteraction: false,
+//		pagination : '.swiper-pagination',
+//	  	paginationType : 'bullets',
+//	  	paginationClickable: true,
+		 pagination: {
+		    el: '.swiper-pagination',
+		    clickable :true,
+		//  bulletElement : 'li',
+		  },
+//		  transitionEnd:function(){
+//		  	
+//		  },
+		 on: {
+		    slideChangeTransitionStart: function(swiper){
+					// console.log(this.realIndex)
+		     if(this.realIndex == 4) {
+						$(".sp_banner").show();
+						$(".broadcastBtn").animate({
+							"background-color": "rgba(255,255,255,0)",
+							"border-color": "#e5233e",
+							"color": "#e5233e",
+						}, 3000);
+						$(".bannerTextArea-img2").fadeOut(200, function() {
+							$(".ban").hide();
+							$(".bannerTextArea-img").fadeIn(1000);
+						});
+		
+					} else if(this.realIndex == 3) {
+						$(".sp_banner").hide();
+						$(".broadcastBtn").animate({
+							"background-color": "#333333",
+							"border-color": "rgba(51,51,51,1)",
+							"color": "#ffffff",
+						}, 3000);
+						
+						$(".bannerTextArea-img").fadeOut(200, function() {
+							$(".bannerTextArea-img2").fadeIn(1000);
+							$(".ban").show();
+						});
+		
+					}else {
+						$(".bannerTextArea-img").hide();
+						$(".bannerTextArea-img2").hide()
+						$(".ban").hide();
+					}
+		    },
+		  },
+		onSlideChangeStart: function(swiper) {//4.0版本 不能用这个方法写了 。。
+			
+//			if(swiper.previousIndex == 1) {
+//				
+//				$(".sp_banner").show();
+//				$(".broadcastBtn").animate({
+//					"background-color": "rgba(255,255,255,0)",
+//					"border-color": "#e5233e",
+//					"color": "#e5233e",
+//				}, 3000);
+//				$(".bannerTextArea-img").fadeOut(1200, function() {
+//					$(".bannerTextArea-img2").fadeIn(1000);
+//					$(".ban").show();
+//				});
+//
+//			} else if(swiper.previousIndex == 2) {
+//				$(".sp_banner").hide();
+//				$(".broadcastBtn").animate({
+//					"background-color": "#333333",
+//					"border-color": "rgba(51,51,51,1)",
+//					"color": "#ffffff",
+//				}, 3000);
+//				$(".bannerTextArea-img2").fadeOut(1200, function() {
+//					$(".ban").hide();
+//					$(".bannerTextArea-img").fadeIn(1000);
+//				});
+//
+//			}
+//			else if(swiper.previousIndex == 3) {
+//				$(".broadcastBtn").animate({
+//					"background-color": "#333333",
+//					"border-color": "rgba(51,51,51,1)",
+//					"color": "#ffffff",
+//				}, 3000);
+//				$(".bannerTextArea-img3").fadeOut(1200, function() {
+//					$(".bannerTextArea-img").fadeIn(1000);
+//				});
+//
+//			}
+
+		},
+		onClick: function(swiper){
+		  
+		}
+	});
+	// $(".bannerTextArea-img").click(function(){
+	// 	if($(".vedio_right embed")[0]!=undefined){
+	// 		$(".vedio_right embed")[0].pause();
+	// 	}
+	// 	if($(".myVideo embed")[0]!=undefined){
+	// 		$(".myVideo embed")[0].pause();
+	// 	}
+	// 	$(".top_sp").show();
+	// });
+	$(".bod_sp").click(function(){
+		$(".top_sp").hide();
+		if($(".top_sp embed")[0]!=undefined){
+			$(".top_sp embed")[0].pause();
+		}
+		if($(".vedio_right embed")[0]!=undefined){
+			$(".vedio_right embed")[0].pause();
+		}
+		if($(".myVideo embed")[0]!=undefined){
+			$(".myVideo embed")[0].pause();
+		}
+	});
+	$(".ban2_01").click(function(){
+		if(userID!=null){
+			getIndexInfo("app");
+		}else{
+			login(function(){
+					getIndexInfo("app");
+			});
+		}
+	})
+	$(".bannerMenu a").click(function(){
+		$(".bannerMenu a").removeClass("bannerOn");
+		$(this).addClass("bannerOn");
+	})
+</script>

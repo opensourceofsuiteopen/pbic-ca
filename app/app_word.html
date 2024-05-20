@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="default">
+		<meta name="format-detection" content="telephone=no">
+		<title>家长签名</title>
+		<!-- CSS -->
+		<link href="../css/weui.min.css" rel="stylesheet" type="text/css">
+		<link rel="stylesheet" type="text/css" href="../css/comman.css" />
+		<!-- JS -->
+		<script src="../js/jquery-1.12.0.min.js"></script>
+		<script src="../js/jqmd5.js"></script>
+		<script src="../js/jquery-form.js"></script>
+		<script src="../js/sha1.js"></script>
+		<script src="../js/weui.js"></script>
+		<script src="../js/vue.min.js"></script>
+		<script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+		<script src="../js/wxconfig.js"></script>
+		<script src="../js/comman.js"></script>
+		<script src="../js/jq-signature.js"></script>
+		<script type="text/javascript">
+			noloadxn=true;
+			var het=$(window).innerHeight()-160;
+			var n=0;
+			var userId=getQuery("userId");
+			$(function() {
+				vm=new Vue({
+					el:"#body",
+					data:{
+						heg:het,
+					},
+					methods:{
+						
+					}
+				})
+				if ($('.js-signature').length) {
+					$('.js-signature').jqSignature();
+				}
+				$('.js-signature').eq(0).on('jq.signature.changed', function() {
+					n+=1;
+				});
+				var sn=document.getElementById("sina");
+				sn.addEventListener("touchstart", function(e) {  
+		            $(".back_no").hide();
+		        }); 
+			});
+			function clearCanvas() {
+				n=0;
+				$(".back_no").show();
+				$('.js-signature').eq(0).jqSignature('clearCanvas');
+				$('#btn_submit').attr('disabled', true);
+			}
+			function resetCanvas(){
+				saveServerImg("");
+				clearCanvas();
+				$(".myWord").show();
+				$(".back_no").show();
+				$("#btn_submit").show();
+				$(".sucApplay").hide();
+			}
+			function saveSignature() {
+				$('#signature').empty();
+				var dataUrl = $('.js-signature').eq(0).jqSignature('getDataURL');
+				if(n>0){
+					$(".myWord").hide();
+					$(".back_no").hide();
+					$("#btn_submit").hide();
+					$(".sucApplay").show();
+					var img = $('<img class="mysign">').attr('src', dataUrl);
+					$('#signature').append(img);
+					uploloadRecord(convertBase64UrlToBlob(dataUrl),function(url){
+						saveServerImg(url);
+					});
+				}else{
+					showAlert("签名不能为空");
+				}
+			}
+			//canvas图片上传
+			var xhr;
+			function uploloadRecord(blob, funcsuccess, funcerror){
+				showLoad("上传签名");
+				var fd = new FormData();
+			    var imgName = encodeURIComponent('canvas_' + new Date().getTime() + '.png');  
+			    fd.append('mp3Name', imgName);  //只能是mp3Name
+			    fd.append('file', blob);
+			    xhr = new XMLHttpRequest();
+			    xhr.onreadystatechange = function () {
+			    	hideLoad();
+			        if (xhr.readyState == 4 && xhr.status == 200) {
+			            var json = JSON.parse(xhr.responseText);
+			            if(json.code==0){
+			            	var recordurl = json.path+json.fileName;
+			            	// console.log("====== RECORDER: UPLOAD SUCCESS ======");
+			            	// console.log(recordurl);
+			            	if(funcsuccess!=undefined){
+			            		funcsuccess(recordurl);
+			            	}
+			            }else{
+			            	// console.log("====== RECORDER: UPLOAD ERROR ======");
+			            	if(funcerror!=undefined){
+			        			funcerror();
+			        		}
+			            }
+			        }else{
+			        	if(xhr.readyState == 4){
+			        		// console.log("====== RECORDER: UPLOAD ERROR ======");
+			        		if(funcerror!=undefined){
+			        			funcerror();
+			        		}
+			        	}
+			        }
+			    };
+			    var obj = {md5:"true", mp3Name:imgName, fileType:"png",fileExt:"png"};
+				var server_url = createURLStr("File", "upload", obj,1);
+			    xhr.open('POST', server_url);  
+			    xhr.send(fd);
+			    // console.log("====== RECORDER: UPLOAD START ======");
+			}
+			/**  
+			 * 将以base64的图片url数据转换为Blob  
+			 * @param urlData  
+			     用url方式表示的base64图片数据  
+			 */  
+			function convertBase64UrlToBlob(urlData){  
+			      
+			    var bytes=window.atob(urlData.split(',')[1]);        //去掉url的头，并转换为byte  
+			      
+			    //处理异常,将ascii码小于0的转换为大于0  
+			    var ab = new ArrayBuffer(bytes.length);  
+			    var ia = new Uint8Array(ab);  
+			    for (var i = 0; i < bytes.length; i++) {  
+			        ia[i] = bytes.charCodeAt(i);  
+			    }  
+			  
+			    return new Blob( [ab] , {type : 'image/png'});  
+			} 
+			//暂时存放在服务器
+			function saveServerImg(canPath){
+				request("TemporyaryData", "addDataContent", {appId:userId, key:"userId", value:canPath},function(data){
+					// console.log("保存成功");
+					// console.log(data);
+				})
+			}
+			// 监测屏幕变化
+			function resizehandler(event){
+				window.location.reload();
+			}
+			// console.log(document)
+			window.addEventListener("resize", resizehandler, false);
+		</script>
+		<style>
+			html,body{
+				display: block;
+				width: 100%;
+				height: 100%;
+				background: #FFFFFF;
+				margin: 0;
+				position: fixed;
+			}
+			body{
+				box-sizing: border-box;
+			}
+
+			#body{
+				width: 100%;
+				height: 100%;
+				display: flex;
+				flex-direction: column;
+			}
+			
+			
+
+			.noPad{
+				padding-bottom: 44px;
+			}
+			.myWord{
+				padding: 44px 10px 0px 10px;
+				box-sizing: border-box;
+			}
+			.topLogo{
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 44px;
+				background:#e5233e url(img/apply-word-logo.png) no-repeat center center;
+				background-size: 173px;
+			}
+			.sucApplay{
+				display: block;
+				width: 100%;
+				height: 100%;
+				padding-top: 44px;
+				box-sizing: border-box;
+			}
+			.footSumit{
+				position: fixed;
+				bottom: 0;
+				left: 0;
+				width: 100%;
+				height: 44px;
+				line-height: 44px;
+				color: #FFFFFF;
+				text-align: center;
+				background:#e5233e;
+				font-size: 18px;
+			}
+
+
+			#btn_clear{
+				font-size: 14px;
+				color: #333333;
+				float: right;
+				margin-top: 12px;
+			}
+			.btn_ap{
+				width: 100px;
+				height: 25px;
+				border-radius: 4px;
+				margin-top: 20px;
+				background: #333333;
+				border: none;
+				outline: none;
+				font-size: 14px;
+				color: #FFFFFF;
+			}
+			.sucApplay{
+				text-align: center;
+			}
+			.sucImg img{
+				width: 68px;
+				height: 68px;
+			}
+			.sucTxt01{
+				color: #333333;
+				font-size: 14px;
+				margin-bottom: 10px;
+			}
+			.sucTxt02{
+				color: #333333;
+				font-size: 16px;
+				font-weight: bold;
+			}
+			.wordSuc,.wordR{
+				height: 50%;
+				position: relative;
+			}
+			.sucImg{
+				margin-top: 19.49%;
+				margin-bottom: 26px;
+			}
+			.suCan{
+				width: 138px;
+				height: 77px;
+				margin: 0 auto;
+				background: #f4f4f4;
+			}
+			.mysign{
+				height: 100%;
+			}
+			.myReset{
+				bottom: 22px;
+				left: 0;
+				width: 100%;
+				position: absolute;
+			}
+			#sina{
+				margin-top: 50px;
+			}
+			.back_no{
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				width: 59px;
+				height: 15px;
+				transform: translate(-50%,-50%);
+				background: url(img/apply-top-messageBox-icon-txt.png) no-repeat center center;
+				background-size: 59px;
+			}
+			.resetWx{
+				margin-top: 10px;
+				font-size: 12px;
+				font-weight: bold;
+			}
+			.hideDive{
+				display: none;
+			}
+		</style>
+	</head>
+	<body id="body">
+		<div class="back_no"></div>
+		<div class="topLogo"></div>
+		<div class="myWord">
+			<div id="btn_clear" onclick="clearCanvas()">清空</div>
+			<div id="sina" class="js-signature" data-width="" :data-height="heg" data-line-color="#000000" data-border="0px solid black" data-auto-fit="true"></div>
+		</div>
+		<div id="btn_submit" class="footSumit" onclick="saveSignature()">上传</div>
+		<div class="sucApplay hideDive">
+			<div class="wordSuc">
+				<div class="myReset">
+					<p class="sucImg"><img src="../img/applay-icon-success.png" /></p>
+					<p class="sucTxt01">您的签名已同步上传至网站</p> 
+					<p class="sucTxt02">请继续在网站完成报名</p>
+				</div>
+			</div>
+			<div class="wordR">
+				<div class="myReset">
+					<p class="sucTxt01">签名预览</p>
+					<div id="signature" class="suCan"></div>
+					<!--<p><button id="btn_clear2" class="btn_ap" onclick="resetCanvas()">重签请重新扫码</button></p>-->
+					<p class="resetWx">重签请重新扫码</p>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
